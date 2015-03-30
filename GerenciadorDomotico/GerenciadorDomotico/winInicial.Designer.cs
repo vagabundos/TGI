@@ -1,0 +1,87 @@
+﻿namespace GerenciadorDomotico
+{
+	partial class winInicial
+	{
+		/// <summary>
+		/// Required designer variable.
+		/// </summary>
+		private System.ComponentModel.IContainer components = null;
+
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing && (components != null))
+			{
+				components.Dispose();
+			}
+			base.Dispose(disposing);
+		}
+
+		#region Windows Form Designer generated code
+
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
+			this.stpMenu = new System.Windows.Forms.MenuStrip();
+			this.pnlGeral = new System.Windows.Forms.Panel();
+			this.tabCtrl1 = new System.Windows.Forms.TabControl();
+			this.pnlGeral.SuspendLayout();
+			this.SuspendLayout();
+			// 
+			// stpMenu
+			// 
+			this.stpMenu.Location = new System.Drawing.Point(0, 0);
+			this.stpMenu.Name = "stpMenu";
+			this.stpMenu.Size = new System.Drawing.Size(784, 24);
+			this.stpMenu.TabIndex = 0;
+			this.stpMenu.Text = "menuStrip1";
+			// 
+			// pnlGeral
+			// 
+			this.pnlGeral.Controls.Add(this.tabCtrl1);
+			this.pnlGeral.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.pnlGeral.Location = new System.Drawing.Point(0, 24);
+			this.pnlGeral.Name = "pnlGeral";
+			this.pnlGeral.Size = new System.Drawing.Size(784, 538);
+			this.pnlGeral.TabIndex = 1;
+			// 
+			// tabCtrl1
+			// 
+			this.tabCtrl1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tabCtrl1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+			this.tabCtrl1.Location = new System.Drawing.Point(0, 0);
+			this.tabCtrl1.Name = "tabCtrl1";
+			this.tabCtrl1.SelectedIndex = 0;
+			this.tabCtrl1.Size = new System.Drawing.Size(784, 538);
+			this.tabCtrl1.TabIndex = 1;
+			// 
+			// winInicial
+			// 
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.ClientSize = new System.Drawing.Size(784, 562);
+			this.Controls.Add(this.pnlGeral);
+			this.Controls.Add(this.stpMenu);
+			this.MainMenuStrip = this.stpMenu;
+			this.Name = "winInicial";
+			this.Text = "Gerenciador Domótico";
+			this.pnlGeral.ResumeLayout(false);
+			this.ResumeLayout(false);
+			this.PerformLayout();
+
+		}
+
+		#endregion
+
+		private System.Windows.Forms.MenuStrip stpMenu;
+		private System.Windows.Forms.Panel pnlGeral;
+		private System.Windows.Forms.TabControl tabCtrl1;
+	}
+}
+
