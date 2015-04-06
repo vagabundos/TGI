@@ -16,5 +16,13 @@ namespace GerenciadorDomotico
 		{
 			InitializeComponent();
 		}
+
+		#region Métodos
+		public virtual bool Fecha()
+		{
+			this.Dispose(true);
+			return true;
+		}
+		#endregion
 	}
 }

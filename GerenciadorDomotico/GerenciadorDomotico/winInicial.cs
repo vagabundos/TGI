@@ -12,6 +12,7 @@ namespace GerenciadorDomotico
 {
 	public partial class winInicial : winBase
 	{
+		#region Construtores
 		public winInicial()
 		{
 			InitializeComponent();
@@ -41,9 +42,9 @@ namespace GerenciadorDomotico
 			//System.IO.Ports.SerialPort porta = new System.IO.Ports.SerialPort("COM1", 9600, System.IO.Ports.Parity.Even, 8, System.IO.Ports.StopBits.None);
 			//porta.Open();
 		}
+		#endregion
 
         #region Métodos
-
         private void ConfiguraMenu(Control ctrl)
         {
             ctrl.ForeColor = System.Drawing.Color.White;
@@ -57,11 +58,9 @@ namespace GerenciadorDomotico
             ctrl.BackColor = System.Drawing.Color.DarkSeaGreen;
             ctrl.Font = new Font(ctrl.Font, FontStyle.Bold);
         }
-
         #endregion
 
         #region Eventos
-
         private void mniRotina_Click(object sender, EventArgs e)
 		{
 			ToolStripMenuItem objMenuItem = (ToolStripMenuItem)sender;
@@ -95,13 +94,19 @@ namespace GerenciadorDomotico
                 {
                     if (MessageBox.Show("Tem certeza que deseja fechar esta janela?", "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
+						if (this.tabCtrl1.TabPages[i].Controls.Count > 0 && this.tabCtrl1.TabPages[i].Controls[0] is ctlBase)
+						{
+							ctlBase ctrl = this.tabCtrl1.TabPages[i].Controls[0] as ctlBase;
+							if (!ctrl.Fecha())
+								return;
+						}
+
                         this.tabCtrl1.TabPages.RemoveAt(i);
                         break;
                     }
                 }
             }
         }
-
         #endregion
     }
 }

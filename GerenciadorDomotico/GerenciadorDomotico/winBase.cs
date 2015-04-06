@@ -12,9 +12,19 @@ namespace GerenciadorDomotico
 {
 	public partial class winBase : Form
 	{
+		#region Construtores
 		public winBase()
 		{
 			InitializeComponent();
 		}
+		#endregion
+
+		#region Métodos
+		public virtual bool Fecha()
+		{
+			this.Dispose(true);
+			return true;
+		}
+		#endregion
 	}
 }
