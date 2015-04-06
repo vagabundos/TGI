@@ -50,6 +50,12 @@
     <Compile Include="ctlBase.Designer.cs">
       <DependentUpon>ctlBase.cs</DependentUpon>
     </Compile>
+    <Compile Include="ctlCadBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ctlCadBase.Designer.cs">
+      <DependentUpon>ctlCadBase.cs</DependentUpon>
+    </Compile>
     <Compile Include="winInicial.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -76,6 +82,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ctlCadBase.resx">
+      <DependentUpon>ctlCadBase.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="winBase.resx">
       <DependentUpon>winBase.cs</DependentUpon>
     </EmbeddedResource>
@@ -94,6 +103,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Biblioteca\Biblioteca.csproj">
+      <Project>{1830c7e9-bf13-402e-9caa-2a04227310c9}</Project>
+      <Name>Biblioteca</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
