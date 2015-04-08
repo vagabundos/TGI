@@ -116,7 +116,7 @@
             // 
             // btnFecha
             // 
-            this.btnFecha.Location = new System.Drawing.Point(29, 23);
+            this.btnFecha.Location = new System.Drawing.Point(13, 23);
             this.btnFecha.Name = "btnFecha";
             this.btnFecha.Size = new System.Drawing.Size(75, 23);
             this.btnFecha.TabIndex = 0;
@@ -131,6 +131,7 @@
             this.Controls.Add(this.pnlBotoes);
             this.Name = "ctlCadBase";
             this.Size = new System.Drawing.Size(1017, 591);
+            this.Resize += new System.EventHandler(this.ctlCadBase_Resize);
             this.pnlBotoes.ResumeLayout(false);
             this.ResumeLayout(false);
 

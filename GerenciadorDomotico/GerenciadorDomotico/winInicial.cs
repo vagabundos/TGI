@@ -11,9 +11,15 @@ using System.Windows.Forms;
 namespace GerenciadorDomotico
 {
 	public partial class winInicial : winBase
-	{
-		#region Construtores
-		public winInicial()
+    {
+        #region Propriedades
+
+        Dictionary<string, string> ctlTelas;
+
+        #endregion
+
+        #region Construtores
+        public winInicial()
 		{
 			InitializeComponent();
 
@@ -23,6 +29,14 @@ namespace GerenciadorDomotico
 
 			ToolStripMenuItem objMenuItem;
 			ToolStripMenuItem objSubMenuItem;
+
+            #region Telas
+            // Cria dicionario de telas
+            ctlTelas = new Dictionary<string, string>();
+
+            ctlTelas.Add("Usuários", "ctlCadUsuario");
+            ctlTelas.Add("Cômodos", "ctlCadBase");
+            #endregion
 
 			#region Menu Configurações
 			objMenuItem = new ToolStripMenuItem("Configurações");
@@ -58,6 +72,7 @@ namespace GerenciadorDomotico
             ctrl.BackColor = System.Drawing.Color.DarkSeaGreen;
             ctrl.Font = new Font(ctrl.Font, FontStyle.Bold);
         }
+
         #endregion
 
         #region Eventos
@@ -66,14 +81,27 @@ namespace GerenciadorDomotico
 			ToolStripMenuItem objMenuItem = (ToolStripMenuItem)sender;
 			if (!tabCtrl1.TabPages.ContainsKey(objMenuItem.Text))
 			{
+                string ctl = "GerenciadorDomotico." + ctlTelas[objMenuItem.Text];
 				tabCtrl1.TabPages.Add(objMenuItem.Text, objMenuItem.Text);
                 TabPage objTabPage = tabCtrl1.TabPages[objMenuItem.Text];
-                ctlBase ctrlCarregado = new ctlBase();
+                
+                // Carrega a tela selecionada via reflection
+                ctlBase ctrlCarregado = System.Reflection.Assembly.GetExecutingAssembly().CreateInstance(ctl) as ctlBase;
+                
                 objTabPage.Controls.Add(ctrlCarregado);
+                tabCtrl1.SelectTab(objTabPage);
 				this.ActiveControl = ctrlCarregado;
 				this.ActiveControl.Focus();
+
+                // Aciona evento para fechar a aba quando fechar uma tela for fechada
+                ctrlCarregado.Disposed += new EventHandler(CloseTab);
 			}
 		}
+
+        private void CloseTab(object sender, EventArgs e)
+        {
+            this.tabCtrl1.TabPages.RemoveAt(tabCtrl1.SelectedIndex);
+        }
 
         private void tabCtrl1_DrawItem(object sender, DrawItemEventArgs e)
         {

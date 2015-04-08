@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace GerenciadorDomotico
 {
-    public partial class ctlCadBase : UserControl
+    public partial class ctlCadBase : ctlBase
     {
         #region Propriedades
         protected enum StatusTela
@@ -20,13 +20,16 @@ namespace GerenciadorDomotico
             View = 3
         }
 
-        StatusTela _statusTela = StatusTela.View;
+        private StatusTela _statusTela = StatusTela.View;
         #endregion
 
         #region Construtores
         public ctlCadBase()
         {
             InitializeComponent();
+
+            // Status inicial da tela
+            AtualizaTela = StatusTela.View;
 
             // Define os botões inicialmente como invisíveis
             btnApaga.Visible = false;
@@ -36,6 +39,8 @@ namespace GerenciadorDomotico
             btnSalva.Visible = false;
             btnCancela.Visible = false;
 
+            this.Dock = DockStyle.Fill;
+
             Biblioteca.Util.AlinharBotoes(pnlBotoes);
         }
         #endregion
@@ -43,32 +48,32 @@ namespace GerenciadorDomotico
         #region Métodos
         protected virtual void Novo()
         {
-
+            AtualizaTela = StatusTela.New;
         }
 
         protected virtual void Edita()
         {
-
+            AtualizaTela = StatusTela.Edit;
         }
 
         protected virtual void Salva()
         {
-
+            AtualizaTela = StatusTela.View;
         }
 
         protected virtual void Cancela()
         {
-
+            AtualizaTela = StatusTela.View;
         }
 
         protected virtual void Apaga()
         {
-
+            AtualizaTela = StatusTela.View;
         }
 
         protected virtual void AtivaInativa()
         {
-
+            AtualizaTela = StatusTela.View;
         }
 
         protected virtual StatusTela AtualizaTela
@@ -121,7 +126,7 @@ namespace GerenciadorDomotico
 
         private void btnFecha_Click(object sender, EventArgs e)
         {
-            this.Dispose();
+            Fecha();
         }
 
         private void btnNovo_Click(object sender, EventArgs e)
@@ -153,7 +158,11 @@ namespace GerenciadorDomotico
         {
             Apaga();
         }
-
         #endregion
+
+        private void ctlCadBase_Resize(object sender, EventArgs e)
+        {
+            Biblioteca.Util.AlinharBotoes(pnlBotoes);
+        }
     }
 }

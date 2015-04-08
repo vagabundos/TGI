@@ -38,7 +38,7 @@
             // 
             this.stpMenu.Location = new System.Drawing.Point(0, 0);
             this.stpMenu.Name = "stpMenu";
-            this.stpMenu.Size = new System.Drawing.Size(784, 24);
+            this.stpMenu.Size = new System.Drawing.Size(792, 24);
             this.stpMenu.TabIndex = 0;
             this.stpMenu.Text = "menuStrip1";
             // 
@@ -48,7 +48,7 @@
             this.pnlGeral.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlGeral.Location = new System.Drawing.Point(0, 24);
             this.pnlGeral.Name = "pnlGeral";
-            this.pnlGeral.Size = new System.Drawing.Size(784, 538);
+            this.pnlGeral.Size = new System.Drawing.Size(792, 549);
             this.pnlGeral.TabIndex = 1;
             // 
             // tabCtrl1
@@ -60,7 +60,7 @@
             this.tabCtrl1.Location = new System.Drawing.Point(0, 0);
             this.tabCtrl1.Name = "tabCtrl1";
             this.tabCtrl1.SelectedIndex = 0;
-            this.tabCtrl1.Size = new System.Drawing.Size(784, 538);
+            this.tabCtrl1.Size = new System.Drawing.Size(792, 549);
             this.tabCtrl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabCtrl1.TabIndex = 1;
             this.tabCtrl1.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabCtrl1_DrawItem);
@@ -70,7 +70,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 562);
+            this.ClientSize = new System.Drawing.Size(792, 573);
             this.Controls.Add(this.pnlGeral);
             this.Controls.Add(this.stpMenu);
             this.MainMenuStrip = this.stpMenu;

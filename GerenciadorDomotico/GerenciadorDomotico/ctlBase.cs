@@ -21,7 +21,7 @@ namespace GerenciadorDomotico
 		public virtual bool Fecha()
 		{
 			this.Dispose(true);
-			return true;
+            return true;
 		}
 		#endregion
 	}

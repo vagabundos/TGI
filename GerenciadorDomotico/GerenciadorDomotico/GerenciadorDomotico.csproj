@@ -56,6 +56,12 @@
     <Compile Include="ctlCadBase.Designer.cs">
       <DependentUpon>ctlCadBase.cs</DependentUpon>
     </Compile>
+    <Compile Include="ctlCadUsuario.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ctlCadUsuario.Designer.cs">
+      <DependentUpon>ctlCadUsuario.cs</DependentUpon>
+    </Compile>
     <Compile Include="winInicial.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,6 +78,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ctlBase.resx">
       <DependentUpon>ctlBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ctlCadUsuario.resx">
+      <DependentUpon>ctlCadUsuario.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
