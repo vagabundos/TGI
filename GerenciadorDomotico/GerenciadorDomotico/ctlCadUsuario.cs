@@ -15,7 +15,7 @@ namespace GerenciadorDomotico
         public ctlCadUsuario()
         {
             InitializeComponent();
-
+            
             btnApaga.Visible = true;
             btnAtivaInativa.Visible = true;
             btnCancela.Visible = true;

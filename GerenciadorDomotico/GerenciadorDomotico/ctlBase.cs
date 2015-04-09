@@ -15,6 +15,8 @@ namespace GerenciadorDomotico
 		public ctlBase()
 		{
 			InitializeComponent();
+
+            this.Dock = DockStyle.Fill;
 		}
 
 		#region Métodos

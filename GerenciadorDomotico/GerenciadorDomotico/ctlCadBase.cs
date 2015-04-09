@@ -38,10 +38,6 @@ namespace GerenciadorDomotico
             btnNovo.Visible = false;
             btnSalva.Visible = false;
             btnCancela.Visible = false;
-
-            this.Dock = DockStyle.Fill;
-
-            Biblioteca.Util.AlinharBotoes(pnlBotoes);
         }
         #endregion
 
@@ -158,11 +154,12 @@ namespace GerenciadorDomotico
         {
             Apaga();
         }
-        #endregion
 
         private void ctlCadBase_Resize(object sender, EventArgs e)
         {
             Biblioteca.Util.AlinharBotoes(pnlBotoes);
         }
+
+        #endregion
     }
 }

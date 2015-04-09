@@ -84,12 +84,12 @@ namespace GerenciadorDomotico
                 string ctl = "GerenciadorDomotico." + ctlTelas[objMenuItem.Text];
 				tabCtrl1.TabPages.Add(objMenuItem.Text, objMenuItem.Text);
                 TabPage objTabPage = tabCtrl1.TabPages[objMenuItem.Text];
-                
+                tabCtrl1.SelectTab(objTabPage);
+
                 // Carrega a tela selecionada via reflection
                 ctlBase ctrlCarregado = System.Reflection.Assembly.GetExecutingAssembly().CreateInstance(ctl) as ctlBase;
-                
+
                 objTabPage.Controls.Add(ctrlCarregado);
-                tabCtrl1.SelectTab(objTabPage);
 				this.ActiveControl = ctrlCarregado;
 				this.ActiveControl.Focus();
 
@@ -122,15 +122,12 @@ namespace GerenciadorDomotico
                 {
                     if (MessageBox.Show("Tem certeza que deseja fechar esta janela?", "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
-						if (this.tabCtrl1.TabPages[i].Controls.Count > 0 && this.tabCtrl1.TabPages[i].Controls[0] is ctlBase)
-						{
-							ctlBase ctrl = this.tabCtrl1.TabPages[i].Controls[0] as ctlBase;
-							if (!ctrl.Fecha())
-								return;
-						}
-
-                        this.tabCtrl1.TabPages.RemoveAt(i);
-                        break;
+                        if (this.tabCtrl1.TabPages[i].Controls.Count > 0 && this.tabCtrl1.TabPages[i].Controls[0] is ctlBase)
+                        {
+                            ctlBase ctrl = this.tabCtrl1.TabPages[i].Controls[0] as ctlBase;
+                            if (!ctrl.Fecha())
+                                return;
+                        }
                     }
                 }
             }
