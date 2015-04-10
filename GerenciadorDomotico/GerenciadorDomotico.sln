@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GerenciadorDomotico", "GerenciadorDomotico\GerenciadorDomotico.csproj", "{48026956-2A59-466F-869F-AFB6C6D54743}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biblioteca", "Biblioteca\Biblioteca.csproj", "{1830C7E9-BF13-402E-9CAA-2A04227310C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GerenciadorServico", "GerenciadorServico\GerenciadorServico.csproj", "{B9A59083-5C9D-4A05-98C6-5B8044E6927B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,6 +23,10 @@ Global
 		{1830C7E9-BF13-402E-9CAA-2A04227310C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1830C7E9-BF13-402E-9CAA-2A04227310C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1830C7E9-BF13-402E-9CAA-2A04227310C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9A59083-5C9D-4A05-98C6-5B8044E6927B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9A59083-5C9D-4A05-98C6-5B8044E6927B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9A59083-5C9D-4A05-98C6-5B8044E6927B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9A59083-5C9D-4A05-98C6-5B8044E6927B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
