@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Biblioteca.Modelo
 {
-	public class Sensor
+	public class Dispositivos
 	{
 		#region Propriedades
 		string Codigo { get; set; }
@@ -18,7 +18,7 @@ namespace Biblioteca.Modelo
 		#endregion
 
 		#region Construtores
-		public Sensor()
+		public Dispositivos()
 		{
 		}
 		#endregion

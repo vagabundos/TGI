@@ -5,11 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Diagnostics;
 
 namespace Biblioteca
 {
     public class Util
     {
+        #region Métodos
         public static void AlinharBotoes(Control painel)
         {
             int tamTotal = painel.ClientSize.Width;
@@ -34,5 +36,6 @@ namespace Biblioteca
                 ultimo = c.Right;
             }
         }
+        #endregion
     }
 }

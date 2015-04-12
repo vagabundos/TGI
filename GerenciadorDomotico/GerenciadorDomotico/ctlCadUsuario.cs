@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Dados;
 
 namespace GerenciadorDomotico
 {
@@ -23,6 +24,11 @@ namespace GerenciadorDomotico
             btnFecha.Visible = true;
             btnNovo.Visible = true;
             btnSalva.Visible = true;
+
+            using(GerenciadorDB objDB = new GerenciadorDB(false))
+            {
+                Biblioteca.Controller.controlUsuario.GetUsuarios(objDB);
+            }
         }
 
     }
