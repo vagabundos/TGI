@@ -75,7 +75,7 @@
             this.Controls.Add(this.stpMenu);
             this.MainMenuStrip = this.stpMenu;
             this.Name = "winInicial";
-            this.Text = "Gerenciador Domótico";
+            this.Text = "Home On";
             this.pnlGeral.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();

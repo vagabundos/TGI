@@ -11,6 +11,18 @@ namespace Dados
     public class GerenciadorDB : IDisposable
     {
         #region Propriedades
+
+        /// <summary>
+        /// Nome do NameSpace do banco de dados
+        /// </summary>
+        public static string NameSpaceDB
+        {
+            get
+            {
+                return "homeon";
+            }
+        }
+
         private const string sConnectionString = "Server=localhost;Port=3306;Database=homeon;Uid=AppUser;Pwd=AppUser;";
         private Conexao _objConexao;
         private Transacao _objTransacao;
@@ -92,6 +104,11 @@ namespace Dados
             }
         }
 
+        public DbCommand getCommand()
+        {
+            return getCommand("");
+        }
+
         public DbCommand getCommand(string sSQL)
         {
             return new MySqlCommand(sSQL, ((MySqlConnection)_objConexao._Connection), _objTransacao != null ? ((MySqlTransaction)_objTransacao._Transaction) : null);
@@ -108,6 +125,12 @@ namespace Dados
             }
 
             return objAdapter;
+        }
+
+        public DbParameter getParameter()
+        {
+            MySqlParameter mSqlParameter = new MySqlParameter();
+            return mSqlParameter;
         }
         #endregion
     }

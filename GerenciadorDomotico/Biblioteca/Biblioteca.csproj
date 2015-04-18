@@ -59,16 +59,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controller\controlUsuario.cs" />
-    <Compile Include="Log.cs" />
-    <Compile Include="Modelo\Dispositivos.cs" />
+    <Compile Include="Controle\controlBase.cs" />
+    <Compile Include="Controle\controlLog.cs" />
+    <Compile Include="Controle\controlUsuario.cs" />
+    <Compile Include="Modelo\Atributos\AtributoClasse.cs" />
+    <Compile Include="Modelo\Atributos\AtributoPropriedade.cs" />
+    <Compile Include="Modelo\Dispositivo.cs" />
+    <Compile Include="Modelo\Log.cs" />
+    <Compile Include="Modelo\ModeloBase.cs" />
     <Compile Include="Modelo\Piso.cs" />
     <Compile Include="Modelo\Usuario.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dados\Dados.csproj">

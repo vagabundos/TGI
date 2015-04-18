@@ -101,6 +101,16 @@ namespace GerenciadorDomotico
 
         protected override void Salva()
         {
+            using (Dados.GerenciadorDB mngBD = new Dados.GerenciadorDB(false))
+            {
+                Biblioteca.Modelo.Piso objPiso = new Biblioteca.Modelo.Piso();
+                objPiso.Codigo = "PISOTESTE";
+                objPiso.Descricao = "DESCRICAOTESTE";
+                objPiso.imagem = Guid.NewGuid().ToByteArray();
+
+                new Biblioteca.Controle.controlBase<Biblioteca.Modelo.Piso>().Salva(objPiso, mngBD);
+            }
+
             // Converte a imagem para o tipo Byte[]
             //byte[] byteImage = Util.ImageToByteArray(imgPlantaPiso.Image);
 

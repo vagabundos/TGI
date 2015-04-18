@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Biblioteca.Modelo
 {
-	public class Dispositivos
+	public class Dispositivo : ModeloBase<Dispositivo>
 	{
 		#region Propriedades
 		string Codigo { get; set; }
@@ -18,9 +18,10 @@ namespace Biblioteca.Modelo
 		#endregion
 
 		#region Construtores
-		public Dispositivos()
-		{
-		}
+        public Dispositivo()
+            : base()
+        {
+        }
 		#endregion
 
 		#region Enums

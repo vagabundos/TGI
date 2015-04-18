@@ -42,14 +42,25 @@ namespace Biblioteca
         /// <summary>
         /// Converte uma imagem para o tipo Byte[]
         /// </summary>
-        /// <param name="imagem">Imagem a ser convertida para o tipo Byte[]</param>
-        /// <param name="formato">Formato atual da imagem</param>
-        /// <returns></returns>
         public static byte[] ImageToByteArray(Image imagem)
         {
             MemoryStream msImagem = new MemoryStream();
             imagem.Save(msImagem, imagem.RawFormat);
             return msImagem.ToArray();
+        }
+
+        /// <summary>
+        /// Devolve texto SQL correspondente ao DBCommand
+        /// </summary>
+        public static string GetGeneratedQuery(System.Data.Common.DbCommand dbCommand)
+        {
+            var query = dbCommand.CommandText;
+            foreach (System.Data.Common.DbParameter parameter in dbCommand.Parameters)
+            {
+                query = query.Replace(parameter.ParameterName, parameter.Value.ToString());
+            }
+
+            return query;
         }
         #endregion
     }

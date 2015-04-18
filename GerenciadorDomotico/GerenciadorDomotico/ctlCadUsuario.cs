@@ -24,11 +24,6 @@ namespace GerenciadorDomotico
             btnFecha.Visible = true;
             btnNovo.Visible = true;
             btnSalva.Visible = true;
-
-            using(GerenciadorDB objDB = new GerenciadorDB(false))
-            {
-                Biblioteca.Controller.controlUsuario.GetUsuarios(objDB);
-            }
         }
 
     }

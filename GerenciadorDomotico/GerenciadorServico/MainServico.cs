@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GerenciadorServico
 {
-    static class GerenciadorServico
+    static class MainServico
     {
         /// <summary>
         /// The main entry point for the application.

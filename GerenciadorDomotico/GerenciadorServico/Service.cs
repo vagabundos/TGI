@@ -39,21 +39,21 @@ namespace GerenciadorServico
         #endregion
 
         #region Propriedades
-        bool bAtivo;
+        bool _bAtivo;
         Thread threadPrincipal;
         #endregion
 
         #region Métodos
         private void Inicia()
         {
-            bool bAtivo = true;
-            threadPrincipal = new Thread(Fecha);
+            _bAtivo = true;
+            threadPrincipal = new Thread(new ThreadStart(LoopPrincipal));
             threadPrincipal.Start();
         }
 
         private void Fecha()
         {
-            bAtivo = false;
+            _bAtivo = false;
             int espera = 0;
 
             try
@@ -77,6 +77,16 @@ namespace GerenciadorServico
             }
             catch (Exception exc)
             {
+                // grava logs
+            }
+        }
+
+        // Loop do serviço
+        private void LoopPrincipal()
+        {
+            while (_bAtivo)
+            {
+
             }
         }
         #endregion
