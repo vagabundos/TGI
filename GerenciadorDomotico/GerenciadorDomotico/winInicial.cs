@@ -35,7 +35,9 @@ namespace GerenciadorDomotico
             ctlTelas = new Dictionary<string, string>();
 
             ctlTelas.Add("Usuários", "ctlCadUsuario");
+            ctlTelas.Add("Cadastro de Piso", "ctlCadPiso");
             ctlTelas.Add("Cômodos", "ctlCadBase");
+            
             #endregion
 
 			#region Menu Configurações
@@ -48,10 +50,14 @@ namespace GerenciadorDomotico
             ConfiguraSubMenu(objSubMenuItem);
 			objMenuItem.DropDown.Items.Add(objSubMenuItem);
 
-			objSubMenuItem = new ToolStripMenuItem("Cômodos", null, mniRotina_Click);
+            objSubMenuItem = new ToolStripMenuItem("Cadastro de Piso", null, mniRotina_Click);
             ConfiguraSubMenu(objSubMenuItem);
-			objMenuItem.DropDown.Items.Add(objSubMenuItem);
-			#endregion
+            objMenuItem.DropDown.Items.Add(objSubMenuItem);
+            
+            objSubMenuItem = new ToolStripMenuItem("Cômodos", null, mniRotina_Click);
+            ConfiguraSubMenu(objSubMenuItem);
+            objMenuItem.DropDown.Items.Add(objSubMenuItem);
+            #endregion
 
 			//System.IO.Ports.SerialPort porta = new System.IO.Ports.SerialPort("COM1", 9600, System.IO.Ports.Parity.Even, 8, System.IO.Ports.StopBits.None);
 			//porta.Open();

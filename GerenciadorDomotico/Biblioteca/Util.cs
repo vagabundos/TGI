@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Diagnostics;
+using System.Drawing.Imaging;
+using System.IO;
 
 namespace Biblioteca
 {
@@ -35,6 +37,19 @@ namespace Biblioteca
                 c.Left = espacamento + ultimo;
                 ultimo = c.Right;
             }
+        }
+
+        /// <summary>
+        /// Converte uma imagem para o tipo Byte[]
+        /// </summary>
+        /// <param name="imagem">Imagem a ser convertida para o tipo Byte[]</param>
+        /// <param name="formato">Formato atual da imagem</param>
+        /// <returns></returns>
+        public static byte[] ImageToByteArray(Image imagem)
+        {
+            MemoryStream msImagem = new MemoryStream();
+            imagem.Save(msImagem, imagem.RawFormat);
+            return msImagem.ToArray();
         }
         #endregion
     }

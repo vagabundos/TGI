@@ -49,14 +49,14 @@
             this.pnlBotoes.Controls.Add(this.btnNovo);
             this.pnlBotoes.Controls.Add(this.btnFecha);
             this.pnlBotoes.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlBotoes.Location = new System.Drawing.Point(0, 344);
+            this.pnlBotoes.Location = new System.Drawing.Point(0, 404);
             this.pnlBotoes.Name = "pnlBotoes";
-            this.pnlBotoes.Size = new System.Drawing.Size(1023, 71);
+            this.pnlBotoes.Size = new System.Drawing.Size(1023, 46);
             this.pnlBotoes.TabIndex = 0;
             // 
             // btnApaga
             // 
-            this.btnApaga.Location = new System.Drawing.Point(894, 23);
+            this.btnApaga.Location = new System.Drawing.Point(894, 11);
             this.btnApaga.Name = "btnApaga";
             this.btnApaga.Size = new System.Drawing.Size(75, 23);
             this.btnApaga.TabIndex = 6;
@@ -66,7 +66,7 @@
             // 
             // btnAtivaInativa
             // 
-            this.btnAtivaInativa.Location = new System.Drawing.Point(751, 23);
+            this.btnAtivaInativa.Location = new System.Drawing.Point(751, 11);
             this.btnAtivaInativa.Name = "btnAtivaInativa";
             this.btnAtivaInativa.Size = new System.Drawing.Size(75, 23);
             this.btnAtivaInativa.TabIndex = 5;
@@ -76,7 +76,7 @@
             // 
             // btnCancela
             // 
-            this.btnCancela.Location = new System.Drawing.Point(605, 23);
+            this.btnCancela.Location = new System.Drawing.Point(605, 11);
             this.btnCancela.Name = "btnCancela";
             this.btnCancela.Size = new System.Drawing.Size(75, 23);
             this.btnCancela.TabIndex = 4;
@@ -86,7 +86,7 @@
             // 
             // btnSalva
             // 
-            this.btnSalva.Location = new System.Drawing.Point(464, 23);
+            this.btnSalva.Location = new System.Drawing.Point(464, 11);
             this.btnSalva.Name = "btnSalva";
             this.btnSalva.Size = new System.Drawing.Size(75, 23);
             this.btnSalva.TabIndex = 3;
@@ -96,7 +96,7 @@
             // 
             // btnEdita
             // 
-            this.btnEdita.Location = new System.Drawing.Point(316, 23);
+            this.btnEdita.Location = new System.Drawing.Point(316, 11);
             this.btnEdita.Name = "btnEdita";
             this.btnEdita.Size = new System.Drawing.Size(75, 23);
             this.btnEdita.TabIndex = 2;
@@ -106,7 +106,7 @@
             // 
             // btnNovo
             // 
-            this.btnNovo.Location = new System.Drawing.Point(174, 23);
+            this.btnNovo.Location = new System.Drawing.Point(167, 11);
             this.btnNovo.Name = "btnNovo";
             this.btnNovo.Size = new System.Drawing.Size(75, 23);
             this.btnNovo.TabIndex = 1;
@@ -116,7 +116,7 @@
             // 
             // btnFecha
             // 
-            this.btnFecha.Location = new System.Drawing.Point(13, 23);
+            this.btnFecha.Location = new System.Drawing.Point(13, 11);
             this.btnFecha.Name = "btnFecha";
             this.btnFecha.Size = new System.Drawing.Size(75, 23);
             this.btnFecha.TabIndex = 0;
@@ -130,7 +130,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.pnlBotoes);
             this.Name = "ctlCadBase";
-            this.Size = new System.Drawing.Size(1023, 415);
+            this.Size = new System.Drawing.Size(1023, 450);
             this.Resize += new System.EventHandler(this.ctlCadBase_Resize);
             this.pnlBotoes.ResumeLayout(false);
             this.ResumeLayout(false);

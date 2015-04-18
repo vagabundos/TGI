@@ -58,6 +58,7 @@
     <Reference Include="MySql.Data.CF, Version=6.9.6.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.DirectoryServices" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -79,6 +80,12 @@
     </Compile>
     <Compile Include="ctlCadBase.Designer.cs">
       <DependentUpon>ctlCadBase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ctlCadPiso.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ctlCadPiso.Designer.cs">
+      <DependentUpon>ctlCadPiso.cs</DependentUpon>
     </Compile>
     <Compile Include="ctlCadUsuario.cs">
       <SubType>UserControl</SubType>
@@ -102,6 +109,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ctlBase.resx">
       <DependentUpon>ctlBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ctlCadPiso.resx">
+      <DependentUpon>ctlCadPiso.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ctlCadUsuario.resx">
       <DependentUpon>ctlCadUsuario.cs</DependentUpon>

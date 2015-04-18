@@ -38,6 +38,10 @@
             this.grpHeader.SuspendLayout();
             this.SuspendLayout();
             // 
+            // pnlBotoes
+            // 
+            this.pnlBotoes.Location = new System.Drawing.Point(0, 478);
+            // 
             // btnFecha
             // 
             this.btnFecha.Location = new System.Drawing.Point(884, 23);
@@ -107,7 +111,7 @@
             this.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlMain.Location = new System.Drawing.Point(0, 126);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(1023, 218);
+            this.pnlMain.Size = new System.Drawing.Size(1023, 352);
             this.pnlMain.TabIndex = 2;
             // 
             // ctlCadUsuario
@@ -117,6 +121,7 @@
             this.Controls.Add(this.pnlMain);
             this.Controls.Add(this.pnlHeader);
             this.Name = "ctlCadUsuario";
+            this.Size = new System.Drawing.Size(1023, 549);
             this.Controls.SetChildIndex(this.pnlBotoes, 0);
             this.Controls.SetChildIndex(this.pnlHeader, 0);
             this.Controls.SetChildIndex(this.pnlMain, 0);
