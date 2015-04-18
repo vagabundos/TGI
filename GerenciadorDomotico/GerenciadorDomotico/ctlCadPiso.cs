@@ -97,35 +97,34 @@ namespace GerenciadorDomotico
         {
             base.Edita();
             txtDescricao.Focus();
-
-            // Se nenhum piso do grid estiver selecionado, limpa a tela e sai
-            if (grdPiso.CurrentRow == null)
-            {
-                Limpa();
-                return;
-            }
-
-            int iRow = grdPiso.CurrentRow.Index;
-
-            // Converte a imagem para o tipo Byte[]
-            //byte[] byteImage = Util.ImageToByteArray(imgPlantaPiso.Image);
-
-            // Temporariamente: Seta dados que serão salvos direto no Grid
-            //dttPisos.Rows[iRow]["Codigo"] = txtCodigo.Text;
-            dttPisos.Rows[iRow].SetField("Descricao", txtDescricao.Text);
-            CarregaGrid();
         }
 
         protected override void Salva()
         {
-            base.Salva();
-
             // Converte a imagem para o tipo Byte[]
             //byte[] byteImage = Util.ImageToByteArray(imgPlantaPiso.Image);
-            
+
             // Temporariamente: Seta dados que serão salvos direto no Grid
-            dttPisos.Rows.Add(new object[] {txtCodigo.Text, txtDescricao.Text});
+            if (AtualizaTela == StatusTela.New)
+            {
+                dttPisos.Rows.Add(new object[] { txtCodigo.Text, txtDescricao.Text });
+            }
+
+            if (AtualizaTela == StatusTela.Edit)
+            {
+                // Se nenhum piso do grid estiver selecionado, limpa a tela e sai
+                if (grdPiso.CurrentRow == null)
+                {
+                    Limpa();
+                    return;
+                }
+                int iRow = grdPiso.CurrentRow.Index;
+                dttPisos.Rows[iRow].SetField("Descricao", txtDescricao.Text);
+            }
+
             CarregaGrid();
+
+            base.Salva();
         }
 
         protected override void Apaga()
@@ -185,7 +184,7 @@ namespace GerenciadorDomotico
 
             // Abre janela para selecionar uma imagem
             OpenFileDialog ofdImagem = new OpenFileDialog();
-            ofdImagem.Filter = "JPEG (*.jpg)|*.jpg|GIF (*.gif)|*.gif|TIFF (*.tif)|*.tif|PNG (*.png)|*.png|BITMAP (*.bmp)|*.bmp";
+            ofdImagem.Filter = "JPEG (*.jpg)|*.jpg|TIFF (*.tif)|*.tif|PNG (*.png)|*.png|BITMAP (*.bmp)|*.bmp";
             ofdImagem.Title = "Selecione a imagem da planta do piso desejado";
 
             if (ofdImagem.ShowDialog() == DialogResult.OK)
