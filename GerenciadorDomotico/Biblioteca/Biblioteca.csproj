@@ -61,7 +61,6 @@
   <ItemGroup>
     <Compile Include="Controle\controlBase.cs" />
     <Compile Include="Controle\controlLog.cs" />
-    <Compile Include="Controle\controlUsuario.cs" />
     <Compile Include="Modelo\Atributos\AtributoClasse.cs" />
     <Compile Include="Modelo\Atributos\AtributoPropriedade.cs" />
     <Compile Include="Modelo\Dispositivo.cs" />

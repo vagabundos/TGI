@@ -40,5 +40,10 @@ namespace Biblioteca.Modelo.Atributos
         /// Define a ordem da propriedade no grid
         /// </summary>
         public int OrdemGrid;
+
+        /// <summary>
+        /// Propriedade para definir se campo 
+        /// </summary>
+        public bool isInternalID;
     }
 }

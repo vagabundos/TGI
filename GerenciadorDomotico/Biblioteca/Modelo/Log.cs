@@ -12,9 +12,16 @@ namespace Biblioteca.Modelo
     public class Log : ModeloBase<Log>
     {
         #region Propriedades
+        [AtributoPropriedade(Caption = "ID", IsChave = true, NomeColuna = "ID", OrdemGrid = 1, isInternalID = true)]
         public int ID { get; set; }
+
+        [AtributoPropriedade(Caption = "Tipo", IsChave = false, NomeColuna = "Tipo", OrdemGrid = 2)]
         public LogTipo Tipo { get; set; }
+
+        [AtributoPropriedade(Caption = "Descrição", IsChave = false, NomeColuna = "Descricao", OrdemGrid = 3, Tamanho = 4000)]
         public string Descricao { get; set; }
+
+        [AtributoPropriedade(Caption = "Data/Hora Inclusão", IsChave = false, NomeColuna = "DataHoraInclusao", OrdemGrid = 4)]
         public DateTime DataHoraInclusao { get; set; }
         #endregion
 

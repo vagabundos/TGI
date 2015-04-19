@@ -56,7 +56,7 @@
             this.tabCtrl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabCtrl1.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.tabCtrl1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.tabCtrl1.ItemSize = new System.Drawing.Size(120, 20);
+            this.tabCtrl1.ItemSize = new System.Drawing.Size(150, 20);
             this.tabCtrl1.Location = new System.Drawing.Point(0, 0);
             this.tabCtrl1.Name = "tabCtrl1";
             this.tabCtrl1.SelectedIndex = 0;

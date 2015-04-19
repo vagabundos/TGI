@@ -7,22 +7,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Biblioteca;
+using Biblioteca.Modelo;
+using Biblioteca.Controle;
+using Dados;
 
 namespace GerenciadorDomotico
 {
     public partial class ctlCadPiso : ctlCadBase
     {
         #region Propriedades
-
-        DataTable dttPisos = new DataTable();
-
+        controlBase<Piso> controleTela = new controlBase<Piso>();
         #endregion
 
         #region Construtores
         public ctlCadPiso()
         {
             InitializeComponent();
+            
+            imgPlantaPiso.SizeMode = PictureBoxSizeMode.Zoom;
 
             btnApaga.Visible = true;
             btnAtivaInativa.Visible = true;
@@ -31,9 +33,6 @@ namespace GerenciadorDomotico
             btnFecha.Visible = true;
             btnNovo.Visible = true;
             btnSalva.Visible = true;
-
-            dttPisos.Columns.Add("Codigo");
-            dttPisos.Columns.Add("Descricao");
 
             ConfiguraGrid();
             CarregaGrid();
@@ -101,81 +100,90 @@ namespace GerenciadorDomotico
 
         protected override void Salva()
         {
-            using (Dados.GerenciadorDB mngBD = new Dados.GerenciadorDB(false))
+            try
             {
-                Biblioteca.Modelo.Piso objPiso = new Biblioteca.Modelo.Piso();
-                objPiso.Codigo = "PISOTESTE";
-                objPiso.Descricao = "DESCRICAOTESTE";
-                objPiso.imagem = Guid.NewGuid().ToByteArray();
+                using (Dados.GerenciadorDB mngBD = new Dados.GerenciadorDB(false))
+                {
+                    Piso objPiso = null;
 
-                new Biblioteca.Controle.controlBase<Biblioteca.Modelo.Piso>().Salva(objPiso, mngBD);
+                    if (AtualizaTela == StatusTela.New)
+                    {
+                        objPiso = new Biblioteca.Modelo.Piso();
+                    }
+                    else if (AtualizaTela == StatusTela.Edit)
+                    {
+                        // Se nenhum piso do grid estiver selecionado, limpa a tela e sai
+                        if (grdPiso.CurrentRow == null)
+                        {
+                            Limpa();
+                            return;
+                        }
+
+                        objPiso = (Piso)grdPiso.CurrentRow.DataBoundItem;
+                    }
+
+                    if (objPiso != null)
+                    {
+                        objPiso.Codigo = txtCodigo.Text;
+                        objPiso.Descricao = txtDescricao.Text;
+                        objPiso.Imagem = Biblioteca.Util.ImageToByteArray(imgPlantaPiso.Image);
+                        controleTela.Salva(objPiso, mngBD);
+                    }
+                }
             }
-
-            // Converte a imagem para o tipo Byte[]
-            //byte[] byteImage = Util.ImageToByteArray(imgPlantaPiso.Image);
-
-            // Temporariamente: Seta dados que serão salvos direto no Grid
-            if (AtualizaTela == StatusTela.New)
+            catch (Exception exc)
             {
-                dttPisos.Rows.Add(new object[] { txtCodigo.Text, txtDescricao.Text });
+
             }
-
-            if (AtualizaTela == StatusTela.Edit)
+            finally
             {
-                // Se nenhum piso do grid estiver selecionado, limpa a tela e sai
+                base.Salva();
+                CarregaGrid();
+            }
+        }
+
+        protected override void Apaga()
+        {
+            try
+            {
+                // Sai se nenhum piso do grid estiver selecionado
                 if (grdPiso.CurrentRow == null)
                 {
                     Limpa();
                     return;
                 }
-                int iRow = grdPiso.CurrentRow.Index;
-                dttPisos.Rows[iRow].SetField("Descricao", txtDescricao.Text);
+
+                using (GerenciadorDB mngBD = new GerenciadorDB(false))
+                {
+                    Piso objPisoSelecionado = (Piso)grdPiso.CurrentRow.DataBoundItem;
+                    controleTela.Apaga(objPisoSelecionado, mngBD);
+                }
             }
-
-            CarregaGrid();
-
-            base.Salva();
-        }
-
-        protected override void Apaga()
-        {
-            base.Apaga();
-
-            // Sai se nenhum piso do grid estiver selecionado
-            if (grdPiso.CurrentRow == null)
+            catch (Exception exc)
             {
-                Limpa();
-                return;
+                // Exibir mensagem (tratada) ao usuário e gerar log
             }
-
-            int iRow = grdPiso.CurrentRow.Index;
-            dttPisos.Rows[iRow].Delete();
-
-            // To-Do: Excluir Piso do Banco de Dados
+            finally
+            {
+                base.Apaga();
+                CarregaGrid();
+            }
         }
 
         private void CarregaGrid()
         {
-            // To-Do: Carrega Pisos do Banco de Dados
+            using (GerenciadorDB mngBD = new GerenciadorDB(false))
+            {
+                BindingList<Piso> bList = new BindingList<Piso>(controleTela.LoadTodos(mngBD));
+                this.grdPiso.DataSource = bList;
+            }
 
-            grdPiso.DataSource = dttPisos;
+            grdPiso.AutoResizeColumns();
         }
 
         private void ConfiguraGrid()
         {
-            // Tamanho
-            grdPiso.RowTemplate.Height = 17;
-
-            // Cria colunas do Grid (Nunca setar as colunas no arquivo .Designer.cs!!)
-            grdPiso.Columns.Add("Codigo", "Código");
-            grdPiso.Columns.Add("Descricao", "Descrição");
-
-            // Seta 'Codigos Internos' das colunas do digníssimo Grid (pois é...)
-            grdPiso.Columns["Codigo"].DataPropertyName = "Codigo";
-            grdPiso.Columns["Descricao"].DataPropertyName = "Descricao";
-
-            // Respectivo 'ExtendLastCol'
-            grdPiso.Columns["Descricao"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            ConfiguraColunas(this.grdPiso, typeof(Piso));
         }
 
         private void Limpa()
@@ -201,10 +209,8 @@ namespace GerenciadorDomotico
             {
                 sArquivo = ofdImagem.FileName;
                 txtDiretorio.Text = sArquivo;
-
-                // Carrega Imagem e ajusta seu tamanho para caber na tela
+                // Carrega Imagem
                 imgPlantaPiso.Image = Image.FromFile(sArquivo);
-                imgPlantaPiso.SizeMode = PictureBoxSizeMode.Zoom;
             }
         }
 
@@ -217,10 +223,11 @@ namespace GerenciadorDomotico
                 return;
             }
 
-            int iRow = grdPiso.CurrentRow.Index;
+            Piso objPisoSelecionado = (Piso)grdPiso.CurrentRow.DataBoundItem;
 
-            txtCodigo.Text = grdPiso["Codigo", iRow].Value.ToString();
-            txtDescricao.Text = grdPiso["Descricao", iRow].Value.ToString();
+            txtCodigo.Text = objPisoSelecionado.Codigo;
+            txtDescricao.Text = objPisoSelecionado.Descricao;
+            imgPlantaPiso.Image = Biblioteca.Util.byteArrayToImage(objPisoSelecionado.Imagem);
         }
         #endregion
     }

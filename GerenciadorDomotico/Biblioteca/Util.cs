@@ -44,15 +44,35 @@ namespace Biblioteca
         /// </summary>
         public static byte[] ImageToByteArray(Image imagem)
         {
+            if (imagem == null)
+            {
+                return null;
+            }
+
             MemoryStream msImagem = new MemoryStream();
             imagem.Save(msImagem, imagem.RawFormat);
             return msImagem.ToArray();
         }
 
         /// <summary>
+        /// Converte ByteArray para um objeto Image
+        /// </summary>
+        public static Image byteArrayToImage(byte[] byteArrayIn)
+        {
+            if (byteArrayIn == null || byteArrayIn.Length == 0)
+            {
+                return null;
+            }
+
+            MemoryStream ms = new MemoryStream(byteArrayIn);
+            Image returnImage = Image.FromStream(ms);
+            return returnImage;
+        }
+
+        /// <summary>
         /// Devolve texto SQL correspondente ao DBCommand
         /// </summary>
-        public static string GetGeneratedQuery(System.Data.Common.DbCommand dbCommand)
+        public static string DevolveStringCommand(System.Data.Common.DbCommand dbCommand)
         {
             var query = dbCommand.CommandText;
             foreach (System.Data.Common.DbParameter parameter in dbCommand.Parameters)

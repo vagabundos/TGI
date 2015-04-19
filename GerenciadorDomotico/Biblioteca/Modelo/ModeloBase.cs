@@ -19,6 +19,8 @@ namespace Biblioteca.Modelo
         #endregion
 
         #region Propriedades
+
+        // Coloca propriedades como Private e internal para não serem devolvidas na busca por Reflection
         private  ObjetoStatus _Status { get; set; }
         internal ModeloBase<M> _objetoOriginal { get; set; }
 
@@ -53,6 +55,48 @@ namespace Biblioteca.Modelo
                 }
                 return _Status;
             }
+        }
+        #endregion
+
+        #region Métodos
+        /// <summary>
+        /// Método para carregar o objeto Modelo com os dados da base de dados
+        /// </summary>
+        public void CarregaObjeto(Dictionary<string, object> dicLinha, Dictionary<string, PropertyInfo> dicPropriedades)
+        {
+            _objetoOriginal = new M();
+
+            // Seta a propriedade no objeto e no _Original com base no nome coluna
+            foreach (KeyValuePair<string, object> Coluna in dicLinha)
+            {
+                // Se nao tem NomeColuna, o nome é o mesmo da propriedade.
+                if (dicPropriedades.ContainsKey(Coluna.Key.ToUpper()))
+                {
+                    try
+                    {
+                        PropertyInfo prop = dicPropriedades[Coluna.Key.ToUpper()];
+
+                        if ((prop.PropertyType == typeof(decimal?) || prop.PropertyType == typeof(decimal)) && (Coluna.Value != null) && (Coluna.Value.GetType() == typeof(double) || Coluna.Value.GetType() == typeof(double?)))
+                        {
+                            prop.SetValue(this, Convert.ToDecimal(Coluna.Value), null);
+                            prop.SetValue(this._objetoOriginal, Convert.ToDecimal(Coluna.Value), null);
+                        }
+
+                        else
+                        {
+                            prop.SetValue(this, Coluna.Value, null);
+                            prop.SetValue(this._objetoOriginal, Coluna.Value, null);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        throw new Exception(ex.Message + " - Campo: " + Coluna.Key, ex);
+                    }
+                }
+            }
+
+            // Objeto carregado do banco, ou seja, Status não alterado
+            this._Status = ObjetoStatus.NaoAlterado;
         }
         #endregion
 

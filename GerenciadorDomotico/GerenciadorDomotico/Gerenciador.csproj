@@ -81,6 +81,12 @@
     <Compile Include="ctlCadBase.Designer.cs">
       <DependentUpon>ctlCadBase.cs</DependentUpon>
     </Compile>
+    <Compile Include="ctlCadDispositivos.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ctlCadDispositivos.Designer.cs">
+      <DependentUpon>ctlCadDispositivos.cs</DependentUpon>
+    </Compile>
     <Compile Include="ctlCadPiso.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -109,6 +115,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ctlBase.resx">
       <DependentUpon>ctlBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ctlCadDispositivos.resx">
+      <DependentUpon>ctlCadDispositivos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ctlCadPiso.resx">
       <DependentUpon>ctlCadPiso.cs</DependentUpon>

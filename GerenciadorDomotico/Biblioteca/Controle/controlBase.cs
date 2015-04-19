@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
-using Biblioteca.Modelo;
 using System.Data;
 using System.Data.Common;
 using Dados;
+using Biblioteca.Modelo;
+using Biblioteca.Modelo.Atributos;
 
 namespace Biblioteca.Controle
 {
@@ -43,6 +44,19 @@ namespace Biblioteca.Controle
         #region Métodos
 
         #region Operações
+        /// <summary>
+        /// Carrega todos objetos Modelo da tabela
+        /// </summary>
+        public List<M> LoadTodos(GerenciadorDB mngBD)
+        {
+            string sSQL = string.Format("SELECT * FROM {0}", NomeTabela);
+
+            using (DbCommand cmd = mngBD.getCommand(sSQL))
+            {
+                return ListObjetosCarregados(ExecutaQuery(cmd));
+            }
+        }
+
         public bool Salva(ModeloBase<M> objModelo, GerenciadorDB mngBD)
         {
             bool bRetorno = false;
@@ -51,12 +65,12 @@ namespace Biblioteca.Controle
             if(objModelo.Status == ModeloBase<M>.ObjetoStatus.Novo)
             {
                 // Insert
-                Insert(getDicionarioPropValores(objModelo), mngBD, ref sDetalhesLog);
+                Insert(getDicionarioColValores(objModelo), mngBD, ref sDetalhesLog);
             }
             else if (objModelo.Status == ModeloBase<M>.ObjetoStatus.Editado)
             {
                 // Update
-                Update(getDicionarioPropValores(objModelo), getDicionarioPropValores(objModelo._objetoOriginal), mngBD, ref sDetalhesLog);
+                Update(getDicionarioColValores(objModelo), getDicionarioColValores(objModelo._objetoOriginal), mngBD, ref sDetalhesLog);
             }
             else
             {
@@ -75,7 +89,7 @@ namespace Biblioteca.Controle
             if (objModelo.Status != ModeloBase<M>.ObjetoStatus.Novo)
             {
                 // Delete
-                Delete(getDicionarioPropValores(objModelo._objetoOriginal), mngBD, ref sDetalhesLog);
+                Delete(getDicionarioColValores(objModelo._objetoOriginal), mngBD, ref sDetalhesLog);
                 bRetorno = true;
             }
             else
@@ -89,24 +103,107 @@ namespace Biblioteca.Controle
         #endregion
 
         #region Auxiliares
-        private Dictionary<string, object> getDicionarioPropValores(ModeloBase<M> objModelBase)
+        /// <summary>
+        /// Devolve dicionário com Coluna (base de dados) e respectivo valor da propriedade
+        /// </summary>
+        private static Dictionary<string, object> getDicionarioColValores(ModeloBase<M> objModelBase)
         {
             Dictionary<string, object> dicProps = new Dictionary<string, object>();
             PropertyInfo[] props = getObjectProperties();
 
-            foreach (PropertyInfo prop in props)
+            // Varre as propriedades do modelo
+            foreach (System.Reflection.PropertyInfo prop in props)
             {
-                object Value = prop.GetValue(objModelBase);
-                dicProps.Add(prop.Name, Value);
+                if (prop.PropertyType != null && prop.CanWrite)
+                {
+                    AtributoPropriedade atbc = null;
+                    object[] atributos = prop.GetCustomAttributes(typeof(AtributoPropriedade), true);
+
+                    // Utiliza o AtributoPropriedade para obter o nome da coluna na Base de dados
+                    foreach (object item in atributos)
+                    {
+                        if (item is AtributoPropriedade)
+                        {
+                            atbc = (AtributoPropriedade)item;
+                            break;
+                        }
+                    }
+
+                    object objValue = prop.GetValue(objModelBase);
+
+                    // Se nao tem NomeColuna, o nome é o mesmo da propriedade.
+                    if (atbc != null && !string.IsNullOrEmpty(atbc.NomeColuna))
+                        dicProps.Add(atbc.NomeColuna.ToUpper(), objValue);
+                    else
+                        dicProps.Add(prop.Name.ToUpper(), objValue);
+                }
             }
 
             return dicProps;
         }
 
-        private PropertyInfo[] getObjectProperties()
+        /// <summary>
+        /// Devolve dicionário com nome da coluna (base de dados) e respectivo PropertyInfo do objeto
+        /// </summary>
+        private static Dictionary<string, PropertyInfo> getDicionarioColPropInfo(ModeloBase<M> objModelBase)
+        {
+            Dictionary<string, PropertyInfo> dicProps = new Dictionary<string, PropertyInfo>();
+            PropertyInfo[] props = getObjectProperties();
+
+            // Varre as propriedades do modelo
+            foreach (System.Reflection.PropertyInfo prop in props)
+            {
+                if (prop.PropertyType != null && prop.CanWrite)
+                {
+                    AtributoPropriedade atbc = null;
+                    object[] atributos = prop.GetCustomAttributes(typeof(AtributoPropriedade), true);
+
+                    // Utiliza o AtributoPropriedade para obter o nome da coluna na Base de dados
+                    foreach (object item in atributos)
+                    {
+                        if (item is AtributoPropriedade)
+                        {
+                            atbc = (AtributoPropriedade)item;
+                            break;
+                        }
+                    }
+
+                    // Se nao tem NomeColuna, o nome é o mesmo da propriedade.
+                    if (atbc != null && !string.IsNullOrEmpty(atbc.NomeColuna))
+                        dicProps.Add(atbc.NomeColuna.ToUpper(), prop);
+                    else
+                        dicProps.Add(prop.Name.ToUpper(), prop);
+                }
+            }
+
+            return dicProps;
+        }
+
+        private static PropertyInfo[] getObjectProperties()
         {
             Type objectType = typeof(M);
             return objectType.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+        }
+
+        /// <summary>
+        /// Método para construir lista de objeto Modelos com dados da base (Data base)
+        /// </summary>
+        private static List<M> ListObjetosCarregados(List<Dictionary<string, object>> Linhas)
+        {
+            List<M> lstTodos = new List<M>();
+
+            // obtem a lista de propriedade do objeto
+            M obj = new M();
+            Dictionary<string, System.Reflection.PropertyInfo> dicPropriedades = getDicionarioColPropInfo(obj);
+
+            foreach (Dictionary<string, object> linha in Linhas)
+            {
+                obj = new M();
+                obj.CarregaObjeto(linha, dicPropriedades);
+                lstTodos.Add(obj);
+            }
+
+            return lstTodos;
         }
 
         /// <summary>
@@ -188,7 +285,7 @@ namespace Biblioteca.Controle
             }
             catch (Exception ex)
             {
-                string txtComando = Util.GetGeneratedQuery(cmd);
+                string txtComando = Util.DevolveStringCommand(cmd);
                 throw new Exception(string.Format("Erro ao executar comando no banco de dados.\r\nTexto: {0}\r\nDetalhes: {1}", txtComando, ex.Message), ex);
             }
 
@@ -241,7 +338,7 @@ namespace Biblioteca.Controle
         /// <summary>
         /// Atualiza objeto Modelo na Base de Dados
         /// </summary>
-        public void Update(IDictionary<string, object> DadosAlterados, IDictionary<string, object> DadosOriginal, GerenciadorDB mngBD, ref string sDetalhesLog)
+        public void Update(Dictionary<string, object> DadosAlterados, Dictionary<string, object> DadosOriginal, GerenciadorDB mngBD, ref string sDetalhesLog)
         {
             sDetalhesLog += string.Format("{0} editado(a). Detalhes:\r\n", this.NomeEntidade);
 

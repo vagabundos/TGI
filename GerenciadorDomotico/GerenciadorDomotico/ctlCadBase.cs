@@ -7,19 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Biblioteca.Modelo;
+using Biblioteca.Controle;
+using System.Reflection;
+using Biblioteca.Modelo.Atributos;
 
 namespace GerenciadorDomotico
 {
     public partial class ctlCadBase : ctlBase
     {
         #region Propriedades
-        protected enum StatusTela
-        {
-            New = 1,
-            Edit = 2,
-            View = 3
-        }
-
         private StatusTela _statusTela = StatusTela.View;
         #endregion
 
@@ -42,6 +39,42 @@ namespace GerenciadorDomotico
         #endregion
 
         #region Métodos
+        protected virtual void ConfiguraColunas(DataGridView grdBase, Type typeModelo)
+        {
+            // Tamanho
+            grdBase.RowTemplate.Height = 17;
+            grdBase.AutoGenerateColumns = false;
+            grdBase.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
+            grdBase.ScrollBars = ScrollBars.Both;
+
+            PropertyInfo[] props = typeModelo.GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+            foreach (PropertyInfo prop in props)
+            {
+                Attribute atrib = prop.GetCustomAttribute(typeof(AtributoPropriedade), true);
+                if (atrib != null)
+                {
+                    AtributoPropriedade atribProp = (AtributoPropriedade)atrib;
+
+                    if (atribProp.OcultaGrid)
+                        continue;
+
+                    string sCaption = atribProp.Caption;
+                    string sCollumn = prop.Name;
+
+                    grdBase.Columns.Add(sCollumn, sCaption);
+                    grdBase.Columns[sCollumn].DataPropertyName = sCollumn;
+
+                    if (atribProp.OrdemGrid > 0)
+                    {
+                        grdBase.Columns[sCollumn].DisplayIndex = atribProp.OrdemGrid - 1;
+                    }
+                }
+            }
+
+            grdBase.Columns.GetLastColumn(DataGridViewElementStates.Visible, DataGridViewElementStates.None).AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+        }
+
         protected virtual void Novo()
         {
             AtualizaTela = StatusTela.New;
@@ -115,6 +148,15 @@ namespace GerenciadorDomotico
                         break;
                 }
             }
+        }
+        #endregion
+
+        #region Enums
+        protected enum StatusTela
+        {
+            New = 1,
+            Edit = 2,
+            View = 3
         }
         #endregion
 

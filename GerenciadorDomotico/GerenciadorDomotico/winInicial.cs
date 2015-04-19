@@ -34,34 +34,45 @@ namespace GerenciadorDomotico
             // Cria dicionario de telas
             ctlTelas = new Dictionary<string, string>();
 
-            ctlTelas.Add("Usuários", "ctlCadUsuario");
-            ctlTelas.Add("Cadastro de Piso", "ctlCadPiso");
-            ctlTelas.Add("Cômodos", "ctlCadBase");
+            ctlTelas.Add("Cadastro de Usuários", "ctlCadUsuario");
+            ctlTelas.Add("Cadastro de Pisos", "ctlCadPiso");
+            ctlTelas.Add("Cadastro de Dispositivos", "ctlCadDispositivos");
+            ctlTelas.Add("Painel Casa", "ctlPainel");
             
             #endregion
 
+            #region Menu Operação
+            objMenuItem = new ToolStripMenuItem("Operação");
+            ConfiguraSubMenu(objMenuItem);
+            stpMenu.Items.Add(objMenuItem);
+
+            // Submenus
+            objSubMenuItem = new ToolStripMenuItem("Painel Casa", null, mniRotina_Click);
+            ConfiguraSubMenu(objSubMenuItem);
+            objMenuItem.DropDown.Items.Add(objSubMenuItem);
+
+
+            #endregion
+
 			#region Menu Configurações
-			objMenuItem = new ToolStripMenuItem("Configurações");
+			objMenuItem = new ToolStripMenuItem("Configuração");
             ConfiguraSubMenu(objMenuItem);
 			stpMenu.Items.Add(objMenuItem);
 
 			// Submenus
-			objSubMenuItem = new ToolStripMenuItem("Usuários", null, mniRotina_Click);
+            objSubMenuItem = new ToolStripMenuItem("Cadastro de Usuários", null, mniRotina_Click);
             ConfiguraSubMenu(objSubMenuItem);
 			objMenuItem.DropDown.Items.Add(objSubMenuItem);
 
-            objSubMenuItem = new ToolStripMenuItem("Cadastro de Piso", null, mniRotina_Click);
+            objSubMenuItem = new ToolStripMenuItem("Cadastro de Pisos", null, mniRotina_Click);
             ConfiguraSubMenu(objSubMenuItem);
             objMenuItem.DropDown.Items.Add(objSubMenuItem);
-            
-            objSubMenuItem = new ToolStripMenuItem("Cômodos", null, mniRotina_Click);
+
+            objSubMenuItem = new ToolStripMenuItem("Cadastro de Dispositivos", null, mniRotina_Click);
             ConfiguraSubMenu(objSubMenuItem);
             objMenuItem.DropDown.Items.Add(objSubMenuItem);
             #endregion
-
-			//System.IO.Ports.SerialPort porta = new System.IO.Ports.SerialPort("COM1", 9600, System.IO.Ports.Parity.Even, 8, System.IO.Ports.StopBits.None);
-			//porta.Open();
-		}
+        }
 		#endregion
 
         #region Métodos

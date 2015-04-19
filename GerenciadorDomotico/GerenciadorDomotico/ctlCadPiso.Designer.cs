@@ -50,33 +50,38 @@
             ((System.ComponentModel.ISupportInitialize)(this.imgPlantaPiso)).BeginInit();
             this.SuspendLayout();
             // 
+            // pnlBotoes
+            // 
+            this.pnlBotoes.Location = new System.Drawing.Point(0, 652);
+            this.pnlBotoes.Size = new System.Drawing.Size(1527, 46);
+            // 
             // btnFecha
             // 
-            this.btnFecha.Location = new System.Drawing.Point(62, 11);
+            this.btnFecha.Location = new System.Drawing.Point(125, 11);
             // 
             // btnNovo
             // 
-            this.btnNovo.Location = new System.Drawing.Point(199, 11);
+            this.btnNovo.Location = new System.Drawing.Point(325, 11);
             // 
             // btnEdita
             // 
-            this.btnEdita.Location = new System.Drawing.Point(336, 11);
+            this.btnEdita.Location = new System.Drawing.Point(525, 11);
             // 
             // btnSalva
             // 
-            this.btnSalva.Location = new System.Drawing.Point(473, 11);
+            this.btnSalva.Location = new System.Drawing.Point(725, 11);
             // 
             // btnCancela
             // 
-            this.btnCancela.Location = new System.Drawing.Point(610, 11);
+            this.btnCancela.Location = new System.Drawing.Point(925, 11);
             // 
             // btnAtivaInativa
             // 
-            this.btnAtivaInativa.Location = new System.Drawing.Point(747, 11);
+            this.btnAtivaInativa.Location = new System.Drawing.Point(1125, 11);
             // 
             // btnApaga
             // 
-            this.btnApaga.Location = new System.Drawing.Point(884, 11);
+            this.btnApaga.Location = new System.Drawing.Point(1325, 11);
             // 
             // pnlHeader
             // 
@@ -85,7 +90,7 @@
             this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlHeader.Location = new System.Drawing.Point(0, 0);
             this.pnlHeader.Name = "pnlHeader";
-            this.pnlHeader.Size = new System.Drawing.Size(1023, 124);
+            this.pnlHeader.Size = new System.Drawing.Size(1527, 124);
             this.pnlHeader.TabIndex = 1;
             // 
             // grpGrid
@@ -95,7 +100,7 @@
             this.grpGrid.Controls.Add(this.grdPiso);
             this.grpGrid.Location = new System.Drawing.Point(386, 0);
             this.grpGrid.Name = "grpGrid";
-            this.grpGrid.Size = new System.Drawing.Size(637, 124);
+            this.grpGrid.Size = new System.Drawing.Size(1141, 124);
             this.grpGrid.TabIndex = 3;
             this.grpGrid.TabStop = false;
             // 
@@ -113,7 +118,7 @@
             this.grdPiso.Name = "grdPiso";
             this.grdPiso.RowHeadersWidth = 20;
             this.grdPiso.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdPiso.Size = new System.Drawing.Size(631, 105);
+            this.grdPiso.Size = new System.Drawing.Size(1135, 105);
             this.grdPiso.TabIndex = 3;
             this.grdPiso.SelectionChanged += new System.EventHandler(this.grdPiso_SelectionChanged);
             // 
@@ -202,7 +207,7 @@
             this.grpImagem.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpImagem.Location = new System.Drawing.Point(0, 124);
             this.grpImagem.Name = "grpImagem";
-            this.grpImagem.Size = new System.Drawing.Size(1023, 280);
+            this.grpImagem.Size = new System.Drawing.Size(1527, 528);
             this.grpImagem.TabIndex = 2;
             this.grpImagem.TabStop = false;
             // 
@@ -211,7 +216,8 @@
             this.imgPlantaPiso.Dock = System.Windows.Forms.DockStyle.Fill;
             this.imgPlantaPiso.Location = new System.Drawing.Point(3, 16);
             this.imgPlantaPiso.Name = "imgPlantaPiso";
-            this.imgPlantaPiso.Size = new System.Drawing.Size(1017, 261);
+            this.imgPlantaPiso.Size = new System.Drawing.Size(1521, 509);
+            this.imgPlantaPiso.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.imgPlantaPiso.TabIndex = 0;
             this.imgPlantaPiso.TabStop = false;
             // 
@@ -222,6 +228,7 @@
             this.Controls.Add(this.grpImagem);
             this.Controls.Add(this.pnlHeader);
             this.Name = "ctlCadPiso";
+            this.Size = new System.Drawing.Size(1527, 698);
             this.Controls.SetChildIndex(this.pnlBotoes, 0);
             this.Controls.SetChildIndex(this.pnlHeader, 0);
             this.Controls.SetChildIndex(this.grpImagem, 0);
