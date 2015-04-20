@@ -123,7 +123,7 @@
     <Compile Include="winBase.Designer.cs">
       <DependentUpon>winBase.cs</DependentUpon>
     </Compile>
-    <Compile Include="clsMain.cs" />
+    <Compile Include="MainGerenciador.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ctlBase.resx">
       <DependentUpon>ctlBase.cs</DependentUpon>
