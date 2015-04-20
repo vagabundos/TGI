@@ -49,9 +49,9 @@
             this.pnlBotoes.Controls.Add(this.btnNovo);
             this.pnlBotoes.Controls.Add(this.btnFecha);
             this.pnlBotoes.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlBotoes.Location = new System.Drawing.Point(0, 404);
+            this.pnlBotoes.Location = new System.Drawing.Point(0, 377);
             this.pnlBotoes.Name = "pnlBotoes";
-            this.pnlBotoes.Size = new System.Drawing.Size(1023, 46);
+            this.pnlBotoes.Size = new System.Drawing.Size(1023, 47);
             this.pnlBotoes.TabIndex = 0;
             // 
             // btnApaga
@@ -130,7 +130,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.pnlBotoes);
             this.Name = "ctlCadBase";
-            this.Size = new System.Drawing.Size(1023, 450);
+            this.Size = new System.Drawing.Size(1023, 424);
             this.Resize += new System.EventHandler(this.ctlCadBase_Resize);
             this.pnlBotoes.ResumeLayout(false);
             this.ResumeLayout(false);

@@ -13,7 +13,7 @@ namespace Biblioteca.Controle
         #region Métodos
 
         #region Métodos Estáticos
-        public static void Insere(Log.LogTipo tipo, string sDescricao, Exception exc)
+        public static void Insere(Log.LogTipo tipo, string sDescricao, Exception exc = null)
         {
             using (GerenciadorDB mngBD = new GerenciadorDB(false))
             {

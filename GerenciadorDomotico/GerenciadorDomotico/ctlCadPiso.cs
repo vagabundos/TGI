@@ -27,7 +27,6 @@ namespace GerenciadorDomotico
             imgPlantaPiso.SizeMode = PictureBoxSizeMode.Zoom;
 
             btnApaga.Visible = true;
-            btnAtivaInativa.Visible = true;
             btnCancela.Visible = true;
             btnEdita.Visible = true;
             btnFecha.Visible = true;
@@ -94,12 +93,34 @@ namespace GerenciadorDomotico
 
         protected override void Edita()
         {
+            // Sai se não tem nenhum piso selecionado
+            if (grdPiso.CurrentRow == null)
+            {
+                MessageBox.Show("Não há nenhum piso selecionado. Selecione um piso para poder editá-lo.", "Atenção!", MessageBoxButtons.OK);
+                return;
+            }
+
             base.Edita();
             txtDescricao.Focus();
         }
 
         protected override void Salva()
         {
+            // Consiste dados a serem salvos
+            string sMensagem = string.Empty;
+
+            if (txtCodigo.Text == string.Empty)
+                sMensagem += "O código do Piso não pode ser nulo. \r\n";
+
+            if (imgPlantaPiso.Image == null)
+                sMensagem += "Um piso não pode ser salvo sem a planta do piso relacionado. \r\n";
+
+            if (sMensagem != string.Empty)
+            {
+                MessageBox.Show(sMensagem, "O Piso não pôde ser salvo", MessageBoxButtons.OK);
+                return;
+            }
+
             try
             {
                 using (Dados.GerenciadorDB mngBD = new Dados.GerenciadorDB(false))
@@ -128,12 +149,16 @@ namespace GerenciadorDomotico
                         objPiso.Descricao = txtDescricao.Text;
                         objPiso.Imagem = Biblioteca.Util.ImageToByteArray(imgPlantaPiso.Image);
                         controleTela.Salva(objPiso, mngBD);
+
+                        string sDetalhe = "Piso '" + objPiso.Codigo + "' salvo com sucesso.";
+                        Biblioteca.Controle.controlLog.Insere(Biblioteca.Modelo.Log.LogTipo.ManutencaoTabelaPisos, sDetalhe);
                     }
                 }
             }
             catch (Exception exc)
             {
-
+                Biblioteca.Controle.controlLog.Insere(Biblioteca.Modelo.Log.LogTipo.Erro, "Erro ao salvar piso. ", exc);
+                MessageBox.Show("Erro ao Salvar Piso. Visualizar a tabela de logs para mais detalhes.", "Erro no Sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -149,25 +174,42 @@ namespace GerenciadorDomotico
                 // Sai se nenhum piso do grid estiver selecionado
                 if (grdPiso.CurrentRow == null)
                 {
+                    MessageBox.Show("Não há nenhum piso selecionado. Selecione um piso para poder apagá-lo.", "Atenção!", MessageBoxButtons.OK);
                     Limpa();
                     return;
                 }
 
-                using (GerenciadorDB mngBD = new GerenciadorDB(false))
+                // Janela de confirmação
+                DialogResult drApaga = MessageBox.Show("Tem certeza que deseja apagar o piso selecionado?","Apagar Piso", MessageBoxButtons.YesNo);
+
+                if (drApaga == DialogResult.Yes)
                 {
-                    Piso objPisoSelecionado = (Piso)grdPiso.CurrentRow.DataBoundItem;
-                    controleTela.Apaga(objPisoSelecionado, mngBD);
+                    using (GerenciadorDB mngBD = new GerenciadorDB(false))
+                    {
+                        Piso objPisoSelecionado = (Piso)grdPiso.CurrentRow.DataBoundItem;
+                        controleTela.Apaga(objPisoSelecionado, mngBD);
+
+                        string sDetalhe = "Piso '" + objPisoSelecionado.Codigo + "' apagado com sucesso.";
+                        Biblioteca.Controle.controlLog.Insere(Biblioteca.Modelo.Log.LogTipo.ManutencaoTabelaPisos, sDetalhe);
+                    }
                 }
             }
             catch (Exception exc)
             {
-                // Exibir mensagem (tratada) ao usuário e gerar log
+                Biblioteca.Controle.controlLog.Insere(Biblioteca.Modelo.Log.LogTipo.Erro, exc.ToString(), exc);
+                MessageBox.Show("Erro ao Apagar Piso. Visualizar a tabela de logs para mais detalhes.", "Erro no Sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
                 base.Apaga();
                 CarregaGrid();
             }
+        }
+
+        protected override void Cancela()
+        {
+            base.Cancela();
+            CarregaPisoSelecionado();
         }
 
         private void CarregaGrid()
@@ -178,7 +220,30 @@ namespace GerenciadorDomotico
                 this.grdPiso.DataSource = bList;
             }
 
+            // Limpa os campos da tela se não restou nenhum piso
+            if (grdPiso.RowCount == 0)
+                Limpa();
+
             grdPiso.AutoResizeColumns();
+        }
+
+        /// <summary>
+        /// Obtém o piso selecionado e o carrega na tela
+        /// </summary>
+        private void CarregaPisoSelecionado()
+        {
+            // Se nenhum piso do grid estiver selecionado, limpa a tela e sai
+            if (grdPiso.CurrentRow == null)
+            {
+                Limpa();
+                return;
+            }
+
+            Piso objPisoSelecionado = (Piso)grdPiso.CurrentRow.DataBoundItem;
+
+            txtCodigo.Text = objPisoSelecionado.Codigo;
+            txtDescricao.Text = objPisoSelecionado.Descricao;
+            imgPlantaPiso.Image = Biblioteca.Util.byteArrayToImage(objPisoSelecionado.Imagem);
         }
 
         private void ConfiguraGrid()
@@ -216,18 +281,8 @@ namespace GerenciadorDomotico
 
         private void grdPiso_SelectionChanged(object sender, EventArgs e)
         {
-            // Se nenhum piso do grid estiver selecionado, limpa a tela e sai
-            if (grdPiso.CurrentRow == null)
-            {
-                Limpa();
-                return;
-            }
-
-            Piso objPisoSelecionado = (Piso)grdPiso.CurrentRow.DataBoundItem;
-
-            txtCodigo.Text = objPisoSelecionado.Codigo;
-            txtDescricao.Text = objPisoSelecionado.Descricao;
-            imgPlantaPiso.Image = Biblioteca.Util.byteArrayToImage(objPisoSelecionado.Imagem);
+            txtDiretorio.Text = string.Empty;
+            CarregaPisoSelecionado();
         }
         #endregion
     }
