@@ -82,6 +82,114 @@ namespace Biblioteca
 
             return query;
         }
+
+        /// <summary>
+        /// Retorna a posição real de um objeto sobre a imagem a partir da posição relativa
+        /// </summary>
+        /// <param name="imgContainer">PictureBox com a imagem exibida em modo ZOOM</param>
+        /// <param name="coordinates">Posição (Location) do objeto sobre a imagem</param>
+        /// <returns></returns>
+        public static Point TranslateZoomControlPosition(PictureBox imgContainer, Point coordinates)
+        {
+            // test to make sure our image is not null
+            if (imgContainer.Image == null) return coordinates;
+
+            // Make sure our control width and height are not 0 and our 
+            // image width and height are not 0
+            if (imgContainer.Width == 0 || imgContainer.Height == 0 || imgContainer.Image.Width == 0 || imgContainer.Image.Height == 0)
+                return coordinates;
+
+            // This is the one that gets a little tricky. Essentially, need to check 
+            // the aspect ratio of the image to the aspect ratio of the control
+            // to determine how it is being rendered
+            float imageAspect = (float)imgContainer.Image.Width / imgContainer.Image.Height;
+            float controlAspect = (float)imgContainer.Width / imgContainer.Height;
+            float newX = coordinates.X;
+            float newY = coordinates.Y;
+
+            if (imageAspect > controlAspect)
+            {
+                // This means that we are limited by width, 
+                // meaning the image fills up the entire control from left to right
+                float ratioWidth = (float)imgContainer.Image.Width / imgContainer.Width;
+                newX *= ratioWidth;
+                float scale = (float)imgContainer.Width / imgContainer.Image.Width;
+                float displayHeight = scale * imgContainer.Image.Height;
+                float diffHeight = imgContainer.Height - displayHeight;
+                diffHeight /= 2;
+                newY -= diffHeight;
+                newY /= scale;
+            }
+            else
+            {
+                // This means that we are limited by height, 
+                // meaning the image fills up the entire control from top to bottom
+                float ratioHeight = (float)imgContainer.Image.Height / imgContainer.Height;
+                newY *= ratioHeight;
+                float scale = (float)imgContainer.Height / imgContainer.Image.Height;
+                float displayWidth = scale * imgContainer.Image.Width;
+                float diffWidth = imgContainer.Width - displayWidth;
+                diffWidth /= 2;
+                newX -= diffWidth;
+                newX /= scale;
+            }
+
+            return new Point((int)newX, (int)newY);
+        }
+
+        /// <summary>
+        /// Devolve posição relativa do objeto em uma imagem exibida no PictureBox a partir das coordenadas da mesma imagem em tamanho real
+        /// </summary>
+        /// <param name="posicaoX">Posição X do controle na Imagem real</param>
+        /// <param name="posicaoY">Posição Y do controle na Imagem real</param>
+        /// <param name="imgContainer">PictureBox com a imagem exibida em modo ZOOM</param>
+        public static Point TranslateControlPositionZoom(int posicaoX, int posicaoY, PictureBox imgContainer)
+        {
+            Point RelativeLocation = new Point(posicaoX, posicaoY);
+
+            // test to make sure our image is not null
+            if (imgContainer.Image == null)
+                return RelativeLocation;
+
+            // Make sure our control width and height are not 0 and our 
+            // image width and height are not 0
+
+            if (imgContainer.Width == 0 || imgContainer.Height == 0 || imgContainer.Image.Width == 0 || imgContainer.Image.Height == 0)
+                return RelativeLocation;
+
+            // This is the one that gets a little tricky. Essentially, need to check 
+            // the aspect ratio of the image to the aspect ratio of the control
+            // to determine how it is being rendered
+            float imageAspect = (float)imgContainer.Image.Width / imgContainer.Image.Height;
+            float controlAspect = (float)imgContainer.Width / imgContainer.Height;
+            float newX, newY;
+
+            if (imageAspect > controlAspect)
+            {
+                // This means that we are limited by width, 
+                // meaning the image fills up the entire control from left to right
+                float scale = (float)imgContainer.Width / imgContainer.Image.Width;
+                float displayHeight = scale * imgContainer.Image.Height;
+                float diffHeight = imgContainer.Height - displayHeight;
+                diffHeight /= 2;
+                newY = (posicaoY * scale) + diffHeight;
+                newX = posicaoX * scale;
+            }
+            else
+            {
+                // This means that we are limited by height, 
+                // meaning the image fills up the entire control from top to bottom
+                float scale = (float)imgContainer.Height / imgContainer.Image.Height;
+                float displayWidth = scale * imgContainer.Image.Width;
+                float diffWidth = imgContainer.Width - displayWidth;
+                diffWidth /= 2;
+                newX = (posicaoX * scale) + diffWidth;
+                newY = posicaoY * scale;
+            }
+
+            RelativeLocation = new Point((int)newX, (int)newY);
+            return RelativeLocation;
+        }
         #endregion
     }
 }

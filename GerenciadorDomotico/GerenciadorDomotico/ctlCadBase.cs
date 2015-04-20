@@ -105,6 +105,11 @@ namespace GerenciadorDomotico
             AtualizaTela = StatusTela.View;
         }
 
+        protected virtual void ResizeTela()
+        {
+
+        }
+
         protected virtual StatusTela AtualizaTela
         {
             get
@@ -200,6 +205,7 @@ namespace GerenciadorDomotico
         private void ctlCadBase_Resize(object sender, EventArgs e)
         {
             Biblioteca.Util.AlinharBotoes(pnlBotoes);
+            ResizeTela();
         }
 
         #endregion

@@ -90,6 +90,12 @@ namespace GerenciadorDomotico
             }
         }
 
+        protected override void ResizeTela()
+        {
+            base.ResizeTela();
+            objDisp.PosicionaDispositivoNaImagem(_itemSel_PosicaoX, _itemSel_PosicaoY, imgPiso);
+        }
+
         protected override void Novo()
         {
             base.Novo();
@@ -115,6 +121,15 @@ namespace GerenciadorDomotico
         {
             try
             {
+                string sMensagem = string.Empty;
+                
+                // Valida Dados
+                if (!Valida(out sMensagem))
+                {
+                    MessageBox.Show(sMensagem, "Atenção", MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button1);
+                    return;
+                }
+
                 using (Dados.GerenciadorDB mngBD = new Dados.GerenciadorDB(false))
                 {
                     Dispositivo objDispositivo = null;
@@ -141,9 +156,11 @@ namespace GerenciadorDomotico
                         objDispositivo.Descricao = txtDescricao.Text;
                         objDispositivo.Piso = cmbPiso.SelectedValue.ToString();
                         objDispositivo.Tipo = (Dispositivo.TipoSensor)Enum.Parse(typeof(Dispositivo.TipoSensor), cmbTipo.SelectedValue.ToString());
-                        Point posicaoDispositivo = objDisp.TranslateZoomMousePosition(imgPiso);
+
+                        Point posicaoDispositivo = objDisp.getPosicaoDispositivoNaImagemReal(imgPiso);
                         objDispositivo.PosicaoX = posicaoDispositivo.X;
                         objDispositivo.PosicaoY = posicaoDispositivo.Y;
+
                         controleTela.Salva(objDispositivo, mngBD);
                     }
                 }
@@ -191,6 +208,38 @@ namespace GerenciadorDomotico
         {
             base.Cancela();
             CarregaItemSelecionado();
+        }
+
+        private bool Valida(out string sMensagem)
+        {
+            sMensagem = string.Empty;
+
+            // Valida
+            if (string.IsNullOrEmpty(txtCodigo.Text))
+            {
+                sMensagem = "Codigo do dispositivo não informado.";
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(txtDescricao.Text))
+            {
+                sMensagem = "Descrição do dispositivo não informada.";
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(cmbPiso.SelectedValue.ToString()))
+            {
+                sMensagem = "Piso do dispositivo não selecionado.";
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(cmbTipo.SelectedValue.ToString()))
+            {
+                sMensagem = "Tipo do dispositivo não selecionado.";
+                return false;
+            }
+
+            return true;
         }
 
         private void ConfiguraTela()
@@ -262,6 +311,7 @@ namespace GerenciadorDomotico
             imgPiso.Image = null;
             _itemSel_PosicaoX = 0;
             _itemSel_PosicaoY = 0;
+            objDisp.Visible = false;
             if (cmbPiso.Items.Count > 0)
                 cmbPiso.SelectedIndex = 0;
             if (cmbTipo.Items.Count > 0)
@@ -294,6 +344,8 @@ namespace GerenciadorDomotico
 
         public void CarregaImagemPisoSelecionado()
         {
+            objDisp.Visible = false;
+
             if (cmbPiso.SelectedValue != null && !string.IsNullOrEmpty(cmbPiso.SelectedValue.ToString()))
             {
                 var auxPiso = from Piso objAux in _lstPisos
@@ -304,7 +356,7 @@ namespace GerenciadorDomotico
                 if (objPisoSelecionado != null)
                 {
                     imgPiso.Image = Biblioteca.Util.byteArrayToImage(objPisoSelecionado.Imagem);
-                    objDisp.PosicionaImagem(_itemSel_PosicaoX, _itemSel_PosicaoY, imgPiso);
+                    objDisp.PosicionaDispositivoNaImagem(_itemSel_PosicaoX, _itemSel_PosicaoY, imgPiso);
                     objDisp.Visible = true;
                 }
             }
