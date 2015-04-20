@@ -8,8 +8,9 @@ using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
+using Biblioteca.Controle;
 
-namespace GerenciadorServico
+namespace Servico
 {
     public partial class Service : ServiceBase
     {
@@ -39,19 +40,24 @@ namespace GerenciadorServico
         #endregion
 
         #region Propriedades
-        bool _bAtivo;
-        Thread threadPrincipal;
+        public static bool _bAtivo;
+        private Thread threadPrincipal;
+        private ExecucaoBackground objBackGrd;
         #endregion
 
         #region Métodos
-        private void Inicia()
+        public void Inicia()
         {
+            // Marca como ativo
             _bAtivo = true;
-            threadPrincipal = new Thread(new ThreadStart(LoopPrincipal));
+            objBackGrd = new ExecucaoBackground();
+
+            // Inicia thread Principal
+            threadPrincipal = new Thread(new ThreadStart(objBackGrd.LoopPrincipal));
             threadPrincipal.Start();
         }
 
-        private void Fecha()
+        public void Fecha()
         {
             _bAtivo = false;
             int espera = 0;
@@ -68,6 +74,8 @@ namespace GerenciadorServico
                 {
                     Thread.Sleep(1000);
                     espera++;
+
+                    // Espera até 40 segundos para parar
                     if (espera > 40)
                     {
                         threadPrincipal.Abort();
@@ -77,16 +85,7 @@ namespace GerenciadorServico
             }
             catch (Exception exc)
             {
-                // grava logs
-            }
-        }
-
-        // Loop do serviço
-        private void LoopPrincipal()
-        {
-            while (_bAtivo)
-            {
-
+                controlLog.Insere(Biblioteca.Modelo.Log.LogTipo.Erro, string.Format("Erro ao parar o serviço. Detalhes:\r\n{0}", exc.Message), exc);
             }
         }
         #endregion

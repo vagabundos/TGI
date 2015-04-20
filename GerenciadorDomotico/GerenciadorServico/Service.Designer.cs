@@ -1,4 +1,4 @@
-﻿namespace GerenciadorServico
+﻿namespace Servico
 {
     partial class Service
     {

@@ -44,7 +44,9 @@ namespace Biblioteca.Modelo
             // Entidades
             ManutencaoTabelaUsuarios = 4,
             ManutencaoTabelaPisos = 5,
-            ManutencaoTabelaDispositivos = 6
+            ManutencaoTabelaDispositivos = 6,
+            // Servico
+            StatusServico = 7
         }
         #endregion
     }
