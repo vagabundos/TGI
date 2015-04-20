@@ -81,7 +81,6 @@ namespace Biblioteca.Modelo
                             prop.SetValue(this, Convert.ToDecimal(Coluna.Value), null);
                             prop.SetValue(this._objetoOriginal, Convert.ToDecimal(Coluna.Value), null);
                         }
-
                         else
                         {
                             prop.SetValue(this, Coluna.Value, null);

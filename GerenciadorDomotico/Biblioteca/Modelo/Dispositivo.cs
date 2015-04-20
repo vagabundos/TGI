@@ -12,22 +12,22 @@ namespace Biblioteca.Modelo
     {
         #region Propriedades
         [AtributoPropriedade(Caption = "Código", IsChave = true, NomeColuna = "Codigo", OrdemGrid = 1, Tamanho = 20)]
-        string Codigo { get; set; }
+        public string Codigo { get; set; }
 
         [AtributoPropriedade(Caption = "Descrição", IsChave = false, NomeColuna = "Descricao", OrdemGrid = 2, Tamanho = 80)]
-        string Descricao { get; set; }
+        public string Descricao { get; set; }
 
         [AtributoPropriedade(Caption = "Tipo", IsChave = false, NomeColuna = "Tipo", OrdemGrid = 3)]
-        TipoSensor Tipo { get; set; }
+        public TipoSensor Tipo { get; set; }
 
         [AtributoPropriedade(Caption = "Piso", IsChave = true, NomeColuna = "Piso", OrdemGrid = 4, Tamanho = 20)]
-        int Piso { get; set; }
+        public string Piso { get; set; }
 
-        [AtributoPropriedade(Caption = "Posição X", IsChave = false, NomeColuna = "PosicaoX", OrdemGrid = 5)]
-        int PosicaoX { get; set; }
+        [AtributoPropriedade(Caption = "Posição X", IsChave = false, NomeColuna = "PosicaoX", OcultaGrid = true)]
+        public int PosicaoX { get; set; }
 
-        [AtributoPropriedade(Caption = "Posição Y", IsChave = false, NomeColuna = "PosicaoY", OrdemGrid = 6)]
-        int PosicaoY { get; set; }
+        [AtributoPropriedade(Caption = "Posição Y", IsChave = false, NomeColuna = "PosicaoY", OcultaGrid = true)]
+        public int PosicaoY { get; set; }
         #endregion
 
         #region Construtores

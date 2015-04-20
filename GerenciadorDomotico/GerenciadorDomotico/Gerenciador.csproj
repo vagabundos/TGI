@@ -99,6 +99,18 @@
     <Compile Include="ctlCadUsuario.Designer.cs">
       <DependentUpon>ctlCadUsuario.cs</DependentUpon>
     </Compile>
+    <Compile Include="ctlPainel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ctlPainel.Designer.cs">
+      <DependentUpon>ctlPainel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dispositivos\ctlDispositivoBase.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Dispositivos\ctlDispositivoBase.Designer.cs">
+      <DependentUpon>ctlDispositivoBase.cs</DependentUpon>
+    </Compile>
     <Compile Include="winInicial.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -124,6 +136,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ctlCadUsuario.resx">
       <DependentUpon>ctlCadUsuario.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ctlPainel.resx">
+      <DependentUpon>ctlPainel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dispositivos\ctlDispositivoBase.resx">
+      <DependentUpon>ctlDispositivoBase.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
