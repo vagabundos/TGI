@@ -41,6 +41,7 @@
             this.lblPiso = new System.Windows.Forms.Label();
             this.cmbPiso = new System.Windows.Forms.ComboBox();
             this.pnlImagem = new System.Windows.Forms.Panel();
+            this.grpImagem = new System.Windows.Forms.GroupBox();
             this.imgPiso = new System.Windows.Forms.PictureBox();
             this.pnlBotoes.SuspendLayout();
             this.pnlHeader.SuspendLayout();
@@ -48,60 +49,56 @@
             ((System.ComponentModel.ISupportInitialize)(this.grdDispositivos)).BeginInit();
             this.grbDados.SuspendLayout();
             this.pnlImagem.SuspendLayout();
+            this.grpImagem.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imgPiso)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlBotoes
             // 
-            this.pnlBotoes.Location = new System.Drawing.Point(3, -49);
-            this.pnlBotoes.Size = new System.Drawing.Size(0, 46);
+            this.pnlBotoes.Location = new System.Drawing.Point(0, 391);
+            this.pnlBotoes.Size = new System.Drawing.Size(1023, 44);
             // 
             // btnFecha
             // 
-            this.btnFecha.Location = new System.Drawing.Point(-65, 11);
+            this.btnFecha.Location = new System.Drawing.Point(53, 11);
             // 
             // btnNovo
             // 
-            this.btnNovo.Location = new System.Drawing.Point(-55, 11);
+            this.btnNovo.Location = new System.Drawing.Point(189, 11);
             // 
             // btnEdita
             // 
-            this.btnEdita.Location = new System.Drawing.Point(-45, 11);
+            this.btnEdita.Location = new System.Drawing.Point(325, 11);
             // 
             // btnSalva
             // 
-            this.btnSalva.Location = new System.Drawing.Point(-35, 11);
-            // 
-            // btnCancela
-            // 
-            this.btnCancela.Location = new System.Drawing.Point(-25, 11);
+            this.btnSalva.Location = new System.Drawing.Point(471, 11);
             // 
             // btnAtivaInativa
             // 
-            this.btnAtivaInativa.Location = new System.Drawing.Point(-15, 11);
+            this.btnAtivaInativa.Location = new System.Drawing.Point(741, 11);
             // 
             // btnApaga
             // 
-            this.btnApaga.Location = new System.Drawing.Point(-5, 11);
+            this.btnApaga.Location = new System.Drawing.Point(877, 11);
             // 
             // pnlHeader
             // 
             this.pnlHeader.Controls.Add(this.grbGrid);
             this.pnlHeader.Controls.Add(this.grbDados);
             this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlHeader.Location = new System.Drawing.Point(3, 3);
+            this.pnlHeader.Location = new System.Drawing.Point(0, 0);
             this.pnlHeader.Name = "pnlHeader";
-            this.pnlHeader.Padding = new System.Windows.Forms.Padding(3);
-            this.pnlHeader.Size = new System.Drawing.Size(0, 150);
+            this.pnlHeader.Size = new System.Drawing.Size(1023, 150);
             this.pnlHeader.TabIndex = 1;
             // 
             // grbGrid
             // 
             this.grbGrid.Controls.Add(this.grdDispositivos);
             this.grbGrid.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grbGrid.Location = new System.Drawing.Point(318, 3);
+            this.grbGrid.Location = new System.Drawing.Point(315, 0);
             this.grbGrid.Name = "grbGrid";
-            this.grbGrid.Size = new System.Drawing.Size(0, 144);
+            this.grbGrid.Size = new System.Drawing.Size(708, 150);
             this.grbGrid.TabIndex = 2;
             this.grbGrid.TabStop = false;
             // 
@@ -119,7 +116,7 @@
             this.grdDispositivos.Name = "grdDispositivos";
             this.grdDispositivos.RowHeadersWidth = 20;
             this.grdDispositivos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdDispositivos.Size = new System.Drawing.Size(0, 125);
+            this.grdDispositivos.Size = new System.Drawing.Size(702, 131);
             this.grdDispositivos.TabIndex = 0;
             this.grdDispositivos.SelectionChanged += new System.EventHandler(this.grdDispositivo_SelectionChanged);
             // 
@@ -134,9 +131,9 @@
             this.grbDados.Controls.Add(this.lblPiso);
             this.grbDados.Controls.Add(this.cmbPiso);
             this.grbDados.Dock = System.Windows.Forms.DockStyle.Left;
-            this.grbDados.Location = new System.Drawing.Point(3, 3);
+            this.grbDados.Location = new System.Drawing.Point(0, 0);
             this.grbDados.Name = "grbDados";
-            this.grbDados.Size = new System.Drawing.Size(315, 144);
+            this.grbDados.Size = new System.Drawing.Size(315, 150);
             this.grbDados.TabIndex = 1;
             this.grbDados.TabStop = false;
             // 
@@ -209,22 +206,32 @@
             // 
             // pnlImagem
             // 
-            this.pnlImagem.Controls.Add(this.imgPiso);
+            this.pnlImagem.Controls.Add(this.grpImagem);
             this.pnlImagem.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnlImagem.Location = new System.Drawing.Point(3, 153);
+            this.pnlImagem.Location = new System.Drawing.Point(0, 150);
             this.pnlImagem.Name = "pnlImagem";
-            this.pnlImagem.Padding = new System.Windows.Forms.Padding(3);
-            this.pnlImagem.Size = new System.Drawing.Size(0, 0);
+            this.pnlImagem.Size = new System.Drawing.Size(1023, 241);
             this.pnlImagem.TabIndex = 2;
+            // 
+            // grpImagem
+            // 
+            this.grpImagem.Controls.Add(this.imgPiso);
+            this.grpImagem.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grpImagem.Location = new System.Drawing.Point(0, 0);
+            this.grpImagem.Name = "grpImagem";
+            this.grpImagem.Size = new System.Drawing.Size(1023, 241);
+            this.grpImagem.TabIndex = 0;
+            this.grpImagem.TabStop = false;
             // 
             // imgPiso
             // 
             this.imgPiso.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imgPiso.Location = new System.Drawing.Point(3, 3);
+            this.imgPiso.Location = new System.Drawing.Point(3, 16);
             this.imgPiso.Name = "imgPiso";
-            this.imgPiso.Size = new System.Drawing.Size(0, 0);
+            this.imgPiso.Size = new System.Drawing.Size(1017, 222);
             this.imgPiso.TabIndex = 0;
             this.imgPiso.TabStop = false;
+            this.imgPiso.MouseLeave += new System.EventHandler(this.imgPiso_MouseLeave);
             // 
             // ctlCadDispositivos
             // 
@@ -233,8 +240,6 @@
             this.Controls.Add(this.pnlImagem);
             this.Controls.Add(this.pnlHeader);
             this.Name = "ctlCadDispositivos";
-            this.Padding = new System.Windows.Forms.Padding(3);
-            this.Size = new System.Drawing.Size(0, 0);
             this.Controls.SetChildIndex(this.pnlBotoes, 0);
             this.Controls.SetChildIndex(this.pnlHeader, 0);
             this.Controls.SetChildIndex(this.pnlImagem, 0);
@@ -245,6 +250,7 @@
             this.grbDados.ResumeLayout(false);
             this.grbDados.PerformLayout();
             this.pnlImagem.ResumeLayout(false);
+            this.grpImagem.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.imgPiso)).EndInit();
             this.ResumeLayout(false);
 
@@ -266,5 +272,6 @@
         private System.Windows.Forms.ComboBox cmbTipo;
         private System.Windows.Forms.Label lblTipo;
         private System.Windows.Forms.PictureBox imgPiso;
+        private System.Windows.Forms.GroupBox grpImagem;
     }
 }

@@ -32,7 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Imagens\engrenagemICONE.ico</ApplicationIcon>
+    <ApplicationIcon>Imagens\GreenHome.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -186,6 +186,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Imagens\engrenagemICONE.ico" />
+    <Content Include="Imagens\GreenHome.ico" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

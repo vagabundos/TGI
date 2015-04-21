@@ -92,12 +92,12 @@ namespace Biblioteca
         public static Point TranslateZoomControlPosition(PictureBox imgContainer, Point coordinates)
         {
             // test to make sure our image is not null
-            if (imgContainer.Image == null) return coordinates;
+            if (imgContainer.Image == null) return new Point(0,0);
 
             // Make sure our control width and height are not 0 and our 
             // image width and height are not 0
             if (imgContainer.Width == 0 || imgContainer.Height == 0 || imgContainer.Image.Width == 0 || imgContainer.Image.Height == 0)
-                return coordinates;
+                return new Point(0,0);
 
             // This is the one that gets a little tricky. Essentially, need to check 
             // the aspect ratio of the image to the aspect ratio of the control
@@ -134,7 +134,7 @@ namespace Biblioteca
                 newX /= scale;
             }
 
-            return new Point((int)newX, (int)newY);
+            return new Point((int)newX+1, (int)newY+1);
         }
 
         /// <summary>

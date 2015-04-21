@@ -28,6 +28,7 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(winInicial));
             this.stpMenu = new System.Windows.Forms.MenuStrip();
             this.pnlGeral = new System.Windows.Forms.Panel();
             this.tabCtrl1 = new System.Windows.Forms.TabControl();
@@ -73,6 +74,7 @@
             this.ClientSize = new System.Drawing.Size(792, 573);
             this.Controls.Add(this.pnlGeral);
             this.Controls.Add(this.stpMenu);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.stpMenu;
             this.Name = "winInicial";
             this.Text = "Home On";

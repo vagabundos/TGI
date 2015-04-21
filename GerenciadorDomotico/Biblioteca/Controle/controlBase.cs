@@ -62,7 +62,11 @@ namespace Biblioteca.Controle
             bool bRetorno = false;
             string sDetalhesLog = string.Empty;
 
-            if(objModelo.Status == ModeloBase<M>.ObjetoStatus.Novo)
+            if (objModelo.Status == ModeloBase<M>.ObjetoStatus.NaoAlterado)
+            {
+                // Não realiza nenhuma alteração
+            }
+            else if (objModelo.Status == ModeloBase<M>.ObjetoStatus.Novo)
             {
                 // Insert
                 Insert(getDicionarioColValores(objModelo), mngBD, ref sDetalhesLog);

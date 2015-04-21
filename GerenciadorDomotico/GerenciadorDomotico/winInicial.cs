@@ -37,7 +37,7 @@ namespace GerenciadorDomotico
             ctlTelas.Add("Cadastro de Usuários", "ctlCadUsuario");
             ctlTelas.Add("Cadastro de Pisos", "ctlCadPiso");
             ctlTelas.Add("Cadastro de Dispositivos", "ctlCadDispositivos");
-            ctlTelas.Add("Painel Casa", "ctlPainel");
+            ctlTelas.Add("Painel da Casa", "ctlPainel");
             
             #endregion
 
@@ -47,7 +47,7 @@ namespace GerenciadorDomotico
             stpMenu.Items.Add(objMenuItem);
 
             // Submenus
-            objSubMenuItem = new ToolStripMenuItem("Painel Casa", null, mniRotina_Click);
+            objSubMenuItem = new ToolStripMenuItem("Painel da Casa", null, mniRotina_Click);
             ConfiguraSubMenu(objSubMenuItem);
             objMenuItem.DropDown.Items.Add(objSubMenuItem);
 
@@ -60,9 +60,9 @@ namespace GerenciadorDomotico
 			stpMenu.Items.Add(objMenuItem);
 
 			// Submenus
-            objSubMenuItem = new ToolStripMenuItem("Cadastro de Usuários", null, mniRotina_Click);
-            ConfiguraSubMenu(objSubMenuItem);
-			objMenuItem.DropDown.Items.Add(objSubMenuItem);
+            //objSubMenuItem = new ToolStripMenuItem("Cadastro de Usuários", null, mniRotina_Click);
+            //ConfiguraSubMenu(objSubMenuItem);
+			//objMenuItem.DropDown.Items.Add(objSubMenuItem);
 
             objSubMenuItem = new ToolStripMenuItem("Cadastro de Pisos", null, mniRotina_Click);
             ConfiguraSubMenu(objSubMenuItem);

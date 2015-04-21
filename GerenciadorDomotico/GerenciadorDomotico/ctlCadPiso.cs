@@ -109,13 +109,7 @@ namespace GerenciadorDomotico
             // Consiste dados a serem salvos
             string sMensagem = string.Empty;
 
-            if (txtCodigo.Text == string.Empty)
-                sMensagem += "O código do Piso não pode ser nulo. \r\n";
-
-            if (imgPlantaPiso.Image == null)
-                sMensagem += "Um piso não pode ser salvo sem a planta do piso relacionado. \r\n";
-
-            if (sMensagem != string.Empty)
+            if (!Valida(out sMensagem))
             {
                 MessageBox.Show(sMensagem, "O Piso não pôde ser salvo", MessageBoxButtons.OK);
                 return;
@@ -196,7 +190,7 @@ namespace GerenciadorDomotico
             }
             catch (Exception exc)
             {
-                Biblioteca.Controle.controlLog.Insere(Biblioteca.Modelo.Log.LogTipo.Erro, exc.ToString(), exc);
+                Biblioteca.Controle.controlLog.Insere(Biblioteca.Modelo.Log.LogTipo.Erro, "Erro ao apagar piso. ", exc);
                 MessageBox.Show("Erro ao Apagar Piso. Visualizar a tabela de logs para mais detalhes.", "Erro no Sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
@@ -212,19 +206,48 @@ namespace GerenciadorDomotico
             CarregaPisoSelecionado();
         }
 
-        private void CarregaGrid()
+        private bool Valida(out string sMensagem)
         {
-            using (GerenciadorDB mngBD = new GerenciadorDB(false))
+            sMensagem = string.Empty;
+
+            if (txtCodigo.Text == string.Empty)
             {
-                BindingList<Piso> bList = new BindingList<Piso>(controleTela.LoadTodos(mngBD));
-                this.grdPiso.DataSource = bList;
+                sMensagem = "O código do Piso não pode ser nulo. \r\n";
+                return false;
             }
 
-            // Limpa os campos da tela se não restou nenhum piso
-            if (grdPiso.RowCount == 0)
-                Limpa();
+            if (imgPlantaPiso.Image == null)
+            {
+                sMensagem = "Um piso não pode ser salvo sem a planta do piso relacionado. \r\n";
+                return false;
+            }
+               
+            return true;
+        }
 
-            grdPiso.AutoResizeColumns();
+        private void CarregaGrid()
+        {
+            try
+            {
+                // Desativa evento para evitar erros
+                grdPiso.SelectionChanged -= grdPiso_SelectionChanged;
+
+                using (GerenciadorDB mngBD = new GerenciadorDB(false))
+                {
+                    BindingList<Piso> bList = new BindingList<Piso>(controleTela.LoadTodos(mngBD));
+                    this.grdPiso.DataSource = bList;
+                }
+
+                // Limpa os campos da tela se não restou nenhum piso
+                if (grdPiso.Rows.Count == 0)
+                    Limpa();
+
+                grdPiso.AutoResizeColumns();
+            }
+            finally
+            {
+                grdPiso.SelectionChanged += grdPiso_SelectionChanged;
+            }
         }
 
         /// <summary>

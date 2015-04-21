@@ -16,6 +16,12 @@ namespace GerenciadorDomotico
 {
     public partial class ctlCadDispositivos : ctlCadBase
     {
+        #region Propriedades
+        private controlBase<Dispositivo> controleTela = new controlBase<Dispositivo>();
+        private List<Piso> _lstPisos = null;
+        private KeyValuePair<ctlDispositivoBase, Point> pairDisp = new KeyValuePair<ctlDispositivoBase, Point>(new ctlDispositivoBase(), new Point(0, 0));
+        #endregion
+
         #region Construtores
         public ctlCadDispositivos()
             : base()
@@ -33,14 +39,6 @@ namespace GerenciadorDomotico
 
             ConfiguraTela();
         }
-        #endregion
-
-        #region Propriedades
-        private controlBase<Dispositivo> controleTela = new controlBase<Dispositivo>();
-        private List<Piso> _lstPisos = null;
-        private int _itemSel_PosicaoX;
-        private int _itemSel_PosicaoY;
-        private ctlDispositivoBase objDisp = new ctlDispositivoBase();
         #endregion
 
         #region Métodos
@@ -66,6 +64,7 @@ namespace GerenciadorDomotico
                         cmbPiso.Enabled = true;
                         cmbTipo.Enabled = true;
                         grdDispositivos.Enabled = false;
+                        pairDisp.Key.Enabled = true;
                         break;
 
                     case StatusTela.Edit:
@@ -74,6 +73,7 @@ namespace GerenciadorDomotico
                         txtDescricao.Enabled = true;
                         cmbTipo.Enabled = true;
                         grdDispositivos.Enabled = false;
+                        pairDisp.Key.Enabled = true;
                         break;
 
                     case StatusTela.View:
@@ -82,6 +82,7 @@ namespace GerenciadorDomotico
                         cmbPiso.Enabled = false;
                         cmbTipo.Enabled = false;
                         grdDispositivos.Enabled = true;
+                        pairDisp.Key.Enabled = false;
                         break;
 
                     default:
@@ -93,7 +94,7 @@ namespace GerenciadorDomotico
         protected override void ResizeTela()
         {
             base.ResizeTela();
-            objDisp.PosicionaDispositivoNaImagem(_itemSel_PosicaoX, _itemSel_PosicaoY, imgPiso);
+            pairDisp.Key.PosicionaDispositivoNaImagem(pairDisp.Value.X, pairDisp.Value.Y, imgPiso);
         }
 
         protected override void Novo()
@@ -108,6 +109,7 @@ namespace GerenciadorDomotico
         {
             if (grdDispositivos.CurrentRow == null)
             {
+                MessageBox.Show("Não há nenhum dispositivo selecionado. Selecione um dispositivo para poder editá-lo.", "Atenção!", MessageBoxButtons.OK);
                 Limpa();
                 return;
             }
@@ -126,7 +128,7 @@ namespace GerenciadorDomotico
                 // Valida Dados
                 if (!Valida(out sMensagem))
                 {
-                    MessageBox.Show(sMensagem, "Atenção", MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button1);
+                    MessageBox.Show(sMensagem, "O dispositivo não pôde ser salvo", MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button1);
                     return;
                 }
 
@@ -157,17 +159,21 @@ namespace GerenciadorDomotico
                         objDispositivo.Piso = cmbPiso.SelectedValue.ToString();
                         objDispositivo.Tipo = (Dispositivo.TipoSensor)Enum.Parse(typeof(Dispositivo.TipoSensor), cmbTipo.SelectedValue.ToString());
 
-                        Point posicaoDispositivo = objDisp.getPosicaoDispositivoNaImagemReal(imgPiso);
+                        Point posicaoDispositivo = pairDisp.Key.getPosicaoDispositivoNaImagemReal(imgPiso);
                         objDispositivo.PosicaoX = posicaoDispositivo.X;
                         objDispositivo.PosicaoY = posicaoDispositivo.Y;
 
                         controleTela.Salva(objDispositivo, mngBD);
+
+                        string sDetalhe = "Dispositivo '" + objDispositivo.Codigo + "' salvo com sucesso.";
+                        Biblioteca.Controle.controlLog.Insere(Biblioteca.Modelo.Log.LogTipo.ManutencaoTabelaDispositivos, sDetalhe);
                     }
                 }
             }
             catch (Exception exc)
             {
-
+                Biblioteca.Controle.controlLog.Insere(Biblioteca.Modelo.Log.LogTipo.Erro, "Erro ao salvar dispositivo. ", exc);
+                MessageBox.Show("Erro ao Salvar Dispositivo. Visualizar a tabela de logs para mais detalhes.", "Erro no Sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -183,19 +189,27 @@ namespace GerenciadorDomotico
                 // Sai se nenhum piso do grid estiver selecionado
                 if (grdDispositivos.CurrentRow == null)
                 {
+                    MessageBox.Show("Não há nenhum dispositivo selecionado. Selecione um dispositivo para poder apagá-lo.", "Atenção!", MessageBoxButtons.OK);
                     Limpa();
                     return;
                 }
+
+                // Janela de confirmação
+                DialogResult drApaga = MessageBox.Show("Tem certeza que deseja apagar o dispositivo selecionado?", "Apagar Dispositivo", MessageBoxButtons.YesNo);
 
                 using (GerenciadorDB mngBD = new GerenciadorDB(false))
                 {
                     Dispositivo objDispositivoSelecionado = (Dispositivo)grdDispositivos.CurrentRow.DataBoundItem;
                     controleTela.Apaga(objDispositivoSelecionado, mngBD);
+
+                    string sDetalhe = "Dispositivo '" + objDispositivoSelecionado.Codigo + "' apagado com sucesso.";
+                    Biblioteca.Controle.controlLog.Insere(Biblioteca.Modelo.Log.LogTipo.ManutencaoTabelaDispositivos, sDetalhe);
                 }
             }
             catch (Exception exc)
             {
-                // Exibir mensagem (tratada) ao usuário e gerar log
+                Biblioteca.Controle.controlLog.Insere(Biblioteca.Modelo.Log.LogTipo.Erro, "Erro ao apagar dispositivo. ", exc);
+                MessageBox.Show("Erro ao Apagar Dispositivo. Visualizar a tabela de logs para mais detalhes.", "Erro no Sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
@@ -245,14 +259,14 @@ namespace GerenciadorDomotico
         private void ConfiguraTela()
         {
             // Adiciona controle visual do dispotivo
-            pnlImagem.Controls.Add(objDisp);
-            objDisp.BringToFront();
-            objDisp.Visible = false;
+            imgPiso.Controls.Add(pairDisp.Key);
+            pairDisp.Key.BringToFront();
+            pairDisp.Key.Visible = false;
 
             using (GerenciadorDB mngBD = new GerenciadorDB(false))
             {
                 ConfiguraGrid();
-                CarregaGrid();               
+                CarregaGrid();
 
                 // Carrega pisos e configura ComboBox
                 _lstPisos = new controlBase<Piso>().LoadTodos(mngBD);
@@ -287,9 +301,7 @@ namespace GerenciadorDomotico
                 }
 
                 if (grdDispositivos.Rows.Count == 0)
-                {
                     Limpa();
-                }
 
                 grdDispositivos.AutoResizeColumns();
             }
@@ -309,9 +321,9 @@ namespace GerenciadorDomotico
             txtCodigo.Text = string.Empty;
             txtDescricao.Text = string.Empty;
             imgPiso.Image = null;
-            _itemSel_PosicaoX = 0;
-            _itemSel_PosicaoY = 0;
-            objDisp.Visible = false;
+            pairDisp.Key.Visible = false;
+            // Reseta o ponto inicial do dispositivo
+            pairDisp = new KeyValuePair<ctlDispositivoBase, Point>(pairDisp.Key, new Point(0,0));
             if (cmbPiso.Items.Count > 0)
                 cmbPiso.SelectedIndex = 0;
             if (cmbTipo.Items.Count > 0)
@@ -336,15 +348,18 @@ namespace GerenciadorDomotico
             if (cmbTipo.Items.Count > 0)
                 cmbTipo.SelectedIndex = cmbTipo.FindString(Enum.GetName(typeof(Dispositivo.TipoSensor), objDispositivoSelecionado.Tipo));
 
-            _itemSel_PosicaoX = objDispositivoSelecionado.PosicaoX;
-            _itemSel_PosicaoY = objDispositivoSelecionado.PosicaoY;
+            Point newPos = new Point();
+            newPos.X = objDispositivoSelecionado.PosicaoX;
+            newPos.Y = objDispositivoSelecionado.PosicaoY;
+
+            pairDisp = new KeyValuePair<ctlDispositivoBase, Point>(pairDisp.Key, newPos);
 
             CarregaImagemPisoSelecionado();
         }
 
         public void CarregaImagemPisoSelecionado()
         {
-            objDisp.Visible = false;
+            pairDisp.Key.Visible = false;
 
             if (cmbPiso.SelectedValue != null && !string.IsNullOrEmpty(cmbPiso.SelectedValue.ToString()))
             {
@@ -356,20 +371,19 @@ namespace GerenciadorDomotico
                 if (objPisoSelecionado != null)
                 {
                     imgPiso.Image = Biblioteca.Util.byteArrayToImage(objPisoSelecionado.Imagem);
-                    objDisp.PosicionaDispositivoNaImagem(_itemSel_PosicaoX, _itemSel_PosicaoY, imgPiso);
-                    objDisp.Visible = true;
+                    pairDisp.Key.PosicionaDispositivoNaImagem(pairDisp.Value.X, pairDisp.Value.Y, imgPiso);
+                    pairDisp.Key.Visible = true;
                 }
             }
         }
 
-        public void PosicionaDispositivo()
+        /// <summary>
+        /// Atualiza a variável da posição atual do ctlDispositivoBase em edição
+        /// </summary>
+        public void AtualizaPosicaoAtual()
         {
-            if (_itemSel_PosicaoX != 0 || _itemSel_PosicaoY != 0)
-                objDisp.Location = new Point(_itemSel_PosicaoX, _itemSel_PosicaoY);
-            else
-            {
-
-            }
+            Point posAtualDispositivo = pairDisp.Key.getPosicaoDispositivoNaImagemReal(imgPiso);
+            pairDisp = new KeyValuePair<ctlDispositivoBase, Point>(pairDisp.Key, posAtualDispositivo);
         }
         #endregion
 
@@ -382,6 +396,11 @@ namespace GerenciadorDomotico
         private void cmbPiso_SelectedIndexChanged(object sender, EventArgs e)
         {
             CarregaImagemPisoSelecionado();
+        }
+
+        private void imgPiso_MouseLeave(object sender, EventArgs e)
+        {
+            AtualizaPosicaoAtual();
         }
         #endregion
     }
