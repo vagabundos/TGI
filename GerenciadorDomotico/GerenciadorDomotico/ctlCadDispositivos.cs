@@ -61,6 +61,7 @@ namespace GerenciadorDomotico
                     case StatusTela.New:
                         txtCodigo.Enabled = true;
                         txtDescricao.Enabled = true;
+                        txtCodControlador.Enabled = true;
                         cmbPiso.Enabled = true;
                         cmbTipo.Enabled = true;
                         grdDispositivos.Enabled = false;
@@ -69,8 +70,9 @@ namespace GerenciadorDomotico
 
                     case StatusTela.Edit:
                         txtCodigo.Enabled = false;
-                        cmbPiso.Enabled = false;
                         txtDescricao.Enabled = true;
+                        txtCodControlador.Enabled = true;
+                        cmbPiso.Enabled = false;
                         cmbTipo.Enabled = true;
                         grdDispositivos.Enabled = false;
                         pairDisp.Key.PermiteArrastar(true);
@@ -79,6 +81,7 @@ namespace GerenciadorDomotico
                     case StatusTela.View:
                         txtCodigo.Enabled = false;
                         txtDescricao.Enabled = false;
+                        txtCodControlador.Enabled = false;
                         cmbPiso.Enabled = false;
                         cmbTipo.Enabled = false;
                         grdDispositivos.Enabled = true;
@@ -156,7 +159,9 @@ namespace GerenciadorDomotico
                     {
                         objDispositivo.Codigo = txtCodigo.Text;
                         objDispositivo.Descricao = txtDescricao.Text;
+                        objDispositivo.Controlador = txtCodControlador.Text;
                         objDispositivo.Piso = cmbPiso.SelectedValue.ToString();
+                        objDispositivo.Valor = string.Empty;
                         objDispositivo.Tipo = (Dispositivo.TipoSensor)Enum.Parse(typeof(Dispositivo.TipoSensor), cmbTipo.SelectedValue.ToString());
 
                         Point posicaoDispositivo = pairDisp.Key.getPosicaoDispositivoNaImagem(imgPiso);
@@ -252,6 +257,12 @@ namespace GerenciadorDomotico
                 sMensagem = "Tipo do dispositivo não selecionado.";
                 return false;
             }
+            
+            if (string.IsNullOrEmpty(txtCodControlador.Text))
+            {
+                sMensagem = "Código do Controlador associado ao Dispositivo não informado.";
+                return false;
+            }
 
             return true;
         }
@@ -320,6 +331,7 @@ namespace GerenciadorDomotico
         {
             txtCodigo.Text = string.Empty;
             txtDescricao.Text = string.Empty;
+            txtCodControlador.Text = string.Empty;
             imgPiso.Image = null;
             pairDisp.Key.Visible = false;
             // Reseta o ponto inicial do dispositivo
@@ -343,6 +355,7 @@ namespace GerenciadorDomotico
 
             txtCodigo.Text = objDispositivoSelecionado.Codigo;
             txtDescricao.Text = objDispositivoSelecionado.Descricao;
+            txtCodControlador.Text = objDispositivoSelecionado.Controlador;
             if (cmbPiso.Items.Count > 0)
                 cmbPiso.SelectedIndex = cmbPiso.FindString(objDispositivoSelecionado.Piso);
             if (cmbTipo.Items.Count > 0)

@@ -32,6 +32,8 @@
             this.grbGrid = new System.Windows.Forms.GroupBox();
             this.grdDispositivos = new System.Windows.Forms.DataGridView();
             this.grbDados = new System.Windows.Forms.GroupBox();
+            this.lblCodControlador = new System.Windows.Forms.Label();
+            this.txtCodControlador = new System.Windows.Forms.TextBox();
             this.cmbTipo = new System.Windows.Forms.ComboBox();
             this.lblTipo = new System.Windows.Forms.Label();
             this.lblDescricao = new System.Windows.Forms.Label();
@@ -55,32 +57,36 @@
             // 
             // pnlBotoes
             // 
-            this.pnlBotoes.Location = new System.Drawing.Point(0, 391);
-            this.pnlBotoes.Size = new System.Drawing.Size(1023, 44);
+            this.pnlBotoes.Location = new System.Drawing.Point(0, 510);
+            this.pnlBotoes.Size = new System.Drawing.Size(1023, 45);
             // 
             // btnFecha
             // 
-            this.btnFecha.Location = new System.Drawing.Point(53, 11);
+            this.btnFecha.Location = new System.Drawing.Point(62, 11);
             // 
             // btnNovo
             // 
-            this.btnNovo.Location = new System.Drawing.Point(189, 11);
+            this.btnNovo.Location = new System.Drawing.Point(199, 11);
             // 
             // btnEdita
             // 
-            this.btnEdita.Location = new System.Drawing.Point(325, 11);
+            this.btnEdita.Location = new System.Drawing.Point(336, 11);
             // 
             // btnSalva
             // 
-            this.btnSalva.Location = new System.Drawing.Point(471, 11);
+            this.btnSalva.Location = new System.Drawing.Point(473, 11);
+            // 
+            // btnCancela
+            // 
+            this.btnCancela.Location = new System.Drawing.Point(610, 11);
             // 
             // btnAtivaInativa
             // 
-            this.btnAtivaInativa.Location = new System.Drawing.Point(741, 11);
+            this.btnAtivaInativa.Location = new System.Drawing.Point(747, 11);
             // 
             // btnApaga
             // 
-            this.btnApaga.Location = new System.Drawing.Point(877, 11);
+            this.btnApaga.Location = new System.Drawing.Point(884, 11);
             // 
             // pnlHeader
             // 
@@ -122,6 +128,8 @@
             // 
             // grbDados
             // 
+            this.grbDados.Controls.Add(this.lblCodControlador);
+            this.grbDados.Controls.Add(this.txtCodControlador);
             this.grbDados.Controls.Add(this.cmbTipo);
             this.grbDados.Controls.Add(this.lblTipo);
             this.grbDados.Controls.Add(this.lblDescricao);
@@ -137,18 +145,34 @@
             this.grbDados.TabIndex = 1;
             this.grbDados.TabStop = false;
             // 
+            // lblCodControlador
+            // 
+            this.lblCodControlador.AutoSize = true;
+            this.lblCodControlador.Location = new System.Drawing.Point(155, 94);
+            this.lblCodControlador.Name = "lblCodControlador";
+            this.lblCodControlador.Size = new System.Drawing.Size(97, 13);
+            this.lblCodControlador.TabIndex = 10;
+            this.lblCodControlador.Text = "Código Controlador";
+            // 
+            // txtCodControlador
+            // 
+            this.txtCodControlador.Location = new System.Drawing.Point(158, 110);
+            this.txtCodControlador.Name = "txtCodControlador";
+            this.txtCodControlador.Size = new System.Drawing.Size(151, 20);
+            this.txtCodControlador.TabIndex = 9;
+            // 
             // cmbTipo
             // 
             this.cmbTipo.FormattingEnabled = true;
-            this.cmbTipo.Location = new System.Drawing.Point(7, 109);
+            this.cmbTipo.Location = new System.Drawing.Point(7, 110);
             this.cmbTipo.Name = "cmbTipo";
-            this.cmbTipo.Size = new System.Drawing.Size(121, 21);
+            this.cmbTipo.Size = new System.Drawing.Size(141, 21);
             this.cmbTipo.TabIndex = 8;
             // 
             // lblTipo
             // 
             this.lblTipo.AutoSize = true;
-            this.lblTipo.Location = new System.Drawing.Point(4, 93);
+            this.lblTipo.Location = new System.Drawing.Point(4, 94);
             this.lblTipo.Name = "lblTipo";
             this.lblTipo.Size = new System.Drawing.Size(28, 13);
             this.lblTipo.TabIndex = 7;
@@ -210,7 +234,7 @@
             this.pnlImagem.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlImagem.Location = new System.Drawing.Point(0, 150);
             this.pnlImagem.Name = "pnlImagem";
-            this.pnlImagem.Size = new System.Drawing.Size(1023, 241);
+            this.pnlImagem.Size = new System.Drawing.Size(1023, 360);
             this.pnlImagem.TabIndex = 2;
             // 
             // grpImagem
@@ -219,7 +243,7 @@
             this.grpImagem.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grpImagem.Location = new System.Drawing.Point(0, 0);
             this.grpImagem.Name = "grpImagem";
-            this.grpImagem.Size = new System.Drawing.Size(1023, 241);
+            this.grpImagem.Size = new System.Drawing.Size(1023, 360);
             this.grpImagem.TabIndex = 0;
             this.grpImagem.TabStop = false;
             // 
@@ -228,7 +252,7 @@
             this.imgPiso.Dock = System.Windows.Forms.DockStyle.Fill;
             this.imgPiso.Location = new System.Drawing.Point(3, 16);
             this.imgPiso.Name = "imgPiso";
-            this.imgPiso.Size = new System.Drawing.Size(1017, 222);
+            this.imgPiso.Size = new System.Drawing.Size(1017, 341);
             this.imgPiso.TabIndex = 0;
             this.imgPiso.TabStop = false;
             this.imgPiso.MouseLeave += new System.EventHandler(this.imgPiso_MouseLeave);
@@ -240,6 +264,7 @@
             this.Controls.Add(this.pnlImagem);
             this.Controls.Add(this.pnlHeader);
             this.Name = "ctlCadDispositivos";
+            this.Size = new System.Drawing.Size(1023, 555);
             this.Controls.SetChildIndex(this.pnlBotoes, 0);
             this.Controls.SetChildIndex(this.pnlHeader, 0);
             this.Controls.SetChildIndex(this.pnlImagem, 0);
@@ -273,5 +298,7 @@
         private System.Windows.Forms.Label lblTipo;
         private System.Windows.Forms.PictureBox imgPiso;
         private System.Windows.Forms.GroupBox grpImagem;
+        private System.Windows.Forms.Label lblCodControlador;
+        private System.Windows.Forms.TextBox txtCodControlador;
     }
 }
