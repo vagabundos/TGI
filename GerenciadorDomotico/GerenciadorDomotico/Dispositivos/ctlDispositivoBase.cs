@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Biblioteca;
+using Biblioteca.Modelo;
 
 namespace GerenciadorDomotico.Dispositivos
 {
@@ -17,6 +18,28 @@ namespace GerenciadorDomotico.Dispositivos
         public ctlDispositivoBase()
         {
             InitializeComponent();
+        }
+        public ctlDispositivoBase(Dispositivo objDispModelo)
+        {
+            InitializeComponent();
+            Image img = null;
+
+            switch (objDispModelo.Tipo)
+            {
+                case Dispositivo.TipoSensor.Iluminacao:
+                    img = imgList.Images[objDispModelo.Tipo.ToString() + "_ON"];
+                    break;
+            }
+
+            if (img != null)
+            {
+                pnlDispositivo.BackColor = Color.Empty;
+                pnlDispositivo.BackgroundImage = img;
+                btnDisp.Visible = true;
+                btnDisp.BackColor = Color.Transparent;
+                btnDisp.ForeColor = Color.Transparent;
+                btnDisp.BringToFront();
+            }
         }
         #endregion
 
@@ -28,7 +51,7 @@ namespace GerenciadorDomotico.Dispositivos
         /// <summary>
         /// Coloca o dispositivo sobre a coordenada relativa referente a posição recebida para a imagem
         /// </summary>
-        public void PosicionaDispositivoNaImagem(int posicaoX, int posicaoY, PictureBox imgContainer)
+        public void setPosicaoDispositivoNaImagem(int posicaoX, int posicaoY, PictureBox imgContainer)
         {
             this.Location = Util.TranslateControlPositionZoom(posicaoX, posicaoY, imgContainer);
             return;
@@ -37,9 +60,21 @@ namespace GerenciadorDomotico.Dispositivos
         /// <summary>
         /// Retorna objeto Point com posição do dispositivo na imagem (em tamanho real)
         /// </summary>
-        public Point getPosicaoDispositivoNaImagemReal(PictureBox imgContainer)
+        public Point getPosicaoDispositivoNaImagem(PictureBox imgContainer)
         {
             return Util.TranslateZoomControlPosition(imgContainer, this.Location);
+        }
+
+        public void PermiteArrastar(bool bPermite)
+        {
+            this.pnlDispositivo.MouseMove -= new MouseEventHandler(pnlDispositivo_MouseMove);
+            this.pnlDispositivo.MouseDown -= new MouseEventHandler(pnlDispositivo_MouseDown);
+
+            if (bPermite)
+            {
+                this.pnlDispositivo.MouseMove += new MouseEventHandler(pnlDispositivo_MouseMove);
+                this.pnlDispositivo.MouseDown += new MouseEventHandler(pnlDispositivo_MouseDown);
+            }
         }
         #endregion
 
@@ -59,6 +94,16 @@ namespace GerenciadorDomotico.Dispositivos
             {
                 MouseDownLocation = e.Location;
             }
+        }
+
+        private void btnDisp_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnDisp_Paint(object sender, PaintEventArgs e)
+        {
+
         }
         #endregion
     }

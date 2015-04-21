@@ -111,6 +111,7 @@
     <Compile Include="Dispositivos\ctlDispositivoBase.Designer.cs">
       <DependentUpon>ctlDispositivoBase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dispositivos\FactoryControlDispositivo.cs" />
     <Compile Include="winInicial.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -151,6 +152,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <EmbeddedResource Include="ctlCadBase.resx">
       <DependentUpon>ctlCadBase.cs</DependentUpon>
@@ -187,6 +189,7 @@
   <ItemGroup>
     <Content Include="Imagens\engrenagemICONE.ico" />
     <Content Include="Imagens\GreenHome.ico" />
+    <None Include="Resources\Lamp_ON.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -88,10 +88,10 @@ namespace GerenciadorDomotico
 
                     foreach (Dispositivo disp in _lstDispositivos)
                     {
-                        ctlDispositivoBase ctlDisp = new ctlDispositivoBase();
-                        ctlDisp.PosicionaDispositivoNaImagem(disp.PosicaoX, disp.PosicaoY, imgPiso);
+                        ctlDispositivoBase ctlDisp = FactoryControlDispositivo.getControleDispositivo(disp);
+                        ctlDisp.PermiteArrastar(false);
+                        ctlDisp.setPosicaoDispositivoNaImagem(disp.PosicaoX, disp.PosicaoY, imgPiso);
                         ctlDisp.Visible = true;
-                        ctlDisp.Enabled = false;
 
                         // Exibe o dispositivo na tela
                         imgPiso.Controls.Add(ctlDisp);
@@ -124,7 +124,7 @@ namespace GerenciadorDomotico
         {
             foreach (KeyValuePair<ctlDispositivoBase, Point> pairDisp in _dicDispositivos)
             {
-                pairDisp.Key.PosicionaDispositivoNaImagem(pairDisp.Value.X, pairDisp.Value.Y, imgPiso);
+                pairDisp.Key.setPosicaoDispositivoNaImagem(pairDisp.Value.X, pairDisp.Value.Y, imgPiso);
             }
         }
         #endregion
