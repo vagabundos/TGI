@@ -189,7 +189,6 @@
   <ItemGroup>
     <Content Include="Imagens\engrenagemICONE.ico" />
     <Content Include="Imagens\GreenHome.ico" />
-    <None Include="Resources\Lamp_ON.png" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

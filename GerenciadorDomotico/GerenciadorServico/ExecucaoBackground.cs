@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.IO.Ports;
-using Biblioteca.Controle;
-using Dados;
 using System.ServiceModel;
 using System.ServiceModel.Description;
+using Biblioteca.Controle;
+using Biblioteca.Comunicação;
 
 namespace Servico
 {
@@ -17,14 +17,14 @@ namespace Servico
     public interface IwsrvHomeOn
     {
         [OperationContract]
-        bool EnviaRequisicao(string CodigoDispositivo, string NovoValor);
+        bool EnviaRequisicao(string CodigoControlador, string CodigoDispositivo, string NovoValor, out string Mensagem);
     }
     #endregion
 
     public class ExecucaoBackground : IwsrvHomeOn
     {
         #region Propriedades
-        SerialPort portaXbeeServidor = new SerialPort();
+        private SerialPort portaXbeeServidor = new SerialPort();
 
         public string _BaseAddress
         {
@@ -49,17 +49,29 @@ namespace Servico
                 return new Uri(_BaseAddress + _ApplicationName);
             }
         }
+
+        private static System.Collections.Concurrent.ConcurrentQueue<MensagemDispositivo> cqMsgRecebidas;
+        private static System.Collections.Concurrent.ConcurrentQueue<MensagemDispositivo> cqMsgEnvio;
+        //private static SynchronizedCollection<MensagemDispositivo> lstMensagensRecebidas;
+        //private static SynchronizedCollection<MensagemDispositivo> lstMensagensEnvio;
+
         #endregion
 
         #region Métodos
         // Loop do serviço
         public void LoopPrincipal()
         {
+            // Inicia Filas de comunicação entre as threads
+            cqMsgRecebidas = new System.Collections.Concurrent.ConcurrentQueue<MensagemDispositivo>();
+            cqMsgEnvio = new System.Collections.Concurrent.ConcurrentQueue<MensagemDispositivo>();
+
+            // objeto Host (hospeda WebService)
             System.ServiceModel.ServiceHost Host = null;
 
             try
             {
-                // Porta Serial, comunicação com a rede de sensores (Xbee conectado ao servidor)
+                // Porta Serial, comunicação com a rede de sensores 
+                // Correspondente ao Xbee conectado ao servidor
                 portaXbeeServidor.PortName = "COM3";
                 portaXbeeServidor.BaudRate = 9600;
                 portaXbeeServidor.Parity = Parity.None;
@@ -92,9 +104,30 @@ namespace Servico
                     {
                         try
                         {
+                            MensagemDispositivo objMsg;
+
+                            // Processa mensagem de envio
+                            if (cqMsgEnvio.TryDequeue(out objMsg))
+                            {
+                                try
+                                {
+                                    portaXbeeServidor.Write(objMsg.TextoEnvio());
+                                }
+                                catch(Exception exc)
+                                {
+
+                                }
+                            }
+
+                            // Processa mensagem recebida
+                            if (cqMsgRecebidas.TryDequeue(out objMsg))
+                            {
+                                // Chama método que avalia e grava informação recebida do controlador
+                            }
+
                             System.Threading.Thread.Sleep(1000);
                         }
-                        finally
+                        catch(Exception exc)
                         {
 
                         }
@@ -127,23 +160,87 @@ namespace Servico
             }
         }
 
-        public bool EnviaRequisicao(string CodigoDispositivo, string NovoValor)
+        /// <summary>
+        /// Método Web Service para colocar mensagens na fila de envio aos constroladores da rede
+        /// </summary>
+        public bool EnviaRequisicao(string CodigoControlador, string CodigoDispositivo, string NovoValor, out string Mensagem)
         {
-            return true;
-        }
-        #endregion
+            Mensagem = string.Empty;
 
-        #region Eventos
-        void portaXbeeServidor_DataReceived(object sender, SerialDataReceivedEventArgs e)
+            try
+            {
+                MensagemDispositivo objMensagem = new MensagemDispositivo();
+
+                // Monta Header
+                objMensagem._Header = new MensagemDispositivo.Header();
+                objMensagem._Header.ID_Sender = "SERVIDOR";
+                objMensagem._Header.ID_Receiver = CodigoControlador;
+
+                // Monta Command
+                objMensagem._Command = new MensagemDispositivo.Command();
+                objMensagem._Command.ID_Dispositivo = CodigoDispositivo;
+                objMensagem._Command.Disp_Value = NovoValor;
+
+                // Coloca na Fila para envio
+                cqMsgEnvio.Enqueue(objMensagem);
+                return true;
+            }
+            catch (Exception exc)
+            {
+                Mensagem = "Erro ao montar requisição de envio ao controlador. Consulte o log para maiores detalhes.";
+                controlLog.Insere(Biblioteca.Modelo.Log.LogTipo.Erro, "Erro ao montar requisição de envio ao controlador. (EnviaRequisicao)", exc);
+                return false;
+            }
+        }
+
+        public void RecebeMensagem()
         {
             if (portaXbeeServidor.IsOpen)
             {
-                string RxString = portaXbeeServidor.ReadLine();
-                // Valida e ...
-                // Mensagem recebida, processa mensagem....
+                string RxString=string.Empty;
 
-                Console.WriteLine(RxString);
+                try
+                {
+                    while (portaXbeeServidor.BytesToRead > 0)
+                    {
+                    }
+
+                    // Lê dados
+                    RxString = portaXbeeServidor.ReadLine();
+                }
+                catch (Exception exc)
+                {
+                    controlLog.Insere(Biblioteca.Modelo.Log.LogTipo.Erro, "Erro durante a leitura de dados da porta serial. (portaXbeeServidor_DataReceived)", exc);
+                    return;
+                }
+
+                try
+                {
+                    // Monta mensagem recebida
+                    MensagemDispositivo msgRecebida = new MensagemDispositivo(RxString);
+
+                    // Adiciona na fila 
+                    cqMsgRecebidas.Enqueue(msgRecebida);
+                }
+                catch (Exception exc)
+                {
+                    controlLog.Insere(Biblioteca.Modelo.Log.LogTipo.Erro,
+                        string.Format("Erro ao instanciar objeto MensagemRecebida (portaXbeeServidor_DataReceived). Texto recebido: {0}", RxString), exc);
+                    return;
+                }
             }
+        }
+
+        #endregion
+
+        #region Eventos
+        /// <summary>
+        /// Evento disparado sempre que recebido dados da porta serial (Xbee)
+        /// </summary>
+        void portaXbeeServidor_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            // Chama método responsável pelo recebimento de mensagens
+            RecebeMensagem();
         }
         #endregion
     }
