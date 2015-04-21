@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Reflection;
+using System.IO;
+using System.Xml;
 using Biblioteca;
+using Dados;
 
 namespace GerenciadorDomotico
 {
     static class winMain
     {
+        #region Main
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -20,6 +25,16 @@ namespace GerenciadorDomotico
 
             try
             {
+                // Faz um teste inicial de Conexão com o Banco de Dados
+                if (!Util.TestaArquivoConexao())
+                {
+                    string sMessage = "Não foi possível Conectar ao banco de dados.\r\nVerifique se o Banco de Dados MySql está ativo ";
+                    sMessage += "e se e arquivo 'conexoes.xml' está corretamente configurado na pasta principal de instalação do sistema.";
+                    MessageBox.Show(sMessage,"Erro de Conexão ao Banco de Dados", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Inicia a aplicação normalmente
                 Application.Run(new winInicial());
             }
             catch (Exception exc)
@@ -29,5 +44,6 @@ namespace GerenciadorDomotico
                 MessageBox.Show(sMessage, "Erro no Sistema", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        #endregion
     }
 }

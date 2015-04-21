@@ -23,7 +23,16 @@ namespace Dados
             }
         }
 
-        private const string sConnectionString = "Server=localhost;Port=3306;Database=homeon;Uid=AppUser;Pwd=AppUser;";
+        public static string _Server { get; set; }
+        public static string _Port { get; set; }
+
+        private string sConnectionString
+        {
+            get
+            {
+                return string.Format("Server={0};Port={1};Database={2};Uid=AppUser;Pwd=AppUser;", _Server, _Port, NameSpaceDB);
+            }
+        }
         private Conexao _objConexao;
         private Transacao _objTransacao;
         private bool bConfirmado;

@@ -109,7 +109,7 @@ namespace GerenciadorDomotico
         {
             if (grdDispositivos.CurrentRow == null)
             {
-                MessageBox.Show("Não há nenhum dispositivo selecionado. Selecione um dispositivo para poder editá-lo.", "Atenção!", MessageBoxButtons.OK);
+                MessageBox.Show("Não há nenhum dispositivo selecionado. Selecione um dispositivo para poder editá-lo.", "Atenção!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 Limpa();
                 return;
             }
@@ -128,7 +128,7 @@ namespace GerenciadorDomotico
                 // Valida Dados
                 if (!Valida(out sMensagem))
                 {
-                    MessageBox.Show(sMensagem, "O dispositivo não pôde ser salvo", MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button1);
+                    MessageBox.Show(sMensagem, "O dispositivo não pôde ser salvo", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
                     return;
                 }
 
@@ -189,13 +189,13 @@ namespace GerenciadorDomotico
                 // Sai se nenhum piso do grid estiver selecionado
                 if (grdDispositivos.CurrentRow == null)
                 {
-                    MessageBox.Show("Não há nenhum dispositivo selecionado. Selecione um dispositivo para poder apagá-lo.", "Atenção!", MessageBoxButtons.OK);
+                    MessageBox.Show("Não há nenhum dispositivo selecionado. Selecione um dispositivo para poder apagá-lo.", "Atenção!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     Limpa();
                     return;
                 }
 
                 // Janela de confirmação
-                DialogResult drApaga = MessageBox.Show("Tem certeza que deseja apagar o dispositivo selecionado?", "Apagar Dispositivo", MessageBoxButtons.YesNo);
+                DialogResult drApaga = MessageBox.Show("Tem certeza que deseja apagar o dispositivo selecionado?", "Apagar Dispositivo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 using (GerenciadorDB mngBD = new GerenciadorDB(false))
                 {

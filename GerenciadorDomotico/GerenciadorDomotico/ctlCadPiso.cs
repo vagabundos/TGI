@@ -96,7 +96,7 @@ namespace GerenciadorDomotico
             // Sai se não tem nenhum piso selecionado
             if (grdPiso.CurrentRow == null)
             {
-                MessageBox.Show("Não há nenhum piso selecionado. Selecione um piso para poder editá-lo.", "Atenção!", MessageBoxButtons.OK);
+                MessageBox.Show("Não há nenhum piso selecionado. Selecione um piso para poder editá-lo.", "Atenção!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -111,7 +111,7 @@ namespace GerenciadorDomotico
 
             if (!Valida(out sMensagem))
             {
-                MessageBox.Show(sMensagem, "O Piso não pôde ser salvo", MessageBoxButtons.OK);
+                MessageBox.Show(sMensagem, "O Piso não pôde ser salvo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -168,13 +168,13 @@ namespace GerenciadorDomotico
                 // Sai se nenhum piso do grid estiver selecionado
                 if (grdPiso.CurrentRow == null)
                 {
-                    MessageBox.Show("Não há nenhum piso selecionado. Selecione um piso para poder apagá-lo.", "Atenção!", MessageBoxButtons.OK);
+                    MessageBox.Show("Não há nenhum piso selecionado. Selecione um piso para poder apagá-lo.", "Atenção!", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     Limpa();
                     return;
                 }
 
                 // Janela de confirmação
-                DialogResult drApaga = MessageBox.Show("Tem certeza que deseja apagar o piso selecionado?","Apagar Piso", MessageBoxButtons.YesNo);
+                DialogResult drApaga = MessageBox.Show("Tem certeza que deseja apagar o piso selecionado?","Apagar Piso", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
                 if (drApaga == DialogResult.Yes)
                 {

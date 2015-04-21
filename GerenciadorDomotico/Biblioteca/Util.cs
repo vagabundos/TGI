@@ -8,6 +8,9 @@ using System.Drawing;
 using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Xml;
+using System.Reflection;
+using Dados;
 
 namespace Biblioteca
 {
@@ -189,6 +192,65 @@ namespace Biblioteca
 
             RelativeLocation = new Point((int)newX, (int)newY);
             return RelativeLocation;
+        }
+
+        /// <summary>
+        /// Testa o Arquivo 'conexoes.xml' de Conexão ao Danco de Dados e grava os dados em memória enquanto o sistema estiver sendo executado
+        /// </summary>
+        /// <returns>Retorna se o teste da Conexão ao Banco de Dados funcionou ou não</returns>
+        public static bool TestaArquivoConexao()
+        {
+            bool bSucesso = false;
+            string sDiretorio = string.Empty;
+
+            // Pega o Arquivo de Conexões
+            sDiretorio = GetArquivoConexao();
+            if (string.IsNullOrEmpty(sDiretorio))
+                return false;
+
+            // Faz a leitura do arquivo Xml
+            XmlDocument xmlConexoes = new XmlDocument();
+            xmlConexoes.Load(sDiretorio);
+
+            // Pega o Server e Port especificados no arquivo para a conexão com o Banco de Dados
+            XmlNode xmlDados = xmlConexoes.DocumentElement.SelectSingleNode("/Conexoes/Banco");
+
+            // Seta os dados para as conexões a serem realizadas enquanto o sistema estiver sendo executado
+            GerenciadorDB._Server = xmlDados["Server"].InnerText;
+            GerenciadorDB._Port = xmlDados["Port"].InnerText;
+
+            // Testa Conexão
+            try
+            {
+                using (GerenciadorDB mngBD = new GerenciadorDB(false))
+                {
+                    bSucesso = true;
+                }
+            }
+            catch (Exception)
+            {
+                // Se caiu aqui, a conexão não funcionou
+            }
+
+            return bSucesso;
+        }
+
+        /// <summary>
+        /// Pega o caminho completo do arquivo 'conexoes.xml' localizado no diretório de instalação do sistema
+        /// </summary>
+        public static string GetArquivoConexao()
+        {
+            string sDiretorio = string.Empty;
+
+            // Pega diretório de trabalho
+            sDiretorio = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            sDiretorio = Path.Combine(sDiretorio, "conexoes.xml");
+
+            // Verifica se o arquivo existe
+            if (!File.Exists(sDiretorio))
+                return string.Empty;
+
+            return sDiretorio;
         }
         #endregion
     }
