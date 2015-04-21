@@ -64,7 +64,7 @@ namespace GerenciadorDomotico
                         cmbPiso.Enabled = true;
                         cmbTipo.Enabled = true;
                         grdDispositivos.Enabled = false;
-                        pairDisp.Key.Enabled = true;
+                        pairDisp.Key.PermiteArrastar(true);
                         break;
 
                     case StatusTela.Edit:
@@ -73,7 +73,7 @@ namespace GerenciadorDomotico
                         txtDescricao.Enabled = true;
                         cmbTipo.Enabled = true;
                         grdDispositivos.Enabled = false;
-                        pairDisp.Key.Enabled = true;
+                        pairDisp.Key.PermiteArrastar(true);
                         break;
 
                     case StatusTela.View:
@@ -82,7 +82,7 @@ namespace GerenciadorDomotico
                         cmbPiso.Enabled = false;
                         cmbTipo.Enabled = false;
                         grdDispositivos.Enabled = true;
-                        pairDisp.Key.Enabled = false;
+                        pairDisp.Key.PermiteArrastar(false);
                         break;
 
                     default:
@@ -94,7 +94,7 @@ namespace GerenciadorDomotico
         protected override void ResizeTela()
         {
             base.ResizeTela();
-            pairDisp.Key.PosicionaDispositivoNaImagem(pairDisp.Value.X, pairDisp.Value.Y, imgPiso);
+            pairDisp.Key.setPosicaoDispositivoNaImagem(pairDisp.Value.X, pairDisp.Value.Y, imgPiso);
         }
 
         protected override void Novo()
@@ -159,7 +159,7 @@ namespace GerenciadorDomotico
                         objDispositivo.Piso = cmbPiso.SelectedValue.ToString();
                         objDispositivo.Tipo = (Dispositivo.TipoSensor)Enum.Parse(typeof(Dispositivo.TipoSensor), cmbTipo.SelectedValue.ToString());
 
-                        Point posicaoDispositivo = pairDisp.Key.getPosicaoDispositivoNaImagemReal(imgPiso);
+                        Point posicaoDispositivo = pairDisp.Key.getPosicaoDispositivoNaImagem(imgPiso);
                         objDispositivo.PosicaoX = posicaoDispositivo.X;
                         objDispositivo.PosicaoY = posicaoDispositivo.Y;
 
@@ -371,7 +371,7 @@ namespace GerenciadorDomotico
                 if (objPisoSelecionado != null)
                 {
                     imgPiso.Image = Biblioteca.Util.byteArrayToImage(objPisoSelecionado.Imagem);
-                    pairDisp.Key.PosicionaDispositivoNaImagem(pairDisp.Value.X, pairDisp.Value.Y, imgPiso);
+                    pairDisp.Key.setPosicaoDispositivoNaImagem(pairDisp.Value.X, pairDisp.Value.Y, imgPiso);
                     pairDisp.Key.Visible = true;
                 }
             }
@@ -382,7 +382,7 @@ namespace GerenciadorDomotico
         /// </summary>
         public void AtualizaPosicaoAtual()
         {
-            Point posAtualDispositivo = pairDisp.Key.getPosicaoDispositivoNaImagemReal(imgPiso);
+            Point posAtualDispositivo = pairDisp.Key.getPosicaoDispositivoNaImagem(imgPiso);
             pairDisp = new KeyValuePair<ctlDispositivoBase, Point>(pairDisp.Key, posAtualDispositivo);
         }
         #endregion
