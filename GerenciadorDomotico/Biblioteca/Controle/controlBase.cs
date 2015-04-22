@@ -75,6 +75,8 @@ namespace Biblioteca.Controle
             {
                 // Update
                 Update(getDicionarioColValores(objModelo), getDicionarioColValores(objModelo._objetoOriginal), mngBD, ref sDetalhesLog);
+                // Atualiza o ObjetoOriginal para o que acabou de ser salvo
+                objModelo.CarregaObjeto(getDicionarioColValores(objModelo), getDicionarioColPropInfo(objModelo));
             }
             else
             {
@@ -408,7 +410,7 @@ namespace Biblioteca.Controle
 
                 if (!iAffectedRows.Equals(1))
                 {
-                    throw new Exception(string.Format("Erro ao executar delete. Não foi afetado o número esperado de linhas.\r\nLinhas afetadas: {0}.\r\nDetalhes: {1}.", iAffectedRows, sDetalhesLog));
+                    throw new Exception(string.Format("Erro ao executar Update. Não foi afetado o número esperado de linhas.\r\nLinhas afetadas: {0}.\r\nDetalhes: {1}.", iAffectedRows, sDetalhesLog));
                 }
             }
         }

@@ -34,6 +34,7 @@ namespace GerenciadorDomotico
             // Cria dicionario de telas
             ctlTelas = new Dictionary<string, string>();
 
+            ctlTelas.Add("Configurador Geral", "ctlConfiguradorGeral");
             ctlTelas.Add("Cadastro de Usuários", "ctlCadUsuario");
             ctlTelas.Add("Cadastro de Pisos", "ctlCadPiso");
             ctlTelas.Add("Cadastro de Dispositivos", "ctlCadDispositivos");
@@ -63,6 +64,10 @@ namespace GerenciadorDomotico
             //objSubMenuItem = new ToolStripMenuItem("Cadastro de Usuários", null, mniRotina_Click);
             //ConfiguraSubMenu(objSubMenuItem);
 			//objMenuItem.DropDown.Items.Add(objSubMenuItem);
+
+            objSubMenuItem = new ToolStripMenuItem("Configurador Geral", null, mniRotina_Click);
+            ConfiguraSubMenu(objSubMenuItem);
+            objMenuItem.DropDown.Items.Add(objSubMenuItem);
 
             objSubMenuItem = new ToolStripMenuItem("Cadastro de Pisos", null, mniRotina_Click);
             ConfiguraSubMenu(objSubMenuItem);
