@@ -4,6 +4,7 @@ using System.Linq;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
+using Biblioteca;
 
 namespace Servico
 {
@@ -14,6 +15,10 @@ namespace Servico
         /// </summary>
         static void Main()
         {
+            // Faz um teste inicial de Conexão com o Banco de Dados
+            if (!Util.TestaArquivoConexao())
+                return;
+
             // Permite executar Serviço em Debug
             if (System.Diagnostics.Debugger.IsAttached)
             {
