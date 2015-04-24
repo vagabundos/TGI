@@ -28,14 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.pnlWebService = new System.Windows.Forms.Panel();
-            this.grbWebService = new System.Windows.Forms.GroupBox();
+            this.pnlServidor = new System.Windows.Forms.Panel();
+            this.grbServidor = new System.Windows.Forms.GroupBox();
+            this.lblIdServidor = new System.Windows.Forms.Label();
+            this.txtIdServidor = new System.Windows.Forms.TextBox();
             this.lblPortaTcp = new System.Windows.Forms.Label();
             this.lblServidor = new System.Windows.Forms.Label();
-            this.txtPortaTcp = new System.Windows.Forms.TextBox();
-            this.txtServidor = new System.Windows.Forms.TextBox();
-            this.pnlSerial = new System.Windows.Forms.Panel();
-            this.grbSerial = new System.Windows.Forms.GroupBox();
+            this.txtWsPorta = new System.Windows.Forms.TextBox();
+            this.txtWsServidor = new System.Windows.Forms.TextBox();
+            this.pnlWebService = new System.Windows.Forms.Panel();
+            this.grbWebService = new System.Windows.Forms.GroupBox();
             this.lblStopBits = new System.Windows.Forms.Label();
             this.lblDataBits = new System.Windows.Forms.Label();
             this.lblParidade = new System.Windows.Forms.Label();
@@ -46,7 +48,11 @@
             this.cmbBaudRate = new System.Windows.Forms.ComboBox();
             this.lblPortaSerial = new System.Windows.Forms.Label();
             this.txtPortaSerial = new System.Windows.Forms.TextBox();
+            this.pnlSerial = new System.Windows.Forms.Panel();
+            this.grbSerial = new System.Windows.Forms.GroupBox();
             this.pnlBotoes.SuspendLayout();
+            this.pnlServidor.SuspendLayout();
+            this.grbServidor.SuspendLayout();
             this.pnlWebService.SuspendLayout();
             this.grbWebService.SuspendLayout();
             this.pnlSerial.SuspendLayout();
@@ -86,33 +92,47 @@
             // 
             this.btnApaga.Location = new System.Drawing.Point(884, 11);
             // 
-            // pnlWebService
+            // pnlServidor
             // 
-            this.pnlWebService.Controls.Add(this.grbWebService);
-            this.pnlWebService.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlWebService.Location = new System.Drawing.Point(0, 0);
-            this.pnlWebService.Name = "pnlWebService";
-            this.pnlWebService.Size = new System.Drawing.Size(1023, 65);
-            this.pnlWebService.TabIndex = 1;
+            this.pnlServidor.Controls.Add(this.grbServidor);
+            this.pnlServidor.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlServidor.Location = new System.Drawing.Point(0, 0);
+            this.pnlServidor.Name = "pnlServidor";
+            this.pnlServidor.Size = new System.Drawing.Size(1023, 68);
+            this.pnlServidor.TabIndex = 1;
             // 
-            // grbWebService
+            // grbServidor
             // 
-            this.grbWebService.Controls.Add(this.lblPortaTcp);
-            this.grbWebService.Controls.Add(this.lblServidor);
-            this.grbWebService.Controls.Add(this.txtPortaTcp);
-            this.grbWebService.Controls.Add(this.txtServidor);
-            this.grbWebService.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grbWebService.Location = new System.Drawing.Point(0, 0);
-            this.grbWebService.Name = "grbWebService";
-            this.grbWebService.Size = new System.Drawing.Size(1023, 65);
-            this.grbWebService.TabIndex = 0;
-            this.grbWebService.TabStop = false;
-            this.grbWebService.Text = "Endereço do Web Service";
+            this.grbServidor.Controls.Add(this.lblIdServidor);
+            this.grbServidor.Controls.Add(this.txtIdServidor);
+            this.grbServidor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grbServidor.Location = new System.Drawing.Point(0, 0);
+            this.grbServidor.Name = "grbServidor";
+            this.grbServidor.Size = new System.Drawing.Size(1023, 68);
+            this.grbServidor.TabIndex = 0;
+            this.grbServidor.TabStop = false;
+            this.grbServidor.Text = "Dados do Servidor";
+            // 
+            // lblIdServidor
+            // 
+            this.lblIdServidor.AutoSize = true;
+            this.lblIdServidor.Location = new System.Drawing.Point(6, 16);
+            this.lblIdServidor.Name = "lblIdServidor";
+            this.lblIdServidor.Size = new System.Drawing.Size(125, 13);
+            this.lblIdServidor.TabIndex = 1;
+            this.lblIdServidor.Text = "Identificação do Servidor";
+            // 
+            // txtIdServidor
+            // 
+            this.txtIdServidor.Location = new System.Drawing.Point(9, 32);
+            this.txtIdServidor.Name = "txtIdServidor";
+            this.txtIdServidor.Size = new System.Drawing.Size(128, 20);
+            this.txtIdServidor.TabIndex = 0;
             // 
             // lblPortaTcp
             // 
             this.lblPortaTcp.AutoSize = true;
-            this.lblPortaTcp.Location = new System.Drawing.Point(260, 16);
+            this.lblPortaTcp.Location = new System.Drawing.Point(274, 16);
             this.lblPortaTcp.Name = "lblPortaTcp";
             this.lblPortaTcp.Size = new System.Drawing.Size(32, 13);
             this.lblPortaTcp.TabIndex = 3;
@@ -127,48 +147,42 @@
             this.lblServidor.TabIndex = 2;
             this.lblServidor.Text = "Servidor";
             // 
-            // txtPortaTcp
+            // txtWsPorta
             // 
-            this.txtPortaTcp.Location = new System.Drawing.Point(263, 32);
-            this.txtPortaTcp.Name = "txtPortaTcp";
-            this.txtPortaTcp.Size = new System.Drawing.Size(131, 20);
-            this.txtPortaTcp.TabIndex = 1;
+            this.txtWsPorta.Location = new System.Drawing.Point(277, 32);
+            this.txtWsPorta.Name = "txtWsPorta";
+            this.txtWsPorta.Size = new System.Drawing.Size(131, 20);
+            this.txtWsPorta.TabIndex = 1;
             // 
-            // txtServidor
+            // txtWsServidor
             // 
-            this.txtServidor.Location = new System.Drawing.Point(9, 32);
-            this.txtServidor.Name = "txtServidor";
-            this.txtServidor.Size = new System.Drawing.Size(248, 20);
-            this.txtServidor.TabIndex = 0;
+            this.txtWsServidor.Location = new System.Drawing.Point(9, 32);
+            this.txtWsServidor.Name = "txtWsServidor";
+            this.txtWsServidor.Size = new System.Drawing.Size(262, 20);
+            this.txtWsServidor.TabIndex = 0;
             // 
-            // pnlSerial
+            // pnlWebService
             // 
-            this.pnlSerial.Controls.Add(this.grbSerial);
-            this.pnlSerial.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnlSerial.Location = new System.Drawing.Point(0, 65);
-            this.pnlSerial.Name = "pnlSerial";
-            this.pnlSerial.Size = new System.Drawing.Size(1023, 71);
-            this.pnlSerial.TabIndex = 2;
+            this.pnlWebService.Controls.Add(this.grbWebService);
+            this.pnlWebService.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlWebService.Location = new System.Drawing.Point(0, 68);
+            this.pnlWebService.Name = "pnlWebService";
+            this.pnlWebService.Size = new System.Drawing.Size(1023, 65);
+            this.pnlWebService.TabIndex = 2;
             // 
-            // grbSerial
+            // grbWebService
             // 
-            this.grbSerial.Controls.Add(this.lblStopBits);
-            this.grbSerial.Controls.Add(this.lblDataBits);
-            this.grbSerial.Controls.Add(this.lblParidade);
-            this.grbSerial.Controls.Add(this.lblBaudRate);
-            this.grbSerial.Controls.Add(this.cmbStopBits);
-            this.grbSerial.Controls.Add(this.cmbDataBits);
-            this.grbSerial.Controls.Add(this.cmbParidade);
-            this.grbSerial.Controls.Add(this.cmbBaudRate);
-            this.grbSerial.Controls.Add(this.lblPortaSerial);
-            this.grbSerial.Controls.Add(this.txtPortaSerial);
-            this.grbSerial.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.grbSerial.Location = new System.Drawing.Point(0, 0);
-            this.grbSerial.Name = "grbSerial";
-            this.grbSerial.Size = new System.Drawing.Size(1023, 71);
-            this.grbSerial.TabIndex = 0;
-            this.grbSerial.TabStop = false;
-            this.grbSerial.Text = "Porta Serial";
+            this.grbWebService.Controls.Add(this.lblPortaTcp);
+            this.grbWebService.Controls.Add(this.txtWsServidor);
+            this.grbWebService.Controls.Add(this.lblServidor);
+            this.grbWebService.Controls.Add(this.txtWsPorta);
+            this.grbWebService.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grbWebService.Location = new System.Drawing.Point(0, 0);
+            this.grbWebService.Name = "grbWebService";
+            this.grbWebService.Size = new System.Drawing.Size(1023, 65);
+            this.grbWebService.TabIndex = 0;
+            this.grbWebService.TabStop = false;
+            this.grbWebService.Text = "Endereço Web Service";
             // 
             // lblStopBits
             // 
@@ -258,17 +272,51 @@
             this.txtPortaSerial.Size = new System.Drawing.Size(128, 20);
             this.txtPortaSerial.TabIndex = 0;
             // 
+            // pnlSerial
+            // 
+            this.pnlSerial.Controls.Add(this.grbSerial);
+            this.pnlSerial.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pnlSerial.Location = new System.Drawing.Point(0, 133);
+            this.pnlSerial.Name = "pnlSerial";
+            this.pnlSerial.Size = new System.Drawing.Size(1023, 68);
+            this.pnlSerial.TabIndex = 3;
+            // 
+            // grbSerial
+            // 
+            this.grbSerial.Controls.Add(this.lblStopBits);
+            this.grbSerial.Controls.Add(this.txtPortaSerial);
+            this.grbSerial.Controls.Add(this.lblDataBits);
+            this.grbSerial.Controls.Add(this.lblPortaSerial);
+            this.grbSerial.Controls.Add(this.lblParidade);
+            this.grbSerial.Controls.Add(this.cmbBaudRate);
+            this.grbSerial.Controls.Add(this.lblBaudRate);
+            this.grbSerial.Controls.Add(this.cmbParidade);
+            this.grbSerial.Controls.Add(this.cmbStopBits);
+            this.grbSerial.Controls.Add(this.cmbDataBits);
+            this.grbSerial.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.grbSerial.Location = new System.Drawing.Point(0, 0);
+            this.grbSerial.Name = "grbSerial";
+            this.grbSerial.Size = new System.Drawing.Size(1023, 68);
+            this.grbSerial.TabIndex = 0;
+            this.grbSerial.TabStop = false;
+            this.grbSerial.Text = "Porta Serial";
+            // 
             // ctlConfiguradorGeral
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.pnlSerial);
             this.Controls.Add(this.pnlWebService);
+            this.Controls.Add(this.pnlServidor);
             this.Name = "ctlConfiguradorGeral";
             this.Controls.SetChildIndex(this.pnlBotoes, 0);
+            this.Controls.SetChildIndex(this.pnlServidor, 0);
             this.Controls.SetChildIndex(this.pnlWebService, 0);
             this.Controls.SetChildIndex(this.pnlSerial, 0);
             this.pnlBotoes.ResumeLayout(false);
+            this.pnlServidor.ResumeLayout(false);
+            this.grbServidor.ResumeLayout(false);
+            this.grbServidor.PerformLayout();
             this.pnlWebService.ResumeLayout(false);
             this.grbWebService.ResumeLayout(false);
             this.grbWebService.PerformLayout();
@@ -281,12 +329,12 @@
 
         #endregion
 
+        private System.Windows.Forms.Panel pnlServidor;
         private System.Windows.Forms.Panel pnlWebService;
-        private System.Windows.Forms.Panel pnlSerial;
+        private System.Windows.Forms.GroupBox grbServidor;
         private System.Windows.Forms.GroupBox grbWebService;
-        private System.Windows.Forms.GroupBox grbSerial;
-        private System.Windows.Forms.TextBox txtPortaTcp;
-        private System.Windows.Forms.TextBox txtServidor;
+        private System.Windows.Forms.TextBox txtWsPorta;
+        private System.Windows.Forms.TextBox txtWsServidor;
         private System.Windows.Forms.Label lblPortaTcp;
         private System.Windows.Forms.Label lblServidor;
         private System.Windows.Forms.TextBox txtPortaSerial;
@@ -299,5 +347,9 @@
         private System.Windows.Forms.Label lblParidade;
         private System.Windows.Forms.Label lblDataBits;
         private System.Windows.Forms.Label lblStopBits;
+        private System.Windows.Forms.Panel pnlSerial;
+        private System.Windows.Forms.GroupBox grbSerial;
+        private System.Windows.Forms.TextBox txtIdServidor;
+        private System.Windows.Forms.Label lblIdServidor;
     }
 }

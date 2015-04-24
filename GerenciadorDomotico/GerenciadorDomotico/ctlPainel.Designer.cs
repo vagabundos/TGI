@@ -52,7 +52,7 @@
             this.pnlBotoes.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.pnlBotoes.Location = new System.Drawing.Point(0, 513);
             this.pnlBotoes.Name = "pnlBotoes";
-            this.pnlBotoes.Size = new System.Drawing.Size(1023, 43);
+            this.pnlBotoes.Size = new System.Drawing.Size(1023, 42);
             this.pnlBotoes.TabIndex = 0;
             // 
             // btnFecha
@@ -142,7 +142,7 @@
             this.Controls.Add(this.splPanels);
             this.Controls.Add(this.pnlBotoes);
             this.Name = "ctlPainel";
-            this.Size = new System.Drawing.Size(1023, 556);
+            this.Size = new System.Drawing.Size(1023, 555);
             this.Resize += new System.EventHandler(this.ctlPainel_Resize);
             this.pnlBotoes.ResumeLayout(false);
             this.splPanels.Panel1.ResumeLayout(false);

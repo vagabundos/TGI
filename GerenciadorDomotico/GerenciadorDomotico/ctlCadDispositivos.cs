@@ -124,17 +124,17 @@ namespace GerenciadorDomotico
 
         protected override void Salva()
         {
+            string sMensagem = string.Empty;
+
+            // Valida Dados
+            if (!Valida(out sMensagem))
+            {
+                MessageBox.Show(sMensagem, "O dispositivo não pôde ser salvo", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
+                return;
+            }
+
             try
             {
-                string sMensagem = string.Empty;
-                
-                // Valida Dados
-                if (!Valida(out sMensagem))
-                {
-                    MessageBox.Show(sMensagem, "O dispositivo não pôde ser salvo", MessageBoxButtons.OK, MessageBoxIcon.Warning, MessageBoxDefaultButton.Button1);
-                    return;
-                }
-
                 using (Dados.GerenciadorDB mngBD = new Dados.GerenciadorDB(false))
                 {
                     Dispositivo objDispositivo = null;

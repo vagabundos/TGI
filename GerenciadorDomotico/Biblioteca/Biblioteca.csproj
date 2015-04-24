@@ -65,6 +65,7 @@
     <Compile Include="Modelo\Atributos\AtributoClasse.cs" />
     <Compile Include="Modelo\Atributos\AtributoPropriedade.cs" />
     <Compile Include="Modelo\Dispositivo.cs" />
+    <Compile Include="Modelo\ConfiguracaoGeral.cs" />
     <Compile Include="Modelo\Log.cs" />
     <Compile Include="Modelo\ModeloBase.cs" />
     <Compile Include="Modelo\Piso.cs" />

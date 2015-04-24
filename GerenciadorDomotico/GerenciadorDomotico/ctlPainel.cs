@@ -137,7 +137,6 @@ namespace GerenciadorDomotico
 
         private void ctlPainel_Resize(object sender, EventArgs e)
         {
-            pnlBotoes.Height = 42;
             Biblioteca.Util.AlinharBotoes(pnlBotoes);
             RealocaDispositivos();
         }

@@ -204,7 +204,6 @@ namespace GerenciadorDomotico
 
         private void ctlCadBase_Resize(object sender, EventArgs e)
         {
-            pnlBotoes.Height = 42;
             Biblioteca.Util.AlinharBotoes(pnlBotoes);
             ResizeTela();
         }

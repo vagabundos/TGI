@@ -49,9 +49,9 @@
             this.pnlBotoes.Controls.Add(this.btnNovo);
             this.pnlBotoes.Controls.Add(this.btnFecha);
             this.pnlBotoes.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.pnlBotoes.Location = new System.Drawing.Point(0, 507);
+            this.pnlBotoes.Location = new System.Drawing.Point(0, 513);
             this.pnlBotoes.Name = "pnlBotoes";
-            this.pnlBotoes.Size = new System.Drawing.Size(1023, 48);
+            this.pnlBotoes.Size = new System.Drawing.Size(1023, 42);
             this.pnlBotoes.TabIndex = 0;
             // 
             // btnApaga
