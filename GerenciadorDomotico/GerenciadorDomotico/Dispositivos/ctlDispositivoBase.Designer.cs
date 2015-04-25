@@ -39,11 +39,12 @@
             // pnlDispositivo
             // 
             this.pnlDispositivo.BackColor = System.Drawing.Color.Lime;
+            this.pnlDispositivo.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.pnlDispositivo.Controls.Add(this.btnDisp);
             this.pnlDispositivo.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlDispositivo.Location = new System.Drawing.Point(0, 0);
             this.pnlDispositivo.Name = "pnlDispositivo";
-            this.pnlDispositivo.Size = new System.Drawing.Size(60, 60);
+            this.pnlDispositivo.Size = new System.Drawing.Size(45, 45);
             this.pnlDispositivo.TabIndex = 1;
             this.pnlDispositivo.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnlDispositivo_MouseDown);
             this.pnlDispositivo.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pnlDispositivo_MouseMove);
@@ -51,11 +52,12 @@
             // btnDisp
             // 
             this.btnDisp.BackColor = System.Drawing.Color.Transparent;
+            this.btnDisp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnDisp.Dock = System.Windows.Forms.DockStyle.Fill;
             this.btnDisp.Location = new System.Drawing.Point(0, 0);
             this.btnDisp.Margin = new System.Windows.Forms.Padding(30);
             this.btnDisp.Name = "btnDisp";
-            this.btnDisp.Size = new System.Drawing.Size(60, 60);
+            this.btnDisp.Size = new System.Drawing.Size(45, 45);
             this.btnDisp.TabIndex = 0;
             this.btnDisp.UseVisualStyleBackColor = false;
             this.btnDisp.Visible = false;
@@ -67,15 +69,17 @@
             this.imgList.TransparentColor = System.Drawing.Color.Transparent;
             this.imgList.Images.SetKeyName(0, "Iluminacao_OFF");
             this.imgList.Images.SetKeyName(1, "Iluminacao_ON");
+            this.imgList.Images.SetKeyName(2, "Generico");
             // 
             // ctlDispositivoBase
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Transparent;
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.Controls.Add(this.pnlDispositivo);
             this.Name = "ctlDispositivoBase";
-            this.Size = new System.Drawing.Size(60, 60);
+            this.Size = new System.Drawing.Size(45, 45);
             this.pnlDispositivo.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -83,9 +87,9 @@
 
         #endregion
 
-        private System.Windows.Forms.Panel pnlDispositivo;
-        private System.Windows.Forms.ImageList imgList;
-        private System.Windows.Forms.Button btnDisp;
+        protected System.Windows.Forms.Panel pnlDispositivo;
+        protected System.Windows.Forms.ImageList imgList;
+        protected System.Windows.Forms.Button btnDisp;
 
     }
 }

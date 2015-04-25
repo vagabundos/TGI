@@ -17,17 +17,24 @@ namespace GerenciadorDomotico.Dispositivos
     public partial class ctlDispositivoBase : UserControl
     {
         #region Propriedades
-        private controlBase<Dispositivo> controleTela = new controlBase<Dispositivo>();
         private Point MouseDownLocation;
-        private Dispositivo objDisp;
-        private Image imgDisp;
+        protected controlBase<Dispositivo> controleTela = new controlBase<Dispositivo>();
+        protected Dispositivo objDisp;
         #endregion
 
         #region Construtores
+        /// <summary>
+        /// Trata como um dispositivo genérico
+        /// </summary>
         public ctlDispositivoBase()
         {
             InitializeComponent();
+
+            ExibeControleDispositivo();
         }
+        /// <summary>
+        /// Trata já o dispositivo definido
+        /// </summary>
         public ctlDispositivoBase(Dispositivo objDispModelo)
         {
             InitializeComponent();
@@ -38,6 +45,8 @@ namespace GerenciadorDomotico.Dispositivos
         #endregion
 
         #region Métodos
+
+        #region Métodos Gerais
         /// <summary>
         /// Coloca o dispositivo sobre a coordenada relativa referente a posição recebida para a imagem
         /// </summary>
@@ -55,6 +64,15 @@ namespace GerenciadorDomotico.Dispositivos
             return Util.TranslateZoomControlPosition(imgContainer, this.Location);
         }
 
+        public Point GetImageCenter(Point ptBorda)
+        {
+            Point ptCentro = new Point();
+            ptCentro.X = (ptBorda.X + (ptBorda.X + Size.Width)) / 2;
+            ptCentro.Y = (ptBorda.Y + (ptBorda.Y + Size.Height)) / 2;
+
+            return ptCentro;
+        }
+
         public void PermiteArrastar(bool bPermite)
         {
             this.pnlDispositivo.MouseMove -= new MouseEventHandler(pnlDispositivo_MouseMove);
@@ -67,21 +85,8 @@ namespace GerenciadorDomotico.Dispositivos
             }
         }
 
-        private void ExibeControleDispositivo()
+        public void SetImageButton(Image imgDisp)
         {
-            // Realiza a ação de acordo com o tipo do dispositivo
-            switch (objDisp.Tipo)
-            {
-                case Dispositivo.TipoSensor.Iluminacao:
-                    string sLampada = objDisp.Valor.Equals("1",StringComparison.CurrentCultureIgnoreCase) ? "ON" : "OFF";
-                    imgDisp = imgList.Images[objDisp.Tipo.ToString() + "_" + sLampada];
-                    break;
-
-                default:
-                    break;
-            }
-
-            // Insere a imagem no botão, se houver
             if (imgDisp != null)
             {
                 pnlDispositivo.BackColor = Color.Empty;
@@ -92,8 +97,24 @@ namespace GerenciadorDomotico.Dispositivos
                 btnDisp.BringToFront();
             }
         }
+        #endregion
 
-        private void Envia()
+        #region Métodos Virtual
+        protected virtual void ExibeControleDispositivo()
+        {
+            Image imgDisp = imgList.Images["Generico"];
+
+            // Insere a imagem no botão, se houver
+            SetImageButton(imgDisp);
+
+            //pnlDispositivo.BackColor = Color.Empty;
+            //pnlDispositivo.BackgroundImage = imgDisp;
+
+            // Como o tipo do dispositivo não foi especificado, não permite acionar o botão
+            btnDisp.Enabled = false;
+        }
+
+        protected virtual void Envia()
         {
             // To-Do: Envia comando ao Controlador. Por enquanto, simulamos alterando o valor no banco, apenas
 
@@ -113,6 +134,13 @@ namespace GerenciadorDomotico.Dispositivos
                 MessageBox.Show(sMensagem, "Erro ao Salvar Dados do Dispositivo", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        protected virtual void AcionaBotaoDisp()
+        {
+
+        }
+        #endregion
+
         #endregion
 
         #region Eventos
@@ -135,17 +163,7 @@ namespace GerenciadorDomotico.Dispositivos
 
         private void btnDisp_Click(object sender, EventArgs e)
         {
-            // Altera o valor ON/OFF da Lampada
-            if (objDisp.Valor.Equals("1")) 
-                objDisp.Valor = "0";
-            else
-                objDisp.Valor = "1";
-
-            // Envia mensagem de requisição ao Controlador
-            Envia();
-
-            // Atualiza exibição do controle do Dispositivo
-            ExibeControleDispositivo();
+            AcionaBotaoDisp();
         }
 
         private void btnDisp_Paint(object sender, PaintEventArgs e)

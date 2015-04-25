@@ -48,12 +48,6 @@ namespace GerenciadorDomotico
                 List<string> lstCodigosPiso = CodigosPiso.ToList();
                 lstCodigosPiso.Insert(0, string.Empty);
                 cmbPiso.DataSource = lstCodigosPiso;
-
-                // Configura ComboBox Tipos
-                //cmbTipo.DropDownStyle = ComboBoxStyle.DropDownList;
-                //List<string> lstTipos = Enum.GetNames(typeof(Dispositivo.TipoSensor)).ToList();
-                //lstTipos.Insert(0, string.Empty);
-                //cmbTipo.DataSource = lstTipos;
             }
         }
 

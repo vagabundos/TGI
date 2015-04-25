@@ -117,6 +117,12 @@
     <Compile Include="Dispositivos\ctlDispositivoBase.Designer.cs">
       <DependentUpon>ctlDispositivoBase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dispositivos\ctlDispositivoIluminacao.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Dispositivos\ctlDispositivoIluminacao.Designer.cs">
+      <DependentUpon>ctlDispositivoIluminacao.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dispositivos\FactoryControlDispositivo.cs" />
     <Compile Include="winInicial.cs">
       <SubType>Form</SubType>
