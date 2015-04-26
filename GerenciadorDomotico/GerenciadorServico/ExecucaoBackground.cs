@@ -9,6 +9,8 @@ using System.ServiceModel;
 using System.ServiceModel.Description;
 using Biblioteca.Controle;
 using Biblioteca.Comunicação;
+using System.Configuration;
+using System.Reflection;
 
 namespace Servico
 {
@@ -30,7 +32,7 @@ namespace Servico
         {
             get
             {
-                return "http://localhost:8000/Service";
+                return "http://localhost:12292/Service";
             }
         }
 
@@ -38,7 +40,7 @@ namespace Servico
         {
             get
             {
-                return "wsrvHomeOn.svc";
+                return "wsrvHomeOn";
             }
         }
 
@@ -46,7 +48,7 @@ namespace Servico
         {
             get
             {
-                return new Uri(_BaseAddress + _ApplicationName);
+                return new Uri(string.Format("{0}/{1}", _BaseAddress, _ApplicationName));
             }
         }
 
@@ -66,38 +68,45 @@ namespace Servico
             cqMsgEnvio = new System.Collections.Concurrent.ConcurrentQueue<MensagemDispositivo>();
 
             // objeto Host (hospeda WebService)
-            System.ServiceModel.ServiceHost Host = null;
+            ServiceHost Host = null;
 
             try
             {
                 // Porta Serial, comunicação com a rede de sensores 
                 // Correspondente ao Xbee conectado ao servidor
-                portaXbeeServidor.PortName = "COM3";
-                portaXbeeServidor.BaudRate = 9600;
-                portaXbeeServidor.Parity = Parity.None;
-                portaXbeeServidor.DataBits = 8;
-                portaXbeeServidor.StopBits = StopBits.One;
-                portaXbeeServidor.Open();
+                if (false)
+                {
+                    portaXbeeServidor.PortName = "COM3";
+                    portaXbeeServidor.BaudRate = 9600;
+                    portaXbeeServidor.Parity = Parity.None;
+                    portaXbeeServidor.DataBits = 8;
+                    portaXbeeServidor.StopBits = StopBits.One;
+                    portaXbeeServidor.Open();
 
-                // Evento para processar as mensagens recebidas pela rede de sensores
-                portaXbeeServidor.DataReceived += portaXbeeServidor_DataReceived;
+                    // Evento para processar as mensagens recebidas pela rede de sensores
+                    portaXbeeServidor.DataReceived += portaXbeeServidor_DataReceived;
+                }
 
                 // Inicia WebService
                 // Recebe as requisições do gerenciador para envio aos dispositivos
-                BasicHttpBinding bnd = new BasicHttpBinding();
-                bnd.CloseTimeout = new TimeSpan(0, 0, 10, 0, 0);
-                bnd.OpenTimeout = new TimeSpan(0, 0, 10, 0, 0);
-                bnd.ReceiveTimeout = new TimeSpan(0, 0, 10, 0, 0);
-                bnd.SendTimeout = new TimeSpan(0, 0, 10, 0, 0);
+                Uri objUri = new Uri(_BaseAddress);
 
-                using (Host = new ServiceHost(typeof(ExecucaoBackground), new Uri[] { new Uri(_BaseAddress) }))
+                using (Host = new ServiceHost(this.GetType(), objUri))
                 {
-                    Host.AddServiceEndpoint(typeof(IwsrvHomeOn), bnd, _ApplicationName);
+                    // Habilita HTTP
+                    BasicHttpBinding bndng = new BasicHttpBinding();
+                    bndng.MaxReceivedMessageSize = 10485760;
+                    bndng.ReceiveTimeout = new TimeSpan(0, 0, 10, 0, 0);
 
-                    ServiceMetadataBehavior smb = new ServiceMetadataBehavior();
+                    System.ServiceModel.Description.ServiceMetadataBehavior smb = new System.ServiceModel.Description.ServiceMetadataBehavior();
                     smb.HttpGetEnabled = true;
+                    smb.HttpGetUrl = _UriServidor;
+
+                    Host.Description.Behaviors.Find<System.ServiceModel.Description.ServiceDebugBehavior>().IncludeExceptionDetailInFaults = true;
+                    Host.AddServiceEndpoint(typeof(IwsrvHomeOn), bndng, _UriServidor);
                     Host.Description.Behaviors.Add(smb);
 
+                    // Ativa Servidor
                     Host.Open();
 
                     while (Service._bAtivo)
@@ -113,7 +122,7 @@ namespace Servico
                                 {
                                     portaXbeeServidor.Write(objMsg.TextoEnvio());
                                 }
-                                catch(Exception exc)
+                                catch (Exception exc)
                                 {
 
                                 }
@@ -127,7 +136,7 @@ namespace Servico
 
                             System.Threading.Thread.Sleep(1000);
                         }
-                        catch(Exception exc)
+                        catch (Exception exc)
                         {
 
                         }
