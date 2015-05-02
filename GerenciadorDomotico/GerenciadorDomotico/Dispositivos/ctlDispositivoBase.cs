@@ -20,6 +20,89 @@ namespace GerenciadorDomotico.Dispositivos
         private Point MouseDownLocation;
         protected controlBase<Dispositivo> controleTela = new controlBase<Dispositivo>();
         protected Dispositivo objDisp;
+
+        #region Web Service
+        private ConfiguracaoGeral _conf = null;
+        private ConfiguracaoGeral Config
+        {
+            get
+            {
+                if (_conf == null)
+                {
+                    // Carrega configurador geral do sistema
+                    List<Biblioteca.Modelo.ConfiguracaoGeral> lstConfig = null;
+                    using (Dados.GerenciadorDB mngBD = new Dados.GerenciadorDB(false))
+                    {
+                        Biblioteca.Controle.controlBase<Biblioteca.Modelo.ConfiguracaoGeral> ctrlGeral = new Biblioteca.Controle.controlBase<Biblioteca.Modelo.ConfiguracaoGeral>();
+                        lstConfig = ctrlGeral.LoadTodos(mngBD);
+                    }
+
+                    // Deve existir apenas um item
+                    _conf = lstConfig.First();
+                }
+
+                return _conf;
+            }
+        }
+
+        private string _BaseAddress
+        {
+            get
+            {
+                return string.Format("http://{0}:{1}/Service", Config.WsServidor, Config.WsPorta);
+            }
+        }
+
+        private string _ApplicationName
+        {
+            get
+            {
+                return "wsrvHomeOn";
+            }
+        }
+
+        private Biblioteca.Comunicação.wsrvHomeOnClient _wsrvClient = null;
+        private Biblioteca.Comunicação.wsrvHomeOnClient WsrvClient
+        {
+            get
+            {
+                if (_wsrvClient == null)
+                {
+                    Uri WebSrvUri = new Uri(string.Format("{0}/{1}", _BaseAddress, _ApplicationName));
+
+                    System.ServiceModel.BasicHttpBinding binding = new System.ServiceModel.BasicHttpBinding();
+                    binding.SendTimeout = new TimeSpan(0, 0, 10, 0, 0);
+                    binding.OpenTimeout = new TimeSpan(0, 0, 10, 0, 0);
+                    binding.CloseTimeout = new TimeSpan(0, 0, 10, 0, 0);
+
+                    _wsrvClient = new Biblioteca.Comunicação.wsrvHomeOnClient(binding, new System.ServiceModel.EndpointAddress(WebSrvUri));
+                }
+
+                return _wsrvClient;
+            }
+        }
+        #endregion
+
+        protected virtual string Valor
+        {
+            get
+            {
+                string sValor = null;
+
+                Dictionary<string, string> dicDisp;
+                string sMessage;
+                Biblioteca.Comunicação.wsrvHomeOnClient wsClient = WsrvClient;
+
+                // Busca valor atualizado no Web Service
+                if (wsClient.StatusDispositivos(this.objDisp.Piso, this.objDisp.Codigo, out dicDisp, out sMessage))
+                {
+                    sValor = dicDisp[objDisp.Codigo];
+                }
+
+                return sValor;
+            }
+        }
+
         #endregion
 
         #region Construtores

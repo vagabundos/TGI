@@ -9,7 +9,7 @@ namespace Biblioteca.Comunicação
     public class MensagemDispositivo
     {
         #region Propriedades
-        private char _SeparadorSegmento
+        public static char _SeparadorSegmento
         {
             get
             {
@@ -17,7 +17,7 @@ namespace Biblioteca.Comunicação
             }
         }
 
-        private char _FimMensagem
+        public static char _FimMensagem
         {
             get
             {
@@ -25,7 +25,7 @@ namespace Biblioteca.Comunicação
             }
         }
 
-        private char _InicioMensagem
+        public static char _InicioMensagem
         {
             get
             {

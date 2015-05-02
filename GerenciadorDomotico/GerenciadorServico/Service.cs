@@ -41,6 +41,7 @@ namespace Servico
 
         #region Propriedades
         public static bool _bAtivo;
+        public static Biblioteca.Modelo.ConfiguracaoGeral _configuradorGeral;
         private Thread threadPrincipal;
         private ExecucaoBackground objBackGrd;
         #endregion

@@ -31,6 +31,7 @@ namespace GerenciadorDomotico.Dispositivos
         #region Métodos
         protected override void ExibeControleDispositivo()
         {
+            string sValor = Valor;
             string sLampada = objDisp.Valor.Equals("1", StringComparison.CurrentCultureIgnoreCase) ? "ON" : "OFF";
             Image imgDisp = imgList.Images[objDisp.Tipo.ToString() + "_" + sLampada];
 
