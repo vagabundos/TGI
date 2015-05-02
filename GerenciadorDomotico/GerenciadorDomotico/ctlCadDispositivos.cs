@@ -452,7 +452,7 @@ namespace GerenciadorDomotico
                 ctlDispositivoBase ctlDisp = new ctlDispositivoBase();
                 ctlDisp.PermiteArrastar(false);
                 ctlDisp.setPosicaoDispositivoNaImagem(newPos.X, newPos.Y, imgPiso);
-                ctlDisp.SetImageButton(ctlDisp.SetOpacity((float)0.4));
+                ctlDisp.SetTransparenciaImagem((float)0.4);
                 imgPiso.Controls.Add(ctlDisp);
                 ctlDisp.BringToFront();
                 ctlDisp.Visible = true;

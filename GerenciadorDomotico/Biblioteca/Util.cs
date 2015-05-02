@@ -11,12 +11,15 @@ using System.IO;
 using System.Xml;
 using System.Reflection;
 using Dados;
+using System.Drawing.Drawing2D;
 
 namespace Biblioteca
 {
     public class Util
     {
         #region Métodos
+
+        #region Métodos de Manipulação ao Windows Forms
         public static void AlinharBotoes(Control painel)
         {
             int tamTotal = painel.ClientSize.Width;
@@ -41,51 +44,9 @@ namespace Biblioteca
                 ultimo = c.Right;
             }
         }
+        #endregion
 
-        /// <summary>
-        /// Converte uma imagem para o tipo Byte[]
-        /// </summary>
-        public static byte[] ImageToByteArray(Image imagem)
-        {
-            if (imagem == null)
-            {
-                return null;
-            }
-
-            MemoryStream msImagem = new MemoryStream();
-            imagem.Save(msImagem, imagem.RawFormat);
-            return msImagem.ToArray();
-        }
-
-        /// <summary>
-        /// Converte ByteArray para um objeto Image
-        /// </summary>
-        public static Image byteArrayToImage(byte[] byteArrayIn)
-        {
-            if (byteArrayIn == null || byteArrayIn.Length == 0)
-            {
-                return null;
-            }
-
-            MemoryStream ms = new MemoryStream(byteArrayIn);
-            Image returnImage = Image.FromStream(ms);
-            return returnImage;
-        }
-
-        /// <summary>
-        /// Devolve texto SQL correspondente ao DBCommand
-        /// </summary>
-        public static string DevolveStringCommand(System.Data.Common.DbCommand dbCommand)
-        {
-            var query = dbCommand.CommandText;
-            foreach (System.Data.Common.DbParameter parameter in dbCommand.Parameters)
-            {
-                query = query.Replace(parameter.ParameterName, parameter.Value.ToString());
-            }
-
-            return query;
-        }
-
+        #region Métodos de Manipulação de Imagens
         /// <summary>
         /// Retorna a posição real de um objeto sobre a imagem a partir da posição relativa
         /// </summary>
@@ -195,6 +156,82 @@ namespace Biblioteca
         }
 
         /// <summary>
+        /// Converte ByteArray para um objeto Image
+        /// </summary>
+        public static Image byteArrayToImage(byte[] byteArrayIn)
+        {
+            if (byteArrayIn == null || byteArrayIn.Length == 0)
+            {
+                return null;
+            }
+
+            MemoryStream ms = new MemoryStream(byteArrayIn);
+            Image returnImage = Image.FromStream(ms);
+            return returnImage;
+        }
+
+        /// <summary>
+        /// Converte uma imagem para o tipo Byte[]
+        /// </summary>
+        public static byte[] ImageToByteArray(Image imagem)
+        {
+            if (imagem == null)
+            {
+                return null;
+            }
+
+            MemoryStream msImagem = new MemoryStream();
+            imagem.Save(msImagem, imagem.RawFormat);
+            return msImagem.ToArray();
+        }
+
+        /// <summary>
+        /// Altera o grau Alpha de transparência de uma imagem
+        /// </summary>
+        public static Image SetTransparenciaImagem(Image image, float opacity)
+        {
+            //Image image = imgList.Images["Generico"];
+            var colorMatrix = new ColorMatrix();
+            colorMatrix.Matrix33 = opacity;
+            var imageAttributes = new ImageAttributes();
+            imageAttributes.SetColorMatrix(
+                colorMatrix,
+                ColorMatrixFlag.Default,
+                ColorAdjustType.Bitmap);
+            var output = new Bitmap(image.Width, image.Height);
+            using (var gfx = Graphics.FromImage(output))
+            {
+                gfx.SmoothingMode = SmoothingMode.AntiAlias;
+                gfx.DrawImage(
+                    image,
+                    new Rectangle(0, 0, image.Width, image.Height),
+                    0,
+                    0,
+                    image.Width,
+                    image.Height,
+                    GraphicsUnit.Pixel,
+                    imageAttributes);
+            }
+            return output;
+        }
+        #endregion
+
+        #region Métodos de Conexão com Banco de Dados
+        /// <summary>
+        /// Devolve texto SQL correspondente ao DBCommand
+        /// </summary>
+        public static string DevolveStringCommand(System.Data.Common.DbCommand dbCommand)
+        {
+            var query = dbCommand.CommandText;
+            foreach (System.Data.Common.DbParameter parameter in dbCommand.Parameters)
+            {
+                query = query.Replace(parameter.ParameterName, parameter.Value.ToString());
+            }
+
+            return query;
+        }
+
+        /// <summary>
         /// Testa o Arquivo 'conexoes.xml' de Conexão ao Danco de Dados e grava os dados em memória enquanto o sistema estiver sendo executado
         /// </summary>
         /// <returns>Retorna se o teste da Conexão ao Banco de Dados funcionou ou não</returns>
@@ -252,6 +289,8 @@ namespace Biblioteca
 
             return sDiretorio;
         }
+        #endregion
+
         #endregion
     }
 }

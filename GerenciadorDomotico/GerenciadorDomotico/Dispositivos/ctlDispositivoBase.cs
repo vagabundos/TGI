@@ -168,17 +168,25 @@ namespace GerenciadorDomotico.Dispositivos
             }
         }
 
-        public void SetImageButton(Image imgDisp)
+        public void SetImageButton(Image imgDisp, float fTransparencia = 1)
         {
             if (imgDisp != null)
             {
                 pnlDispositivo.BackColor = Color.Empty;
-                btnDisp.BackgroundImage = imgDisp;
+                btnDisp.BackgroundImage = Util.SetTransparenciaImagem(imgDisp, fTransparencia);
                 btnDisp.Visible = true;
                 btnDisp.BackColor = Color.Transparent;
                 btnDisp.ForeColor = Color.Transparent;
                 btnDisp.BringToFront();
             }
+        }
+
+        /// <summary>
+        /// Chama utilitário que altera a transparencia da imagem do botão
+        /// </summary>
+        public void SetTransparenciaImagem(float fTransparencia)
+        {
+            btnDisp.BackgroundImage = Util.SetTransparenciaImagem(btnDisp.BackgroundImage, fTransparencia);
         }
         #endregion
 
