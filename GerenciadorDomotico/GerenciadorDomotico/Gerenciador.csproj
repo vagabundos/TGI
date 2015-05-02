@@ -117,13 +117,43 @@
     <Compile Include="Dispositivos\ctlDispositivoBase.Designer.cs">
       <DependentUpon>ctlDispositivoBase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dispositivos\ctlDispositivoDistancia.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Dispositivos\ctlDispositivoDistancia.Designer.cs">
+      <DependentUpon>ctlDispositivoDistancia.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dispositivos\ctlDispositivoIluminacao.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Dispositivos\ctlDispositivoIluminacao.Designer.cs">
       <DependentUpon>ctlDispositivoIluminacao.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dispositivos\ctlDispositivoPresenca.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Dispositivos\ctlDispositivoPresenca.Designer.cs">
+      <DependentUpon>ctlDispositivoPresenca.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dispositivos\ctlDispositivoServoMotor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Dispositivos\ctlDispositivoServoMotor.Designer.cs">
+      <DependentUpon>ctlDispositivoServoMotor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dispositivos\ctlDispositivoUmidade.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Dispositivos\ctlDispositivoUmidade.Designer.cs">
+      <DependentUpon>ctlDispositivoUmidade.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dispositivos\FactoryControlDispositivo.cs" />
+    <Compile Include="Dispositivos\ctlDispositivoTemperatura.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Dispositivos\ctlDispositivoTemperatura.Designer.cs">
+      <DependentUpon>ctlDispositivoTemperatura.cs</DependentUpon>
+    </Compile>
     <Compile Include="winInicial.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -158,6 +188,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dispositivos\ctlDispositivoBase.resx">
       <DependentUpon>ctlDispositivoBase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dispositivos\ctlDispositivoTemperatura.resx">
+      <DependentUpon>ctlDispositivoTemperatura.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

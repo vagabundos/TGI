@@ -19,7 +19,8 @@ namespace GerenciadorDomotico
         #region Propriedades
         private controlBase<Dispositivo> controleTela = new controlBase<Dispositivo>();
         private List<Piso> _lstPisos = null;
-        private KeyValuePair<ctlDispositivoBase, Point> pairDisp = new KeyValuePair<ctlDispositivoBase, Point>(new ctlDispositivoBase(), new Point(0, 0));
+        private KeyValuePair<ctlDispositivoBase, Point> pairDispSelecionado = new KeyValuePair<ctlDispositivoBase, Point>(new ctlDispositivoBase(), new Point(0, 0));
+        private Dictionary<ctlDispositivoBase, Point> dicDisp = new Dictionary<ctlDispositivoBase, Point>();
         #endregion
 
         #region Construtores
@@ -65,7 +66,7 @@ namespace GerenciadorDomotico
                         cmbPiso.Enabled = true;
                         cmbTipo.Enabled = true;
                         grdDispositivos.Enabled = false;
-                        pairDisp.Key.PermiteArrastar(true);
+                        pairDispSelecionado.Key.PermiteArrastar(true);
                         break;
 
                     case StatusTela.Edit:
@@ -75,7 +76,7 @@ namespace GerenciadorDomotico
                         cmbPiso.Enabled = false;
                         cmbTipo.Enabled = true;
                         grdDispositivos.Enabled = false;
-                        pairDisp.Key.PermiteArrastar(true);
+                        pairDispSelecionado.Key.PermiteArrastar(true);
                         break;
 
                     case StatusTela.View:
@@ -85,7 +86,7 @@ namespace GerenciadorDomotico
                         cmbPiso.Enabled = false;
                         cmbTipo.Enabled = false;
                         grdDispositivos.Enabled = true;
-                        pairDisp.Key.PermiteArrastar(false);
+                        pairDispSelecionado.Key.PermiteArrastar(false);
                         break;
 
                     default:
@@ -97,7 +98,13 @@ namespace GerenciadorDomotico
         protected override void ResizeTela()
         {
             base.ResizeTela();
-            pairDisp.Key.setPosicaoDispositivoNaImagem(pairDisp.Value.X, pairDisp.Value.Y, imgPiso);
+            pairDispSelecionado.Key.setPosicaoDispositivoNaImagem(pairDispSelecionado.Value.X, pairDispSelecionado.Value.Y, imgPiso);
+
+            // Seta a nova posição de cada um dos dispositivos exibidos
+            foreach (KeyValuePair<ctlDispositivoBase, Point> pairDisp in dicDisp)
+            {
+                pairDisp.Key.setPosicaoDispositivoNaImagem(pairDisp.Value.X, pairDisp.Value.Y, imgPiso);
+            }
         }
 
         protected override void Novo()
@@ -164,7 +171,7 @@ namespace GerenciadorDomotico
                         objDispositivo.Valor = string.Empty;
                         objDispositivo.Tipo = (Dispositivo.TipoSensor)Enum.Parse(typeof(Dispositivo.TipoSensor), cmbTipo.SelectedValue.ToString());
 
-                        Point posicaoDispositivo = pairDisp.Key.getPosicaoDispositivoNaImagem(imgPiso);
+                        Point posicaoDispositivo = pairDispSelecionado.Key.getPosicaoDispositivoNaImagem(imgPiso);
                         objDispositivo.PosicaoX = posicaoDispositivo.X;
                         objDispositivo.PosicaoY = posicaoDispositivo.Y;
 
@@ -184,6 +191,7 @@ namespace GerenciadorDomotico
             {
                 base.Salva();
                 CarregaGrid();
+                CarregaItemSelecionado();
             }
         }
 
@@ -269,10 +277,10 @@ namespace GerenciadorDomotico
 
         private void ConfiguraTela()
         {
-            // Adiciona controle visual do dispotivo
-            imgPiso.Controls.Add(pairDisp.Key);
-            pairDisp.Key.BringToFront();
-            pairDisp.Key.Visible = false;
+            // Adiciona controle visual do dispositivo
+            imgPiso.Controls.Add(pairDispSelecionado.Key);
+            pairDispSelecionado.Key.BringToFront();
+            pairDispSelecionado.Key.Visible = false;
 
             using (GerenciadorDB mngBD = new GerenciadorDB(false))
             {
@@ -333,13 +341,30 @@ namespace GerenciadorDomotico
             txtDescricao.Text = string.Empty;
             txtCodControlador.Text = string.Empty;
             imgPiso.Image = null;
-            pairDisp.Key.Visible = false;
+            pairDispSelecionado.Key.Visible = false;
+            
             // Reseta o ponto inicial do dispositivo
-            pairDisp = new KeyValuePair<ctlDispositivoBase, Point>(pairDisp.Key, new Point(0,0));
+            pairDispSelecionado = new KeyValuePair<ctlDispositivoBase, Point>(pairDispSelecionado.Key, new Point(0,0));
             if (cmbPiso.Items.Count > 0)
                 cmbPiso.SelectedIndex = 0;
             if (cmbTipo.Items.Count > 0)
                 cmbTipo.SelectedIndex = 0;
+
+            // Limpa o dicionario de dispositivos para exibição
+            LimpaDispositivosExibicao();
+        }
+
+        /// <summary>
+        /// Limpa o dicionario de dispositivos para exibição
+        /// </summary>
+        private void LimpaDispositivosExibicao()
+        {
+            foreach (KeyValuePair<ctlDispositivoBase, Point> pairDisp in dicDisp)
+            {
+                pairDisp.Key.Visible = false;
+                imgPiso.Controls.Remove(pairDisp.Key);
+            }
+            dicDisp.Clear();
         }
 
         private void CarregaItemSelecionado()
@@ -351,6 +376,7 @@ namespace GerenciadorDomotico
                 return;
             }
 
+            // Carrega o dispositivo selecionado
             Dispositivo objDispositivoSelecionado = (Dispositivo)grdDispositivos.CurrentRow.DataBoundItem;
 
             txtCodigo.Text = objDispositivoSelecionado.Codigo;
@@ -365,14 +391,14 @@ namespace GerenciadorDomotico
             newPos.X = objDispositivoSelecionado.PosicaoX;
             newPos.Y = objDispositivoSelecionado.PosicaoY;
 
-            pairDisp = new KeyValuePair<ctlDispositivoBase, Point>(pairDisp.Key, newPos);
+            pairDispSelecionado = new KeyValuePair<ctlDispositivoBase, Point>(pairDispSelecionado.Key, newPos);
 
             CarregaImagemPisoSelecionado();
         }
 
         public void CarregaImagemPisoSelecionado()
         {
-            pairDisp.Key.Visible = false;
+            pairDispSelecionado.Key.Visible = false;
 
             if (cmbPiso.SelectedValue != null && !string.IsNullOrEmpty(cmbPiso.SelectedValue.ToString()))
             {
@@ -384,9 +410,53 @@ namespace GerenciadorDomotico
                 if (objPisoSelecionado != null)
                 {
                     imgPiso.Image = Biblioteca.Util.byteArrayToImage(objPisoSelecionado.Imagem);
-                    pairDisp.Key.setPosicaoDispositivoNaImagem(pairDisp.Value.X, pairDisp.Value.Y, imgPiso);
-                    pairDisp.Key.Visible = true;
+                    pairDispSelecionado.Key.setPosicaoDispositivoNaImagem(pairDispSelecionado.Value.X, pairDispSelecionado.Value.Y, imgPiso);
+                    pairDispSelecionado.Key.Visible = true;
+
+                    // Carrega os outros dispositivos para exibição
+                    CarregaDispositivosPiso();
                 }
+            }
+        }
+
+        /// <summary>
+        /// Carrega todos os Dispositivos do piso (exceto o selecionado) para serem exibidos junto ao dispositivo selecionado
+        /// </summary>
+        public void CarregaDispositivosPiso()
+        {
+            // Limpa dicionário de dispositivos do piso
+            LimpaDispositivosExibicao();
+
+            // Pega o dispositivo selecionado atual, se estiver em modo edição
+            Dispositivo objDispositivoSelecionado = (Dispositivo)grdDispositivos.CurrentRow.DataBoundItem;
+
+            foreach (DataGridViewRow grdRow in grdDispositivos.Rows)
+            {
+                Dispositivo disp = (Dispositivo)grdRow.DataBoundItem;
+
+                // Se for o dispositivo selecionado (caso não seja um novo dispositivo), não inclui
+                if (this.AtualizaTela != StatusTela.New)
+                    if (disp.Codigo == objDispositivoSelecionado.Codigo)
+                        continue;
+
+                // Se o dispositivo não pertencer ao piso selecionado, não inclui
+                if (disp.Piso != cmbPiso.SelectedValue.ToString())
+                    continue;
+
+                // Seta a posicao do dispositivo
+                Point newPos = new Point();
+                newPos.X = disp.PosicaoX;
+                newPos.Y = disp.PosicaoY;
+
+                // Inclui o dispositivo para visualização apenas
+                ctlDispositivoBase ctlDisp = new ctlDispositivoBase();
+                ctlDisp.PermiteArrastar(false);
+                ctlDisp.setPosicaoDispositivoNaImagem(newPos.X, newPos.Y, imgPiso);
+                ctlDisp.SetImageButton(ctlDisp.SetOpacity((float)0.4));
+                imgPiso.Controls.Add(ctlDisp);
+                ctlDisp.BringToFront();
+                ctlDisp.Visible = true;
+                dicDisp.Add(ctlDisp, newPos);
             }
         }
 
@@ -395,14 +465,18 @@ namespace GerenciadorDomotico
         /// </summary>
         public void AtualizaPosicaoAtual()
         {
-            Point posAtualDispositivo = pairDisp.Key.getPosicaoDispositivoNaImagem(imgPiso);
-            pairDisp = new KeyValuePair<ctlDispositivoBase, Point>(pairDisp.Key, posAtualDispositivo);
+            Point posAtualDispositivo = pairDispSelecionado.Key.getPosicaoDispositivoNaImagem(imgPiso);
+            pairDispSelecionado = new KeyValuePair<ctlDispositivoBase, Point>(pairDispSelecionado.Key, posAtualDispositivo);
         }
         #endregion
 
         #region Eventos
         private void grdDispositivo_SelectionChanged(object sender, EventArgs e)
         {
+            // Gambiarra: Ao iniciar a tela, esse evento é chamado duas vezes. Na segunda vez, o grdDispositivos.Rows fica sempre igual a 1
+            if (grdDispositivos.Rows.Count != ((ICollection<Dispositivo>)grdDispositivos.DataSource).Count)
+                return;
+
             CarregaItemSelecionado();
         }
 
