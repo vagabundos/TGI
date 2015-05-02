@@ -31,8 +31,19 @@ namespace GerenciadorDomotico.Dispositivos
         #region Métodos
         protected override void ExibeControleDispositivo()
         {
-            string sValor = Valor;
+            // Aplica o valor em outra variável, para não chamar o Web Service mais de uma vez
+            string sValor = getValor();
+
+            if (string.IsNullOrEmpty(sValor))
+            {
+                // Disable do dispositivo, não está conectado ao servidor
+                // TO DO
+            }
+
+            // Converte para valores esperados
             string sLampada = objDisp.Valor.Equals("1", StringComparison.CurrentCultureIgnoreCase) ? "ON" : "OFF";
+
+            // Aplica imagem correspondente ao Status do dispositivo
             Image imgDisp = imgList.Images[objDisp.Tipo.ToString() + "_" + sLampada];
 
             // Insere a imagem no botão, se houver
@@ -41,16 +52,15 @@ namespace GerenciadorDomotico.Dispositivos
 
         protected override void AcionaBotaoDisp()
         {
-            base.AcionaBotaoDisp();
-
+            string sNovoValor; 
             // Altera o valor ON/OFF da Lampada
             if (objDisp.Valor.Equals("1"))
-                objDisp.Valor = "0";
+                sNovoValor = "0";
             else
-                objDisp.Valor = "1";
+                sNovoValor = "1";
 
             // Envia mensagem de requisição ao Controlador
-            Envia();
+            Envia(sNovoValor);
 
             // Atualiza exibição do controle do Dispositivo
             ExibeControleDispositivo();

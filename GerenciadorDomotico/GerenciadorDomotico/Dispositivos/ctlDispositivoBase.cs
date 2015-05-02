@@ -22,8 +22,10 @@ namespace GerenciadorDomotico.Dispositivos
         protected Dispositivo objDisp;
 
         #region Web Service
-        private ConfiguracaoGeral _conf = null;
-        private ConfiguracaoGeral Config
+
+        #region Estáticos
+        private static ConfiguracaoGeral _conf = null;
+        private static ConfiguracaoGeral Config
         {
             get
             {
@@ -45,24 +47,27 @@ namespace GerenciadorDomotico.Dispositivos
             }
         }
 
-        private string _BaseAddress
+        private static string _BaseAddress
         {
             get
             {
-                return string.Format("http://{0}:{1}/Service", Config.WsServidor, Config.WsPorta);
+                return string.Format("http://{0}:{1}", Config.WsServidor, Config.WsPorta);
             }
         }
 
-        private string _ApplicationName
+        /// <summary>
+        /// Nome da aplicação do WebService
+        /// </summary>
+        private static string _ApplicationName
         {
             get
             {
-                return "wsrvHomeOn";
+                return "wsrvHomeOn.svc";
             }
         }
 
-        private Biblioteca.Comunicação.wsrvHomeOnClient _wsrvClient = null;
-        private Biblioteca.Comunicação.wsrvHomeOnClient WsrvClient
+        private static Biblioteca.Comunicação.wsrvHomeOnClient _wsrvClient = null;
+        private static Biblioteca.Comunicação.wsrvHomeOnClient WsrvClient
         {
             get
             {
@@ -83,25 +88,7 @@ namespace GerenciadorDomotico.Dispositivos
         }
         #endregion
 
-        protected virtual string Valor
-        {
-            get
-            {
-                string sValor = null;
-
-                Dictionary<string, string> dicDisp;
-                string sMessage;
-                Biblioteca.Comunicação.wsrvHomeOnClient wsClient = WsrvClient;
-
-                // Busca valor atualizado no Web Service
-                if (wsClient.StatusDispositivos(this.objDisp.Piso, this.objDisp.Codigo, out dicDisp, out sMessage))
-                {
-                    sValor = dicDisp[objDisp.Codigo];
-                }
-
-                return sValor;
-            }
-        }
+        #endregion
 
         #endregion
 
@@ -205,31 +192,71 @@ namespace GerenciadorDomotico.Dispositivos
             btnDisp.Enabled = false;
         }
 
-        protected virtual void Envia()
-        {
-            // To-Do: Envia comando ao Controlador. Por enquanto, simulamos alterando o valor no banco, apenas
-
-
-            // Se a comunicação deu certo, salva o valor recebido do Controlador
-            try
-            {
-                using (GerenciadorDB mngBD = new GerenciadorDB(false))
-                {
-                    controleTela.Salva(objDisp, mngBD);
-                }
-            }
-            catch(Exception ex)
-            {
-                string sMensagem = "Não foi possível salvar os dados alterados ao acionar o dispositivo '" + objDisp.Codigo + "'.";
-                Biblioteca.Controle.controlLog.Insere(Biblioteca.Modelo.Log.LogTipo.Erro, "Erro ao salvar dispositivo. ", ex);
-                MessageBox.Show(sMensagem, "Erro ao Salvar Dados do Dispositivo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
+        /// <summary>
+        /// Obrigatório Sobrescrever
+        /// </summary>
         protected virtual void AcionaBotaoDisp()
         {
-
+            throw new NotImplementedException();
         }
+
+        #region Métodos de interação com o Web Service (SERVIÇO)
+        /// <summary>
+        /// Faz envio de requisição para a aplicação no serviço solicitando alteração no Status do Dispositivo
+        /// </summary>
+        protected virtual void Envia(string sValorNovo)
+        {
+            try
+            {
+                string sMessage;
+                Biblioteca.Comunicação.wsrvHomeOnClient wsClient = WsrvClient;
+
+                if (!wsClient.EnviaRequisicao(this.objDisp.Controlador, this.objDisp.Codigo, sValorNovo, out sMessage))
+                {
+                    throw new Exception(sMessage);
+                }
+            }
+            catch (Exception ex)
+            {
+                string sMensagem = string.Format("Não foi possível requisitar a alteração no Status do Dispositivo: '{0}'.\r\nDetalhes: {1}", objDisp.Codigo, ex.Message);
+                Biblioteca.Controle.controlLog.Insere(Biblioteca.Modelo.Log.LogTipo.Erro, sMensagem, ex);
+                MessageBox.Show(sMensagem, "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Faz chamada ao Web Service do Serviço para recuperar valor atual do Dispositivo
+        /// </summary>
+        protected virtual string getValor()
+        {
+            string sMessage;
+            string sValor = null;
+            Dictionary<string, string> dicDisp;
+
+            try
+            {
+                Biblioteca.Comunicação.wsrvHomeOnClient wsClient = WsrvClient;
+
+                // Busca valor atualizado no Web Service
+                if (!wsClient.StatusDispositivos(this.objDisp.Piso, this.objDisp.Codigo, out dicDisp, out sMessage))
+                {
+                    throw new Exception(sMessage);
+                }
+                
+                if (dicDisp.ContainsKey(objDisp.Codigo))
+                    sValor = dicDisp[objDisp.Codigo];
+            }
+            catch (Exception exc)
+            {
+                string sMensagem = string.Format("Não foi possível buscar o Status atual do Dispositivo: '{0}'.\r\nDetalhes: {1}", objDisp.Codigo, exc.Message);
+                Biblioteca.Controle.controlLog.Insere(Biblioteca.Modelo.Log.LogTipo.Erro, sMensagem, exc);
+                MessageBox.Show(sMensagem, "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return sValor;
+        }
+        #endregion
+
         #endregion
 
         #endregion
@@ -255,11 +282,6 @@ namespace GerenciadorDomotico.Dispositivos
         private void btnDisp_Click(object sender, EventArgs e)
         {
             AcionaBotaoDisp();
-        }
-
-        private void btnDisp_Paint(object sender, PaintEventArgs e)
-        {
-
         }
         #endregion
     }

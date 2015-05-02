@@ -237,7 +237,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Imagens\engrenagemICONE.ico" />
     <Content Include="Imagens\GreenHome.ico" />
   </ItemGroup>
   <ItemGroup />

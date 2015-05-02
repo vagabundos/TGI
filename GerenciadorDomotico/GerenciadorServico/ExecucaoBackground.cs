@@ -27,7 +27,7 @@ namespace Servico
         {
             get
             {
-                return string.Format("http://{0}:{1}/Service", Service._configuradorGeral.WsServidor, Service._configuradorGeral.WsPorta);
+                return string.Format("http://{0}:{1}", Service._configuradorGeral.WsServidor, Service._configuradorGeral.WsPorta);
             }
         }
 
@@ -38,18 +38,18 @@ namespace Servico
         {
             get
             {
-                return "wsrvHomeOn";
+                return "wsrvHomeOn.svc";
             }
         }
 
         /// <summary>
         /// Retorna objeto Uri com caminho do servidor Web Service
         /// </summary>
-        public Uri _UriServidor
+        public string _UriServidor
         {
             get
             {
-                return new Uri(string.Format("{0}/{1}", _BaseAddress, _ApplicationName));
+                return string.Format("{0}/{1}", _BaseAddress, _ApplicationName);
             }
         }
 
@@ -60,6 +60,8 @@ namespace Servico
         #endregion
 
         #region Métodos
+
+        #region Básicos
         public void LoopPrincipal()
         {
             try
@@ -70,6 +72,11 @@ namespace Servico
 
                 // Guarda status atual dos dispositivos conectados
                 cdStatusDispositivos = new System.Collections.Concurrent.ConcurrentDictionary<string, string>();
+
+                cdStatusDispositivos.TryAdd("LAMP1", "testevalor");
+                cdStatusDispositivos.TryAdd("LAMP2", "testevalor");
+                cdStatusDispositivos.TryAdd("teste3", "testevalor");
+                cdStatusDispositivos.TryAdd("teste4", "testevalor");
 
                 // Ativa thread a parte para processar as requisições recebidas
                 threadRecebimento = new Thread(LoopProcessamentoRequisicoesRecebidas);
@@ -84,13 +91,13 @@ namespace Servico
                 portaXbeeServidor.DataReceived += portaXbeeServidor_DataReceived;
 
                 // Ativa porta
-                //portaXbeeServidor.Open();
+                portaXbeeServidor.Open();
 
                 #endregion
 
                 // Inicia WebService
                 // Recebe as requisições do gerenciador para envio aos dispositivos
-                Uri objUri = new Uri(_BaseAddress);
+                Uri objUri = new Uri(_UriServidor);
                 using (ServiceHost Host = new ServiceHost(this.GetType(), objUri))
                 {
                     #region configura o WebService
@@ -101,7 +108,7 @@ namespace Servico
 
                     System.ServiceModel.Description.ServiceMetadataBehavior smb = new System.ServiceModel.Description.ServiceMetadataBehavior();
                     smb.HttpGetEnabled = true;
-                    smb.HttpGetUrl = _UriServidor;
+                    smb.HttpGetUrl = objUri;
 
                     Host.Description.Behaviors.Find<System.ServiceModel.Description.ServiceDebugBehavior>().IncludeExceptionDetailInFaults = true;
                     Host.AddServiceEndpoint(typeof(IwsrvHomeOn), bndng, _UriServidor);
@@ -135,7 +142,7 @@ namespace Servico
                                 }
                                 else
                                 {
-                                    System.Threading.Thread.Sleep(1000);
+                                    System.Threading.Thread.Sleep(200);
                                 }
                             }
                             catch (Exception exc)
@@ -222,9 +229,6 @@ namespace Servico
 
                                 if (bAlterado)
                                 {
-                                    // Gravar no bando de dados
-                                    // não faz sentido até então
-
                                     // Log de mudança no Valor do dispositivo
                                     controlLog.Insere(Biblioteca.Modelo.Log.LogTipo.RequisicaoRecebida,
                                         string.Format("Recebido alteração no valor do dispositivo.\r\nCódigo Dipositivo: {0}\r\nValor Anterior: {1}\r\nValor Atual: {2}",
@@ -240,7 +244,7 @@ namespace Servico
                     }
                     else
                     {
-                        System.Threading.Thread.Sleep(1000);
+                        System.Threading.Thread.Sleep(200);
                     }
                 }
                 catch (Exception exc)
@@ -251,6 +255,7 @@ namespace Servico
             }
             #endregion
         }
+        #endregion
 
         #region Auxiliares
         private void ConfiguraPortaSerial(SerialPort portaSerial)
@@ -377,7 +382,7 @@ namespace Servico
 
             try
             {
-                // Para Identificador específico
+                // Recebido Identificador específico para o Dispositivo
                 if (!string.IsNullOrEmpty(IdentificadorDispositivo))
                 {
                     if (cdStatusDispositivos.ContainsKey(IdentificadorDispositivo))
@@ -396,6 +401,7 @@ namespace Servico
                     lstDisp = ctrlDisp.LoadTodos(mngDB);
                 }
 
+                // Filtra pelos dispositivos do Sistema, ou pelo Piso se informado
                 var Disps = from Biblioteca.Modelo.Dispositivo objAux in lstDisp
                             where cdStatusDispositivos.ContainsKey(objAux.Codigo) && (string.IsNullOrEmpty(Piso) || objAux.Piso.Equals(Piso))
                             select objAux;
