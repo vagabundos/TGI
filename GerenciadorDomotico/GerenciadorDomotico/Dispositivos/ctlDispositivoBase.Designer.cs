@@ -70,6 +70,10 @@
             this.imgList.Images.SetKeyName(0, "Iluminacao_OFF");
             this.imgList.Images.SetKeyName(1, "Iluminacao_ON");
             this.imgList.Images.SetKeyName(2, "Generico");
+            this.imgList.Images.SetKeyName(3, "Temperatura");
+            this.imgList.Images.SetKeyName(4, "Desconectado");
+            this.imgList.Images.SetKeyName(5, "Distancia");
+            this.imgList.Images.SetKeyName(6, "Umidade");
             // 
             // ctlDispositivoBase
             // 

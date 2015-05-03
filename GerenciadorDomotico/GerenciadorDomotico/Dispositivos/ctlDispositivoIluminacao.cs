@@ -36,8 +36,9 @@ namespace GerenciadorDomotico.Dispositivos
 
             if (string.IsNullOrEmpty(sValor))
             {
-                // Disable do dispositivo, não está conectado ao servidor
-                // TO DO
+                // To-Do: Disable do dispositivo, não está conectado ao servidor
+                SetDisconnected();
+                return;
             }
 
             // Converte para valores esperados

@@ -18,11 +18,11 @@ namespace Biblioteca.Modelo
         [AtributoPropriedade(Caption = "Tipo", IsChave = false, NomeColuna = "Tipo", OrdemGrid = 2)]
         public LogTipo Tipo { get; set; }
 
-        [AtributoPropriedade(Caption = "Descrição", IsChave = false, NomeColuna = "Descricao", OrdemGrid = 3, Tamanho = 4000)]
-        public string Descricao { get; set; }
-
-        [AtributoPropriedade(Caption = "Data/Hora Inclusão", IsChave = false, NomeColuna = "DataHoraInclusao", OrdemGrid = 4)]
+        [AtributoPropriedade(Caption = "Data/Hora Inclusão", IsChave = false, NomeColuna = "DataHoraInclusao", OrdemGrid = 3)]
         public DateTime DataHoraInclusao { get; set; }
+
+        [AtributoPropriedade(Caption = "Descrição", IsChave = false, NomeColuna = "Descricao", OrdemGrid = 4, OcultaGrid = true, Tamanho = 4000)]
+        public string Descricao { get; set; }
         #endregion
 
         #region Construtores

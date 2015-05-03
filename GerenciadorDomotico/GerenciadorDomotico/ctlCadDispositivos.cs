@@ -228,6 +228,7 @@ namespace GerenciadorDomotico
             {
                 base.Apaga();
                 CarregaGrid();
+                CarregaItemSelecionado();
             }
         }
 

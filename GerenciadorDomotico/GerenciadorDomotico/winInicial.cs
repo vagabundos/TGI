@@ -39,6 +39,7 @@ namespace GerenciadorDomotico
             ctlTelas.Add("Cadastro de Pisos", "ctlCadPiso");
             ctlTelas.Add("Cadastro de Dispositivos", "ctlCadDispositivos");
             ctlTelas.Add("Painel da Casa", "ctlPainel");
+            ctlTelas.Add("Logs do Sistema", "ctlLogs");
             
             #endregion
 
@@ -52,6 +53,9 @@ namespace GerenciadorDomotico
             ConfiguraSubMenu(objSubMenuItem);
             objMenuItem.DropDown.Items.Add(objSubMenuItem);
 
+            objSubMenuItem = new ToolStripMenuItem("Logs do Sistema", null, mniRotina_Click);
+            ConfiguraSubMenu(objSubMenuItem);
+            objMenuItem.DropDown.Items.Add(objSubMenuItem);
 
             #endregion
 

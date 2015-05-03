@@ -159,13 +159,21 @@ namespace GerenciadorDomotico.Dispositivos
         {
             if (imgDisp != null)
             {
-                pnlDispositivo.BackColor = Color.Empty;
                 btnDisp.BackgroundImage = Util.SetTransparenciaImagem(imgDisp, fTransparencia);
-                btnDisp.Visible = true;
-                btnDisp.BackColor = Color.Transparent;
-                btnDisp.ForeColor = Color.Transparent;
-                btnDisp.BringToFront();
+                SetButtonVisible(true);
             }
+        }
+
+        /// <summary>
+        /// Permite o botão principal do controle do dispositivo ficar visivel ou não
+        /// </summary>
+        public void SetButtonVisible(bool bVisivel)
+        {
+            pnlDispositivo.BackColor = Color.Empty;
+            btnDisp.Visible = bVisivel;
+            btnDisp.BackColor = Color.Transparent;
+            btnDisp.ForeColor = Color.Transparent;
+            btnDisp.BringToFront();
         }
 
         /// <summary>
@@ -174,6 +182,15 @@ namespace GerenciadorDomotico.Dispositivos
         public void SetTransparenciaImagem(float fTransparencia)
         {
             btnDisp.BackgroundImage = Util.SetTransparenciaImagem(btnDisp.BackgroundImage, fTransparencia);
+        }
+
+        /// <summary>
+        /// Mostra o dispositivo como desconectado após 
+        /// </summary>
+        public void SetDisconnected()
+        {
+            Image imgDisconnected = imgList.Images["Desconectado"];
+            SetImageButton(imgDisconnected, 0.5f);
         }
         #endregion
 
@@ -197,7 +214,7 @@ namespace GerenciadorDomotico.Dispositivos
         /// </summary>
         protected virtual void AcionaBotaoDisp()
         {
-            throw new NotImplementedException();
+            
         }
 
         #region Métodos de interação com o Web Service (SERVIÇO)

@@ -22,6 +22,7 @@ namespace Biblioteca
         #region Métodos de Manipulação ao Windows Forms
         public static void AlinharBotoes(Control painel)
         {
+            painel.Height = 42;
             int tamTotal = painel.ClientSize.Width;
             int tamBotoes = 0;
             SortedList<int, Control> botoes = new SortedList<int, Control>();

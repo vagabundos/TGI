@@ -28,17 +28,28 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ctlDispositivoTemperatura));
+            this.pnlDispositivo.SuspendLayout();
             this.SuspendLayout();
+            // 
+            // imgList
+            // 
+            this.imgList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imgList.ImageStream")));
+            this.imgList.Images.SetKeyName(0, "Iluminacao_OFF");
+            this.imgList.Images.SetKeyName(1, "Iluminacao_ON");
+            this.imgList.Images.SetKeyName(2, "Generico");
             // 
             // ctlDispositivoTemperatura
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Name = "ctlDispositivoTemperatura";
+            this.pnlDispositivo.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
     }
 }

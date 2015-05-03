@@ -107,6 +107,12 @@
     <Compile Include="ctlConfiguradorGeral.Designer.cs">
       <DependentUpon>ctlConfiguradorGeral.cs</DependentUpon>
     </Compile>
+    <Compile Include="ctlLogs.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ctlLogs.Designer.cs">
+      <DependentUpon>ctlLogs.cs</DependentUpon>
+    </Compile>
     <Compile Include="ctlPainel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -184,6 +190,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ctlConfiguradorGeral.resx">
       <DependentUpon>ctlConfiguradorGeral.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ctlLogs.resx">
+      <DependentUpon>ctlLogs.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ctlPainel.resx">
       <DependentUpon>ctlPainel.cs</DependentUpon>
