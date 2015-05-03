@@ -31,20 +31,9 @@ namespace GerenciadorDomotico.Dispositivos
         #region Métodos
         protected override void GetStatusDispositivo()
         {
-            string sValorDispAnt = sValorDisp;
-
-            // Aplica o valor em outra variável, para não chamar o Web Service mais de uma vez
-            sValorDisp = getValor();
-
-            if (sValorDisp != sValorDispAnt)
+            base.GetStatusDispositivo();
+            if (sValorDisp != null)
             {
-                if (string.IsNullOrEmpty(sValorDisp))
-                {
-                    SetDisconnected();
-                    return;
-                }
-
-
                 // Converte para valores esperados
                 string sLampada = sValorDisp.Equals("1", StringComparison.CurrentCultureIgnoreCase) ? "ON" : "OFF";
 

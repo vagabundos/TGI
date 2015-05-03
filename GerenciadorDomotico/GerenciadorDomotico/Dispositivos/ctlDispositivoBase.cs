@@ -21,7 +21,6 @@ namespace GerenciadorDomotico.Dispositivos
         protected controlBase<Dispositivo> controleTela = new controlBase<Dispositivo>();
         protected Dispositivo objDisp;
         protected string sValorDisp = string.Empty;
-        protected Timer timerDispositivo = new Timer();
 
         #region Web Service
 
@@ -98,15 +97,13 @@ namespace GerenciadorDomotico.Dispositivos
         /// <summary>
         /// Trata como um dispositivo genérico
         /// </summary>
-        public ctlDispositivoBase() : this(null)
+        public ctlDispositivoBase()
         {
+            InitializeComponent();
+
+            // Insere imagem default
             Image imgDisp = imgList.Images["Generico"];
-
-            // Insere a imagem no botão, se houver
             SetImageButton(imgDisp);
-
-            //pnlDispositivo.BackColor = Color.Empty;
-            //pnlDispositivo.BackgroundImage = imgDisp;
 
             // Como o tipo do dispositivo não foi especificado, não permite acionar o botão
             btnDisp.Enabled = false;
@@ -202,26 +199,48 @@ namespace GerenciadorDomotico.Dispositivos
             Image imgDisconnected = imgList.Images["Desconectado"];
             SetImageButton(imgDisconnected, 0.5f);
             btnDisp.Enabled = false;
+            timerDispositivo.Interval = 1000 * 15;
+            sValorDisp = string.Empty;
         }
 
         /// <summary>
         /// Ativa o timer que dispara o evento para atualizar o status do dispositivo
         /// </summary>
-        public void AtivaTimerExibicao(int iIntervalo)
+        public void AtivaTimerExibicao(bool bAtiva, int iIntervalo = 1000)
         {
+            // Para o timer, caso tenha sido desativado
+            if (!bAtiva)
+            {
+                timerDispositivo.Stop();
+                timerDispositivo.Enabled = false;
+                return;
+            }
+
             // Seta intervalo padrão para atualizar o status do dispositivo
             timerDispositivo.Interval = iIntervalo;
 
-            // Por segurança, retira o evento antes de inserí-lo
-            timerDispositivo.Tick -= timerDispositivo_Tick;
-            timerDispositivo.Tick += timerDispositivo_Tick;
+            // Ativa o timer
+            timerDispositivo.Enabled = true;
+            timerDispositivo.Start();
         }
         #endregion
 
         #region Métodos Virtual
         protected virtual void GetStatusDispositivo()
         {
-            
+            string sValorDispAnt = sValorDisp;
+
+            // Aplica o valor em outra variável, para não chamar o Web Service mais de uma vez
+            sValorDisp = getValor();
+
+            if (sValorDisp != sValorDispAnt)
+            {
+                if (string.IsNullOrEmpty(sValorDisp))
+                {
+                    SetDisconnected();
+                    return;
+                }
+            }
         }
 
         /// <summary>

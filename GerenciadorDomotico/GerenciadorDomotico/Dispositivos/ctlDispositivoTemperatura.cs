@@ -31,32 +31,27 @@ namespace GerenciadorDomotico.Dispositivos
         #region Métodos
         protected override void GetStatusDispositivo()
         {
-            // Aplica a imagem no controle de temperatura, se ainda não foi aplicada
-            if (btnDisp.BackgroundImage == null)
-            {
-                // Seta imagem default e exibe o botão apenas como se fosse um panel para visualizar os dados
-                Image imgDisp = imgList.Images[objDisp.Tipo.ToString()];
-                this.SetImageButton(imgDisp);
-                btnDisp.Enabled = false;
-                btnDisp.ImageAlign = ContentAlignment.MiddleLeft;
-                btnDisp.TextAlign = ContentAlignment.MiddleRight;
-                btnDisp.UseCompatibleTextRendering = true;
-                btnDisp.Text = string.Empty;
-                //btnDisp.Font = new Font(btnDisp.Font, FontStyle.Bold);
-            }
-            
-            // Aplica o valor em outra variável, para não chamar o Web Service mais de uma vez
-            string sValor = getValor();
+            base.GetStatusDispositivo();
 
-            if (string.IsNullOrEmpty(sValor))
+            if (sValorDisp != null)
             {
-                // To-Do: Disable do dispositivo, não está conectado ao servidor
-                SetDisconnected();
-                return;
+                // Aplica a imagem no controle de temperatura, se ainda não foi aplicada
+                if (btnDisp.BackgroundImage == null)
+                {
+                    // Seta imagem default e exibe o botão apenas como se fosse um panel para visualizar os dados
+                    Image imgDisp = imgList.Images[objDisp.Tipo.ToString()];
+                    this.SetImageButton(imgDisp);
+                    btnDisp.Enabled = false;
+                    btnDisp.ImageAlign = ContentAlignment.MiddleLeft;
+                    btnDisp.TextAlign = ContentAlignment.MiddleRight;
+                    btnDisp.UseCompatibleTextRendering = true;
+                    btnDisp.Text = string.Empty;
+                    //btnDisp.Font = new Font(btnDisp.Font, FontStyle.Bold);
+                }
+
+                // Exibe o valor no controle de temperatura
+                btnDisp.Text = sValorDisp;
             }
-            
-            // Exibe o valor no controle de temperatura
-            btnDisp.Text = sValor;
         }
 
         protected override void AcionaBotaoDisp()

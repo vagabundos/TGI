@@ -33,6 +33,7 @@
             this.pnlDispositivo = new System.Windows.Forms.Panel();
             this.btnDisp = new System.Windows.Forms.Button();
             this.imgList = new System.Windows.Forms.ImageList(this.components);
+            this.timerDispositivo = new System.Windows.Forms.Timer(this.components);
             this.pnlDispositivo.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -75,6 +76,11 @@
             this.imgList.Images.SetKeyName(5, "Umidade");
             this.imgList.Images.SetKeyName(6, "Distancia");
             // 
+            // timerDispositivo
+            // 
+            this.timerDispositivo.Interval = 1000;
+            this.timerDispositivo.Tick += new System.EventHandler(this.timerDispositivo_Tick);
+            // 
             // ctlDispositivoBase
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -94,6 +100,7 @@
         protected System.Windows.Forms.Panel pnlDispositivo;
         protected System.Windows.Forms.ImageList imgList;
         protected System.Windows.Forms.Button btnDisp;
+        protected System.Windows.Forms.Timer timerDispositivo;
 
     }
 }
