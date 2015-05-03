@@ -115,12 +115,7 @@ namespace GerenciadorDomotico
 
                 // Se o filtro direto por ID de ocorrência foi utilizado, faz a busca
                 if (!string.IsNullOrEmpty(txtOcorrencia.Text))
-                {
-                    Log objLog = lstLogs.FirstOrDefault(l => l.ID.ToString() == txtOcorrencia.Text);
-                    lstLogs.Clear();
-                    if (objLog != null)
-                        lstLogs.Add(objLog);
-                }
+                    lstLogs = lstLogs.Where(l => l.ID.ToString() == txtOcorrencia.Text).ToList();
 
                 this.grdLogs.DataSource = lstLogs;
 

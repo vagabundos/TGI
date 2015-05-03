@@ -67,10 +67,12 @@
     <Compile Include="Comunicação\MensagemDispositivo.cs" />
     <Compile Include="Controle\controlBase.cs" />
     <Compile Include="Controle\controlLog.cs" />
+    <Compile Include="Controle\controlTrace.cs" />
     <Compile Include="Modelo\Atributos\AtributoClasse.cs" />
     <Compile Include="Modelo\Atributos\AtributoPropriedade.cs" />
     <Compile Include="Modelo\Dispositivo.cs" />
     <Compile Include="Modelo\ConfiguracaoGeral.cs" />
+    <Compile Include="Modelo\TraceComunicacao.cs" />
     <Compile Include="Modelo\Log.cs" />
     <Compile Include="Modelo\ModeloBase.cs" />
     <Compile Include="Modelo\Piso.cs" />

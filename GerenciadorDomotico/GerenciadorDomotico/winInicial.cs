@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -40,6 +41,7 @@ namespace GerenciadorDomotico
             ctlTelas.Add("Cadastro de Dispositivos", "ctlCadDispositivos");
             ctlTelas.Add("Painel da Casa", "ctlPainel");
             ctlTelas.Add("Logs do Sistema", "ctlLogs");
+            ctlTelas.Add("Trace de Comunicação", "ctlTraceComunicacao");
             
             #endregion
 
@@ -54,6 +56,10 @@ namespace GerenciadorDomotico
             objMenuItem.DropDown.Items.Add(objSubMenuItem);
 
             objSubMenuItem = new ToolStripMenuItem("Logs do Sistema", null, mniRotina_Click);
+            ConfiguraSubMenu(objSubMenuItem);
+            objMenuItem.DropDown.Items.Add(objSubMenuItem);
+
+            objSubMenuItem = new ToolStripMenuItem("Trace de Comunicação", null, mniRotina_Click);
             ConfiguraSubMenu(objSubMenuItem);
             objMenuItem.DropDown.Items.Add(objSubMenuItem);
 
@@ -107,13 +113,14 @@ namespace GerenciadorDomotico
 			ToolStripMenuItem objMenuItem = (ToolStripMenuItem)sender;
 			if (!tabCtrl1.TabPages.ContainsKey(objMenuItem.Text))
 			{
-                string ctl = "GerenciadorDomotico." + ctlTelas[objMenuItem.Text];
+                Assembly currAssembly = Assembly.GetExecutingAssembly();
+                string ctl = currAssembly.GetName().Name + "." + ctlTelas[objMenuItem.Text];
 				tabCtrl1.TabPages.Add(objMenuItem.Text, objMenuItem.Text);
                 TabPage objTabPage = tabCtrl1.TabPages[objMenuItem.Text];
                 tabCtrl1.SelectTab(objTabPage);
 
                 // Carrega a tela selecionada via reflection
-                ctlBase ctrlCarregado = System.Reflection.Assembly.GetExecutingAssembly().CreateInstance(ctl) as ctlBase;
+                ctlBase ctrlCarregado = currAssembly.CreateInstance(ctl) as ctlBase;
 
                 objTabPage.Controls.Add(ctrlCarregado);
 				this.ActiveControl = ctrlCarregado;
