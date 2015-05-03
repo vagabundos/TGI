@@ -50,6 +50,7 @@ namespace GerenciadorDomotico.Dispositivos
                 }
 
                 // Exibe o valor no controle de umidade
+                btnDisp.Text = sValorDisp;
             }
         }
         #endregion
