@@ -75,25 +75,27 @@ namespace GerenciadorDomotico
                                            select objDisp;
 
                         _lstDispositivos = dispositivos.ToList();
-                    }
 
-                    // Carrega os dispositivos no Piso
-                    _dicDispositivos.Clear();
 
-                    foreach (Dispositivo disp in _lstDispositivos)
-                    {
-                        ctlDispositivoBase ctlDisp = FactoryControlDispositivo.getControleDispositivo(disp);
-                        ctlDisp.PermiteArrastar(false);
-                        ctlDisp.setPosicaoDispositivoNaImagem(disp.PosicaoX, disp.PosicaoY, imgPiso);
-                        ctlDisp.Visible = true;
+                        // Carrega os dispositivos no Piso
+                        _dicDispositivos.Clear();
 
-                        // Exibe o dispositivo na tela
-                        imgPiso.Controls.Add(ctlDisp);
-                        ctlDisp.BringToFront();
+                        foreach (Dispositivo disp in _lstDispositivos)
+                        {
+                            ctlDispositivoBase ctlDisp = FactoryControlDispositivo.getControleDispositivo(disp);
+                            ctlDisp.PermiteArrastar(false);
+                            ctlDisp.setPosicaoDispositivoNaImagem(disp.PosicaoX, disp.PosicaoY, imgPiso);
+                            ctlDisp.Visible = true;
+                            ctlDisp.AtivaTimerExibicao(1000);
 
-                        // Adiciona em um dicionario que deverá conter sempre os Dispositivos do Piso selecionado
-                        Point pDisp = new Point(disp.PosicaoX, disp.PosicaoY);
-                        _dicDispositivos.Add(ctlDisp, pDisp);
+                            // Exibe o dispositivo na tela
+                            imgPiso.Controls.Add(ctlDisp);
+                            ctlDisp.BringToFront();
+
+                            // Adiciona em um dicionario que deverá conter sempre os Dispositivos do Piso selecionado
+                            Point pDisp = new Point(disp.PosicaoX, disp.PosicaoY);
+                            _dicDispositivos.Add(ctlDisp, pDisp);
+                        }
                     }
                 }
             }

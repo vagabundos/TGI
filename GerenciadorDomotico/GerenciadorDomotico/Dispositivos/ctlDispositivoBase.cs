@@ -20,8 +20,31 @@ namespace GerenciadorDomotico.Dispositivos
         private Point MouseDownLocation;
         protected controlBase<Dispositivo> controleTela = new controlBase<Dispositivo>();
         protected Dispositivo objDisp;
+        protected string sValorDisp = string.Empty;
+        protected Timer timerDispositivo = new Timer();
 
         #region Web Service
+
+        private Biblioteca.Comunicação.wsrvHomeOnClient _wsrvClient = null;
+        private Biblioteca.Comunicação.wsrvHomeOnClient WsrvClient
+        {
+            get
+            {
+                if (_wsrvClient == null)
+                {
+                    Uri WebSrvUri = new Uri(string.Format("{0}/{1}", _BaseAddress, _ApplicationName));
+
+                    System.ServiceModel.BasicHttpBinding binding = new System.ServiceModel.BasicHttpBinding();
+                    binding.SendTimeout = new TimeSpan(0, 0, 10, 0, 0);
+                    binding.OpenTimeout = new TimeSpan(0, 0, 10, 0, 0);
+                    binding.CloseTimeout = new TimeSpan(0, 0, 10, 0, 0);
+
+                    _wsrvClient = new Biblioteca.Comunicação.wsrvHomeOnClient(binding, new System.ServiceModel.EndpointAddress(WebSrvUri));
+                }
+
+                return _wsrvClient;
+            }
+        }
 
         #region Estáticos
         private static ConfiguracaoGeral _conf = null;
@@ -65,27 +88,6 @@ namespace GerenciadorDomotico.Dispositivos
                 return "wsrvHomeOn.svc";
             }
         }
-
-        private static Biblioteca.Comunicação.wsrvHomeOnClient _wsrvClient = null;
-        private static Biblioteca.Comunicação.wsrvHomeOnClient WsrvClient
-        {
-            get
-            {
-                if (_wsrvClient == null)
-                {
-                    Uri WebSrvUri = new Uri(string.Format("{0}/{1}", _BaseAddress, _ApplicationName));
-
-                    System.ServiceModel.BasicHttpBinding binding = new System.ServiceModel.BasicHttpBinding();
-                    binding.SendTimeout = new TimeSpan(0, 0, 10, 0, 0);
-                    binding.OpenTimeout = new TimeSpan(0, 0, 10, 0, 0);
-                    binding.CloseTimeout = new TimeSpan(0, 0, 10, 0, 0);
-
-                    _wsrvClient = new Biblioteca.Comunicação.wsrvHomeOnClient(binding, new System.ServiceModel.EndpointAddress(WebSrvUri));
-                }
-
-                return _wsrvClient;
-            }
-        }
         #endregion
 
         #endregion
@@ -96,12 +98,20 @@ namespace GerenciadorDomotico.Dispositivos
         /// <summary>
         /// Trata como um dispositivo genérico
         /// </summary>
-        public ctlDispositivoBase()
+        public ctlDispositivoBase() : this(null)
         {
-            InitializeComponent();
+            Image imgDisp = imgList.Images["Generico"];
 
-            ExibeControleDispositivo();
+            // Insere a imagem no botão, se houver
+            SetImageButton(imgDisp);
+
+            //pnlDispositivo.BackColor = Color.Empty;
+            //pnlDispositivo.BackgroundImage = imgDisp;
+
+            // Como o tipo do dispositivo não foi especificado, não permite acionar o botão
+            btnDisp.Enabled = false;
         }
+
         /// <summary>
         /// Trata já o dispositivo definido
         /// </summary>
@@ -110,7 +120,7 @@ namespace GerenciadorDomotico.Dispositivos
             InitializeComponent();
             objDisp = objDispModelo;
 
-            ExibeControleDispositivo();
+            GetStatusDispositivo();
         }
         #endregion
 
@@ -191,22 +201,27 @@ namespace GerenciadorDomotico.Dispositivos
         {
             Image imgDisconnected = imgList.Images["Desconectado"];
             SetImageButton(imgDisconnected, 0.5f);
+            btnDisp.Enabled = false;
+        }
+
+        /// <summary>
+        /// Ativa o timer que dispara o evento para atualizar o status do dispositivo
+        /// </summary>
+        public void AtivaTimerExibicao(int iIntervalo)
+        {
+            // Seta intervalo padrão para atualizar o status do dispositivo
+            timerDispositivo.Interval = iIntervalo;
+
+            // Por segurança, retira o evento antes de inserí-lo
+            timerDispositivo.Tick -= timerDispositivo_Tick;
+            timerDispositivo.Tick += timerDispositivo_Tick;
         }
         #endregion
 
         #region Métodos Virtual
-        protected virtual void ExibeControleDispositivo()
+        protected virtual void GetStatusDispositivo()
         {
-            Image imgDisp = imgList.Images["Generico"];
-
-            // Insere a imagem no botão, se houver
-            SetImageButton(imgDisp);
-
-            //pnlDispositivo.BackColor = Color.Empty;
-            //pnlDispositivo.BackgroundImage = imgDisp;
-
-            // Como o tipo do dispositivo não foi especificado, não permite acionar o botão
-            btnDisp.Enabled = false;
+            
         }
 
         /// <summary>
@@ -267,7 +282,6 @@ namespace GerenciadorDomotico.Dispositivos
             {
                 string sMensagem = string.Format("Não foi possível buscar o Status atual do Dispositivo: '{0}'.\r\nDetalhes: {1}", objDisp.Codigo, exc.Message);
                 Biblioteca.Controle.controlLog.Insere(Biblioteca.Modelo.Log.LogTipo.Erro, sMensagem, exc);
-                MessageBox.Show(sMensagem, "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             return sValor;
@@ -299,6 +313,11 @@ namespace GerenciadorDomotico.Dispositivos
         private void btnDisp_Click(object sender, EventArgs e)
         {
             AcionaBotaoDisp();
+        }
+
+        private void timerDispositivo_Tick(object sender, EventArgs e)
+        {
+            GetStatusDispositivo();
         }
         #endregion
     }

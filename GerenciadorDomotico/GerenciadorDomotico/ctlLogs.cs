@@ -105,7 +105,7 @@ namespace GerenciadorDomotico
                 List<Log.LogTipo> lstTiposLog = GetTipoLogsSelecionados();
 
                 // Aplica filtros da tela na lista
-                var auxLogs = from Log objLog in bList
+                var auxLogs = from Log objLog in bList.OrderByDescending(l => l.ID)
                               where lstTiposLog.Contains(objLog.Tipo)
                               where dtInicio.Value <= objLog.DataHoraInclusao
                               where dtFinal.Value >= objLog.DataHoraInclusao

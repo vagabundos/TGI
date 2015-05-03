@@ -72,8 +72,8 @@
             this.imgList.Images.SetKeyName(2, "Generico");
             this.imgList.Images.SetKeyName(3, "Temperatura");
             this.imgList.Images.SetKeyName(4, "Desconectado");
-            this.imgList.Images.SetKeyName(5, "Distancia");
-            this.imgList.Images.SetKeyName(6, "Umidade");
+            this.imgList.Images.SetKeyName(5, "Umidade");
+            this.imgList.Images.SetKeyName(6, "Distancia");
             // 
             // ctlDispositivoBase
             // 

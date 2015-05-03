@@ -168,7 +168,6 @@ namespace GerenciadorDomotico
                         objDispositivo.Descricao = txtDescricao.Text;
                         objDispositivo.Controlador = txtCodControlador.Text;
                         objDispositivo.Piso = cmbPiso.SelectedValue.ToString();
-                        objDispositivo.Valor = string.Empty;
                         objDispositivo.Tipo = (Dispositivo.TipoSensor)Enum.Parse(typeof(Dispositivo.TipoSensor), cmbTipo.SelectedValue.ToString());
 
                         Point posicaoDispositivo = pairDispSelecionado.Key.getPosicaoDispositivoNaImagem(imgPiso);

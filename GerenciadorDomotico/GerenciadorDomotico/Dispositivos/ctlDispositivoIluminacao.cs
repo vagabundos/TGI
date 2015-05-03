@@ -29,33 +29,38 @@ namespace GerenciadorDomotico.Dispositivos
         #endregion
 
         #region Métodos
-        protected override void ExibeControleDispositivo()
+        protected override void GetStatusDispositivo()
         {
+            string sValorDispAnt = sValorDisp;
+
             // Aplica o valor em outra variável, para não chamar o Web Service mais de uma vez
-            string sValor = getValor();
+            sValorDisp = getValor();
 
-            if (string.IsNullOrEmpty(sValor))
+            if (sValorDisp != sValorDispAnt)
             {
-                // To-Do: Disable do dispositivo, não está conectado ao servidor
-                SetDisconnected();
-                return;
+                if (string.IsNullOrEmpty(sValorDisp))
+                {
+                    SetDisconnected();
+                    return;
+                }
+
+
+                // Converte para valores esperados
+                string sLampada = sValorDisp.Equals("1", StringComparison.CurrentCultureIgnoreCase) ? "ON" : "OFF";
+
+                // Aplica imagem correspondente ao Status do dispositivo
+                Image imgDisp = imgList.Images[objDisp.Tipo.ToString() + "_" + sLampada];
+
+                // Insere a imagem no botão, se houver
+                SetImageButton(imgDisp);
             }
-
-            // Converte para valores esperados
-            string sLampada = objDisp.Valor.Equals("1", StringComparison.CurrentCultureIgnoreCase) ? "ON" : "OFF";
-
-            // Aplica imagem correspondente ao Status do dispositivo
-            Image imgDisp = imgList.Images[objDisp.Tipo.ToString() + "_" + sLampada];
-
-            // Insere a imagem no botão, se houver
-            SetImageButton(imgDisp);
         }
 
         protected override void AcionaBotaoDisp()
         {
             string sNovoValor; 
             // Altera o valor ON/OFF da Lampada
-            if (objDisp.Valor.Equals("1"))
+            if (sValorDisp.Equals("1"))
                 sNovoValor = "0";
             else
                 sNovoValor = "1";
@@ -64,7 +69,7 @@ namespace GerenciadorDomotico.Dispositivos
             Envia(sNovoValor);
 
             // Atualiza exibição do controle do Dispositivo
-            ExibeControleDispositivo();
+            GetStatusDispositivo();
         }
         #endregion
 

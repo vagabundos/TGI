@@ -29,7 +29,7 @@ namespace GerenciadorDomotico.Dispositivos
         #endregion
 
         #region Métodos
-        protected override void ExibeControleDispositivo()
+        protected override void GetStatusDispositivo()
         {
             // Aplica a imagem no controle de temperatura, se ainda não foi aplicada
             if (btnDisp.BackgroundImage == null)
@@ -46,7 +46,7 @@ namespace GerenciadorDomotico.Dispositivos
             }
             
             // Aplica o valor em outra variável, para não chamar o Web Service mais de uma vez
-            string sValor = getValor(); //"32ºC";
+            string sValor = getValor();
 
             if (string.IsNullOrEmpty(sValor))
             {

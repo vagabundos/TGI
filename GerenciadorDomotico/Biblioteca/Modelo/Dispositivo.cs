@@ -29,9 +29,6 @@ namespace Biblioteca.Modelo
         [AtributoPropriedade(Caption = "Posição Y", IsChave = false, NomeColuna = "PosicaoY", OcultaGrid = true)]
         public int PosicaoY { get; set; }
 
-        [AtributoPropriedade(Caption = "Valor", IsChave = false, NomeColuna = "Valor", OcultaGrid = true)]
-        public string Valor { get; set; }
-
         [AtributoPropriedade(Caption = "Controlador", IsChave = false, NomeColuna = "Controlador", OcultaGrid = false)]
         public string Controlador { get; set; }
         #endregion

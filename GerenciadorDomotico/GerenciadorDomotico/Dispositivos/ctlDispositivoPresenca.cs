@@ -29,7 +29,7 @@ namespace GerenciadorDomotico.Dispositivos
         #endregion
 
         #region Métodos
-        protected override void ExibeControleDispositivo()
+        protected override void GetStatusDispositivo()
         {
 
         }
