@@ -63,6 +63,7 @@ namespace Biblioteca.Comunicação
             stb.Append(_Header.TextoEnvio());
             stb.Append(_SeparadorSegmento);
             stb.Append(_Command.TextoEnvio());
+            stb.Append(_SeparadorSegmento);
             stb.Append(_FimMensagem);
             return stb.ToString();
         }
@@ -70,26 +71,18 @@ namespace Biblioteca.Comunicação
         private bool Consiste(string sMensagem)
         {
             if (string.IsNullOrEmpty(sMensagem))
-            {
                 return false;
-            }
 
-            if(!sMensagem.Substring(0,1).Equals(_InicioMensagem))
-            {
+            if (sMensagem[0] != _InicioMensagem)
                 return false;
-            }
 
-            if (!sMensagem.Substring(sMensagem.Length - 1, 1).Equals(_FimMensagem))
-            {
+            if (sMensagem[sMensagem.Length - 1] != _FimMensagem)
                 return false;
-            }
 
             string[] arrSegmentos = sMensagem.Split(_SeparadorSegmento);
 
-            if (!arrSegmentos.Length.Equals(2))
-            {
+            if (arrSegmentos.Length < 2)
                 return false;
-            }
 
             return true;
         }
@@ -111,15 +104,10 @@ namespace Biblioteca.Comunicação
 
             public Header(string sSegmento)
             {
-                string[] arrFlds = sSegmento.Split('|');
-
-                if (arrFlds.Length > 2)
+                if (Util.GetPiece(sSegmento, '|', 1).Equals("HDR"))
                 {
-                    if (arrFlds[0].Equals("HDR"))
-                    {
-                        ID_Sender = arrFlds[1];
-                        ID_Receiver = arrFlds[2];
-                    }
+                    ID_Sender = Util.GetPiece(sSegmento, '|', 2);
+                    ID_Receiver = Util.GetPiece(sSegmento, '|', 3);
                 }
             }
             #endregion
@@ -142,20 +130,14 @@ namespace Biblioteca.Comunicação
             #region Construtores
             public Command()
             {
-
             }
 
             public Command(string sSegmento)
             {
-                string[] arrFlds = sSegmento.Split('|');
-
-                if (arrFlds.Length > 2)
+                if (Util.GetPiece(sSegmento, '|', 1).Equals("CMD"))
                 {
-                    if (arrFlds[0].Equals("CMD"))
-                    {
-                        ID_Dispositivo = arrFlds[1];
-                        Disp_Value = arrFlds[2];
-                    }
+                    ID_Dispositivo = Util.GetPiece(sSegmento, '|', 2);
+                    Disp_Value = Util.GetPiece(sSegmento, '|', 3);
                 }
             }
             #endregion

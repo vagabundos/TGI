@@ -29,20 +29,19 @@ namespace GerenciadorDomotico.Dispositivos
         #endregion
 
         #region Métodos
-        protected override void GetStatusDispositivo()
+        protected override void MudaStatus()
         {
-            base.GetStatusDispositivo();
-            if (sValorDisp != null)
-            {
-                // Converte para valores esperados
-                string sLampada = sValorDisp.Equals("1", StringComparison.CurrentCultureIgnoreCase) ? "ON" : "OFF";
+            // Ativa botão
+            btnDisp.Enabled = true;
 
-                // Aplica imagem correspondente ao Status do dispositivo
-                Image imgDisp = imgList.Images[objDisp.Tipo.ToString() + "_" + sLampada];
+            // Converte para valores esperados
+            string sLampada = sValorDisp.Equals("1", StringComparison.CurrentCultureIgnoreCase) ? "ON" : "OFF";
 
-                // Insere a imagem no botão, se houver
-                SetImageButton(imgDisp);
-            }
+            // Aplica imagem correspondente ao Status do dispositivo
+            Image imgDisp = imgList.Images[objDisp.Tipo.ToString() + "_" + sLampada];
+
+            // Insere a imagem no botão, se houver
+            SetImageButton(imgDisp);
         }
 
         protected override void AcionaBotaoDisp()

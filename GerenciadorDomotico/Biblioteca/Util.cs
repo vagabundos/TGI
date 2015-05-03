@@ -292,6 +292,21 @@ namespace Biblioteca
         }
         #endregion
 
+        /// <summary>
+        /// Devolve determinado 'Piece' pelo 'Separador' informado da 'String' de entrada
+        /// </summary>
+        public static string GetPiece(string sData, char cSeparador, int iPiece)
+        {
+            string sRetorno = string.Empty;
+
+            string[] arrFlds = sData.Split(cSeparador);
+
+            if (arrFlds.Length >= iPiece)
+                sRetorno = arrFlds[iPiece - 1];
+
+            return sRetorno;
+        }
+
         #endregion
     }
 }

@@ -240,7 +240,18 @@ namespace GerenciadorDomotico.Dispositivos
                     SetDisconnected();
                     return;
                 }
+
+                // Mudança no valor do dispositivo
+                MudaStatus();
             }
+        }
+
+        /// <summary>
+        /// Obrigatório Override
+        /// </summary>
+        protected virtual void MudaStatus()
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

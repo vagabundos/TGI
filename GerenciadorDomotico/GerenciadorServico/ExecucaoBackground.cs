@@ -73,11 +73,6 @@ namespace Servico
                 // Guarda status atual dos dispositivos conectados
                 cdStatusDispositivos = new System.Collections.Concurrent.ConcurrentDictionary<string, string>();
 
-                cdStatusDispositivos.TryAdd("LAMP1", "testevalor");
-                cdStatusDispositivos.TryAdd("LAMP2", "testevalor");
-                cdStatusDispositivos.TryAdd("teste3", "testevalor");
-                cdStatusDispositivos.TryAdd("teste4", "testevalor");
-
                 // Ativa thread a parte para processar as requisições recebidas
                 threadRecebimento = new Thread(LoopProcessamentoRequisicoesRecebidas);
                 threadRecebimento.Start();
@@ -134,6 +129,7 @@ namespace Servico
                                     try
                                     {
                                         portaXbeeServidor.Write(objMsg.TextoEnvio());
+                                        portaXbeeServidor.BaseStream.Flush();
                                     }
                                     catch (Exception exc)
                                     {
@@ -288,6 +284,7 @@ namespace Servico
 
                         if ((char)carac == MensagemDispositivo._FimMensagem)
                         {
+                            resposta.Add((byte)carac);
                             bFim = true;
                             continue;
                         }

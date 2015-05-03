@@ -426,18 +426,24 @@ namespace GerenciadorDomotico
         {
             // Limpa dicionário de dispositivos do piso
             LimpaDispositivosExibicao();
+            Dispositivo objDispositivoSelecionado = null;
 
-            // Pega o dispositivo selecionado atual, se estiver em modo edição
-            Dispositivo objDispositivoSelecionado = (Dispositivo)grdDispositivos.CurrentRow.DataBoundItem;
+            if (base.AtualizaTela != StatusTela.New)
+            {
+                // Pega o dispositivo selecionado atual, se estiver em modo edição
+                objDispositivoSelecionado = (Dispositivo)grdDispositivos.CurrentRow.DataBoundItem;
+            }
 
             foreach (DataGridViewRow grdRow in grdDispositivos.Rows)
             {
                 Dispositivo disp = (Dispositivo)grdRow.DataBoundItem;
 
                 // Se for o dispositivo selecionado (caso não seja um novo dispositivo), não inclui
-                if (this.AtualizaTela != StatusTela.New)
+                if (objDispositivoSelecionado != null)
+                {
                     if (disp.Codigo == objDispositivoSelecionado.Codigo)
                         continue;
+                }
 
                 // Se o dispositivo não pertencer ao piso selecionado, não inclui
                 if (disp.Piso != cmbPiso.SelectedValue.ToString())
