@@ -46,18 +46,15 @@ namespace GerenciadorDomotico.Dispositivos
 
         protected override void AcionaBotaoDisp()
         {
-            string sNovoValor; 
+            string sNovoValor;
+
             // Altera o valor ON/OFF da Lampada
             if (sValorDisp.Equals("1"))
                 sNovoValor = "0";
             else
                 sNovoValor = "1";
 
-            // Envia mensagem de requisição ao Controlador
             Envia(sNovoValor);
-
-            // Atualiza exibição do controle do Dispositivo
-            GetStatusDispositivo();
         }
         #endregion
 

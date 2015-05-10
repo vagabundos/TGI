@@ -21,6 +21,8 @@ namespace GerenciadorDomotico.Dispositivos
         protected controlBase<Dispositivo> controleTela = new controlBase<Dispositivo>();
         protected Dispositivo objDisp;
         protected string sValorDisp = string.Empty;
+        protected int iIntervalo = 1000;
+        protected float fTransparencia = 1f;
 
         #region Web Service
 
@@ -34,9 +36,9 @@ namespace GerenciadorDomotico.Dispositivos
                     Uri WebSrvUri = new Uri(string.Format("{0}/{1}", _BaseAddress, _ApplicationName));
 
                     System.ServiceModel.BasicHttpBinding binding = new System.ServiceModel.BasicHttpBinding();
-                    binding.SendTimeout = new TimeSpan(0, 0, 10, 0, 0);
-                    binding.OpenTimeout = new TimeSpan(0, 0, 10, 0, 0);
-                    binding.CloseTimeout = new TimeSpan(0, 0, 10, 0, 0);
+                    binding.SendTimeout = new TimeSpan(0, 0, 0, 2, 0);
+                    binding.OpenTimeout = new TimeSpan(0, 0, 1, 0, 0);
+                    binding.CloseTimeout = new TimeSpan(0, 0, 1, 0, 0);
 
                     _wsrvClient = new Biblioteca.Comunicação.wsrvHomeOnClient(binding, new System.ServiceModel.EndpointAddress(WebSrvUri));
                 }
@@ -116,7 +118,6 @@ namespace GerenciadorDomotico.Dispositivos
         {
             InitializeComponent();
             objDisp = objDispModelo;
-
             GetStatusDispositivo();
         }
         #endregion
@@ -162,11 +163,11 @@ namespace GerenciadorDomotico.Dispositivos
             }
         }
 
-        public void SetImageButton(Image imgDisp, float fTransparencia = 1)
+        public void SetImageButton(Image imgDisp)
         {
             if (imgDisp != null)
             {
-                btnDisp.BackgroundImage = Util.SetTransparenciaImagem(imgDisp, fTransparencia);
+                btnDisp.BackgroundImage = Util.SetTransparenciaImagem(imgDisp, this.fTransparencia);
                 SetButtonVisible(true);
             }
         }
@@ -197,16 +198,18 @@ namespace GerenciadorDomotico.Dispositivos
         public void SetDisconnected()
         {
             Image imgDisconnected = imgList.Images["Desconectado"];
-            SetImageButton(imgDisconnected, 0.5f);
+            this.fTransparencia = 0.5f;
+            SetImageButton(imgDisconnected);
             btnDisp.Enabled = false;
-            timerDispositivo.Interval = 1000 * 15;
+            this.iIntervalo = 1000 * 5;
+            timerDispositivo.Interval = this.iIntervalo;
             sValorDisp = string.Empty;
         }
 
         /// <summary>
         /// Ativa o timer que dispara o evento para atualizar o status do dispositivo
         /// </summary>
-        public void AtivaTimerExibicao(bool bAtiva, int iIntervalo = 1000)
+        public void AtivaTimerExibicao(bool bAtiva, int iIntervalo)
         {
             // Para o timer, caso tenha sido desativado
             if (!bAtiva)
@@ -217,7 +220,8 @@ namespace GerenciadorDomotico.Dispositivos
             }
 
             // Seta intervalo padrão para atualizar o status do dispositivo
-            timerDispositivo.Interval = iIntervalo;
+            this.iIntervalo = iIntervalo;
+            timerDispositivo.Interval = this.iIntervalo;
 
             // Ativa o timer
             timerDispositivo.Enabled = true;
@@ -241,6 +245,11 @@ namespace GerenciadorDomotico.Dispositivos
                     return;
                 }
 
+                if (timerDispositivo.Interval != iIntervalo)
+                {
+                    timerDispositivo.Interval = iIntervalo;
+                }
+
                 // Mudança no valor do dispositivo
                 MudaStatus();
             }
@@ -259,7 +268,7 @@ namespace GerenciadorDomotico.Dispositivos
         /// </summary>
         protected virtual void AcionaBotaoDisp()
         {
-            
+            throw new NotImplementedException();
         }
 
         #region Métodos de interação com o Web Service (SERVIÇO)
@@ -277,6 +286,9 @@ namespace GerenciadorDomotico.Dispositivos
                 {
                     throw new Exception(sMessage);
                 }
+
+                // Muda para disable
+                this.Enabled = false;
             }
             catch (Exception ex)
             {
@@ -304,7 +316,7 @@ namespace GerenciadorDomotico.Dispositivos
                 {
                     throw new Exception(sMessage);
                 }
-                
+
                 if (dicDisp.ContainsKey(objDisp.Codigo))
                     sValor = dicDisp[objDisp.Codigo];
             }
@@ -342,6 +354,29 @@ namespace GerenciadorDomotico.Dispositivos
 
         private void btnDisp_Click(object sender, EventArgs e)
         {
+            this.Enabled = false;
+            if (this.btnDisp.BackgroundImage != null)
+            {
+                this.fTransparencia = 0.5f;
+                SetImageButton(this.btnDisp.BackgroundImage);
+            }
+
+            // Desativa botão por alguns instantes
+            Task.Run(() =>
+            {
+                System.Threading.Thread.Sleep(1500);
+                btnDisp.Invoke(new Action(() =>
+                {
+                    this.Enabled = true;
+                    if (this.btnDisp.BackgroundImage != null)
+                    {
+                        this.fTransparencia = 100f;
+                        SetImageButton(this.btnDisp.BackgroundImage);
+                    }
+                }));
+            });
+
+            // Envia mensagem de requisição ao Controlador
             AcionaBotaoDisp();
         }
 

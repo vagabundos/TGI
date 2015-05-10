@@ -292,6 +292,7 @@ namespace Biblioteca
         }
         #endregion
 
+        #region Métodos de Manipulação de Strings
         /// <summary>
         /// Devolve determinado 'Piece' pelo 'Separador' informado da 'String' de entrada
         /// </summary>
@@ -306,6 +307,50 @@ namespace Biblioteca
 
             return sRetorno;
         }
+
+        /// <summary>
+        /// Transforma uma string para ficar mais fácil de visualizar caracteres especiais para o usuário
+        /// </summary>
+        public static string TraduzCaracteresEspeciais(string sData)
+        {
+            string sRetorno = sData;
+
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(0), "<NUL>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(1), "<SOH>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(2), "<STX>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(3), "<ETX>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(4), "<EOT>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(5), "<ENQ>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(6), "<ACK>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(7), "<BEL>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(8), "<BS>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(9), "<TAB>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(10), "<LF>"); sRetorno = sRetorno.Replace("\n", "<LF>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(11), "<VT>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(12), "<FF>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(13), "<CR>"); sRetorno = sRetorno.Replace("\r", "<CR>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(14), "<SO>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(15), "<SI>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(16), "<DLE>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(17), "<DC1>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(18), "<DC2>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(19), "<DC3>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(20), "<DC4>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(21), "<NAK>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(22), "<SYN>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(23), "<ETB>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(24), "<CAN>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(25), "<EM>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(26), "<SUB>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(27), "<ESC>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(28), "<FS>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(29), "<GS>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(30), "<RS>");
+            sRetorno = sRetorno.Replace(Char.ConvertFromUtf32(31), "<US>");
+
+            return sRetorno;
+        }
+        #endregion
 
         #endregion
     }

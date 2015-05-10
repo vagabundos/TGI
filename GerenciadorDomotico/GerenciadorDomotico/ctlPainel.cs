@@ -28,8 +28,9 @@ namespace GerenciadorDomotico
             : base()
         {
             InitializeComponent();
-
             ConfiguraTela();
+            ActiveControl = cmbPiso;
+            cmbPiso.Focus();
         }
         #endregion
 
@@ -78,15 +79,13 @@ namespace GerenciadorDomotico
 
 
                         // Carrega os dispositivos no Piso
-                        _dicDispositivos.Clear();
-
                         foreach (Dispositivo disp in _lstDispositivos)
                         {
                             ctlDispositivoBase ctlDisp = FactoryControlDispositivo.getControleDispositivo(disp);
                             ctlDisp.PermiteArrastar(false);
                             ctlDisp.setPosicaoDispositivoNaImagem(disp.PosicaoX, disp.PosicaoY, imgPiso);
                             ctlDisp.Visible = true;
-                            ctlDisp.AtivaTimerExibicao(true, 300);
+                            ctlDisp.AtivaTimerExibicao(true, 800);
 
                             // Exibe o dispositivo na tela
                             imgPiso.Controls.Add(ctlDisp);
@@ -106,10 +105,12 @@ namespace GerenciadorDomotico
         /// </summary>
         private void Limpa()
         {
-            foreach(KeyValuePair<ctlDispositivoBase, Point> pairDisp in _dicDispositivos)
+            foreach (KeyValuePair<ctlDispositivoBase, Point> pairDisp in _dicDispositivos)
             {
-                pairDisp.Key.Visible = false;
                 imgPiso.Controls.Remove(pairDisp.Key);
+                pairDisp.Key.Visible = false;
+                pairDisp.Key.AtivaTimerExibicao(false, 1000);
+                pairDisp.Key.Dispose();
             }
 
             _dicDispositivos.Clear();

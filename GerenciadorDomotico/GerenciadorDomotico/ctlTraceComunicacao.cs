@@ -105,11 +105,11 @@ namespace GerenciadorDomotico
                 List<TraceComunicacao.ProcedenciaTrace> lstProcedenciaTrace = GetProcedenciaTraceSelecionados();
 
                 // Aplica filtros da tela na lista
-                var auxTrace = from TraceComunicacao objTrace in bList.OrderByDescending(l => l.ID)
-                              where lstProcedenciaTrace.Contains(objTrace.Procedencia)
-                              where dtInicio.Value <= objTrace.DataHoraOcorrencia
-                              where dtFinal.Value >= objTrace.DataHoraOcorrencia
-                              select objTrace;
+                var auxTrace = (from TraceComunicacao objTrace in bList.OrderByDescending(l => l.ID)
+                                where lstProcedenciaTrace.Contains(objTrace.Procedencia)
+                                where dtInicio.Value <= objTrace.DataHoraOcorrencia
+                                where dtFinal.Value >= objTrace.DataHoraOcorrencia
+                                select objTrace).Select(t => { t.Mensagem = Util.TraduzCaracteresEspeciais(t.Mensagem); return t; });
 
                 List<TraceComunicacao> lstTrace = auxTrace.ToList();
 
@@ -130,6 +130,12 @@ namespace GerenciadorDomotico
                 #endregion
 
                 this.grdTraceOcorrencias.DataSource = lstTrace;
+
+                if (grdTraceOcorrencias.Columns.Contains("DataHoraOcorrencia"))
+                {
+                    grdTraceOcorrencias.Columns["DataHoraOcorrencia"].DefaultCellStyle.Format = "dd/MM/yyyy hh:MM:ss";
+                }
+
                 grdTraceOcorrencias.AutoResizeColumns();
             }
             catch(Exception ex)

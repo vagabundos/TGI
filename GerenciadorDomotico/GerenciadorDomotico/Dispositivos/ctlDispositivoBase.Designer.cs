@@ -78,7 +78,7 @@
             // 
             // timerDispositivo
             // 
-            this.timerDispositivo.Interval = 1000;
+            this.timerDispositivo.Interval = 300;
             this.timerDispositivo.Tick += new System.EventHandler(this.timerDispositivo_Tick);
             // 
             // ctlDispositivoBase

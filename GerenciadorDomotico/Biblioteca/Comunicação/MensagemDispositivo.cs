@@ -56,14 +56,43 @@ namespace Biblioteca.Comunicação
         #endregion
 
         #region Métodos
+        /// <summary>
+        /// Método envia requisição á rede para obter o status de todos dispositivos conectados
+        /// </summary>
+        public static string StatusTodosDipositivos(string sServidor)
+        {
+            MensagemDispositivo msg = new MensagemDispositivo();
+            
+            Header objHdr = new Header();
+            objHdr.ID_Sender = sServidor;
+            objHdr.ID_Receiver = "<ALL>";
+            msg._Header = objHdr;
+
+            Command objCmd = new Command();
+            objCmd.ID_Dispositivo = "<ALL>";
+            objCmd.Disp_Value = "<ALL>";
+            msg._Command = objCmd;
+
+            return msg.TextoEnvio();
+        }
+
         public string TextoEnvio()
         {
             StringBuilder stb = new StringBuilder();
             stb.Append(_InicioMensagem);
-            stb.Append(_Header.TextoEnvio());
-            stb.Append(_SeparadorSegmento);
-            stb.Append(_Command.TextoEnvio());
-            stb.Append(_SeparadorSegmento);
+
+            if (_Header != null)
+            {
+                stb.Append(_Header.TextoEnvio());
+                stb.Append(_SeparadorSegmento);
+            }
+
+            if (_Command != null)
+            {
+                stb.Append(_Command.TextoEnvio());
+                stb.Append(_SeparadorSegmento);
+            }
+
             stb.Append(_FimMensagem);
             return stb.ToString();
         }
@@ -104,7 +133,7 @@ namespace Biblioteca.Comunicação
 
             public Header(string sSegmento)
             {
-                if (Util.GetPiece(sSegmento, '|', 1).Equals("HDR"))
+                if (Util.GetPiece(sSegmento, '|', 1).Equals("H"))
                 {
                     ID_Sender = Util.GetPiece(sSegmento, '|', 2);
                     ID_Receiver = Util.GetPiece(sSegmento, '|', 3);
@@ -115,7 +144,7 @@ namespace Biblioteca.Comunicação
             #region Métodos
             public string TextoEnvio()
             {
-                return string.Format("HDR|{0}|{1}", ID_Sender, ID_Receiver);
+                return string.Format("H|{0}|{1}", ID_Sender, ID_Receiver);
             }
             #endregion
         }
@@ -134,7 +163,7 @@ namespace Biblioteca.Comunicação
 
             public Command(string sSegmento)
             {
-                if (Util.GetPiece(sSegmento, '|', 1).Equals("CMD"))
+                if (Util.GetPiece(sSegmento, '|', 1).Equals("C"))
                 {
                     ID_Dispositivo = Util.GetPiece(sSegmento, '|', 2);
                     Disp_Value = Util.GetPiece(sSegmento, '|', 3);
@@ -145,7 +174,7 @@ namespace Biblioteca.Comunicação
             #region Métodos
             public string TextoEnvio()
             {
-                return string.Format("CMD|{0}|{1}", ID_Dispositivo, Disp_Value);
+                return string.Format("C|{0}|{1}", ID_Dispositivo, Disp_Value);
             }
             #endregion
         }

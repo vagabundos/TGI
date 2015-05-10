@@ -82,9 +82,6 @@ namespace Servico
                 portaXbeeServidor = new SerialPort();
                 ConfiguraPortaSerial(portaXbeeServidor);
 
-                // Evento para processar as mensagens recebidas pela rede de sensores
-                portaXbeeServidor.DataReceived += portaXbeeServidor_DataReceived;
-
                 // Ativa porta
                 portaXbeeServidor.Open();
 
@@ -113,14 +110,19 @@ namespace Servico
                     Host.Open();
                     #endregion
 
+                    // Faz solicitação do status de todos os dispositivos conectados
+                    portaXbeeServidor.Write(MensagemDispositivo.StatusTodosDipositivos(Service._configuradorGeral.IdServidor));
+                    portaXbeeServidor.BaseStream.Flush();
+                    System.Threading.Thread.Sleep(3000);
+
                     try
                     {
                         #region LOOP da Thread Principal
-                        // Enquanto Serviço estiver ativo
                         while (Service._bAtivo)
                         {
                             try
                             {
+                                int iSleep = 200;
                                 MensagemDispositivo objMsg;
 
                                 // Processa mensagem de envio
@@ -128,18 +130,21 @@ namespace Servico
                                 {
                                     try
                                     {
-                                        portaXbeeServidor.Write(objMsg.TextoEnvio());
+                                        string sTextoEnvio = objMsg.TextoEnvio();
+                                        portaXbeeServidor.Write(sTextoEnvio);
                                         portaXbeeServidor.BaseStream.Flush();
+                                        iSleep = 1000;
+
+                                        // Grava trace
+                                        controlTrace.Insere(Biblioteca.Modelo.TraceComunicacao.ProcedenciaTrace.HomeOn, objMsg._Header.ID_Receiver, objMsg._Command.ID_Dispositivo, sTextoEnvio);
                                     }
                                     catch (Exception exc)
                                     {
                                         controlLog.Insere(Biblioteca.Modelo.Log.LogTipo.Erro, "Erro ao escrever mensagem na porta serial.", exc);
                                     }
                                 }
-                                else
-                                {
-                                    System.Threading.Thread.Sleep(200);
-                                }
+
+                                System.Threading.Thread.Sleep(iSleep);
                             }
                             catch (Exception exc)
                             {
@@ -261,6 +266,9 @@ namespace Servico
             portaSerial.Parity = Service._configuradorGeral.SerialParidade;
             portaSerial.DataBits = Service._configuradorGeral.SerialDataBits;
             portaSerial.StopBits = Service._configuradorGeral.SerialStopBits;
+
+            // Evento para processar as mensagens recebidas pela rede de sensores
+            portaXbeeServidor.DataReceived += portaXbeeServidor_DataReceived;
         }
 
         private void RecebeMensagem()
@@ -315,6 +323,9 @@ namespace Servico
                     // Monta mensagem recebida
                     MensagemDispositivo msgRecebida = new MensagemDispositivo(texto);
 
+                    // Grava Trace
+                    controlTrace.Insere(Biblioteca.Modelo.TraceComunicacao.ProcedenciaTrace.Controlador, msgRecebida._Header.ID_Sender, msgRecebida._Command.ID_Dispositivo, texto);
+
                     // Adiciona na fila 
                     cqMsgRecebidas.Enqueue(msgRecebida);
                 }
@@ -323,11 +334,6 @@ namespace Servico
                     controlLog.Insere(Biblioteca.Modelo.Log.LogTipo.Erro,
                         string.Format("Erro ao instanciar objeto MensagemRecebida (portaXbeeServidor_DataReceived). Texto recebido: {0}", texto), exc);
                 }
-
-                // TO DO
-                //// Grava trace 
-                //if (texto != "")
-                //    GeraTrace("drvCerner", IntegracaoTrace.OrigemEnum.Integracao, texto);
             }
         }
         #endregion
