@@ -25,6 +25,7 @@ namespace GerenciadorDomotico.Dispositivos
         public ctlDispositivoDistancia(Dispositivo objDispModelo)
             : base(objDispModelo)
         {
+            this.Size = new Size(60, 40);
         }
         #endregion
 
@@ -39,7 +40,7 @@ namespace GerenciadorDomotico.Dispositivos
                 this.SetImageButton(imgDisp);
                 btnDisp.Enabled = false;
                 btnDisp.ImageAlign = ContentAlignment.TopCenter;
-                btnDisp.TextAlign = ContentAlignment.BottomCenter;
+                btnDisp.TextAlign = ContentAlignment.BottomLeft;
                 btnDisp.UseCompatibleTextRendering = true;
                 btnDisp.Text = string.Empty;
                 //btnDisp.Font = new Font(btnDisp.Font, FontStyle.Bold);

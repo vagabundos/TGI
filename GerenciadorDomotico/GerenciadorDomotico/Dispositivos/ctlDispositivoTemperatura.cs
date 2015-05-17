@@ -25,6 +25,7 @@ namespace GerenciadorDomotico.Dispositivos
         public ctlDispositivoTemperatura(Dispositivo objDispModelo)
             : base(objDispModelo)
         {
+            this.Size = new Size(60, 60);
         }
         #endregion
 

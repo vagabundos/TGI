@@ -9,16 +9,27 @@ using System.Data.Common;
 using Dados;
 using Biblioteca.Modelo;
 using Biblioteca.Modelo.Atributos;
+using System.Linq.Expressions;
 
 namespace Biblioteca.Controle
 {
-    public class controlBase<M> 
+    public class controlBase<M>
         where M : ModeloBase<M>, new()
     {
         #region Propriedades
-        private string NomeTabela {get;set;}
+        private string NomeTabela { get; set; }
         private string NomeEntidade { get; set; }
         private Modelo.Atributos.AtributoClasse atbClasse { get; set; }
+
+        private static Dictionary<ExpressionType, string> Operacoes = new Dictionary<ExpressionType, string>()
+                    {
+                        {ExpressionType.Equal, "="},
+                        {ExpressionType.GreaterThan, ">"},
+                        {ExpressionType.LessThan, "<"},
+                        {ExpressionType.GreaterThanOrEqual, ">="},
+                        {ExpressionType.LessThanOrEqual, "<="},
+                        {ExpressionType.NotEqual, "<>"}
+                    };
         #endregion
 
         #region Construtores
@@ -49,12 +60,105 @@ namespace Biblioteca.Controle
         /// </summary>
         public List<M> LoadTodos(GerenciadorDB mngBD)
         {
+            return LoadTodos(mngBD, null);
+        }
+        /// <summary>
+        /// Carrega todos objetos Modelo da tabela
+        /// </summary>
+        public List<M> LoadTodos(GerenciadorDB mngBD, int? MaxLinhas)
+        {
+            //string sSQL = string.Format("SELECT {0} * FROM {1}", (MaxLinhas != null ? "TOP " + MaxLinhas : ""), NomeTabela);
             string sSQL = string.Format("SELECT * FROM {0}", NomeTabela);
+
+            if (MaxLinhas != null)
+            {
+                sSQL = string.Format("{0} LIMIT {1}", sSQL, MaxLinhas);
+            }
 
             using (DbCommand cmd = mngBD.getCommand(sSQL))
             {
                 return ListObjetosCarregados(ExecutaQuery(cmd));
             }
+        }
+
+        /// <summary>
+        /// Carrega objetos do Modelo que passem pelo filtro informado
+        /// </summary>
+        public List<M> LoadFiltro(GerenciadorDB mngBD, params Expression<Func<M, object>>[] ListaFiltro)
+        {
+            return LoadFiltro(mngBD, null, ListaFiltro);
+        }
+
+        /// <summary>
+        /// Carrega objetos do Modelo que passem pelo filtro informado
+        /// </summary>
+        public List<M> LoadFiltro(GerenciadorDB mngBD, int? MaxLinhas, params Expression<Func<M, object>>[] ListaFiltro)
+        {
+            //string sSQL = string.Format("SELECT {0} * FROM {1}", (MaxLinhas != null ? "TOP " + MaxLinhas : ""), NomeTabela);
+            string sSQL = string.Format("SELECT * FROM {0}", NomeTabela);
+
+            using (DbCommand cmd = mngBD.getCommand(sSQL))
+            {
+                string sWhere = "";
+                foreach (Expression<Func<M, object>> item in ListaFiltro)
+                {
+                    dynamic operation = item.Body;
+                    dynamic operand = operation.Operand;
+                    string campo = "";
+                    object valor = "";
+                    string operacao = "";
+
+                    if (operand is MethodCallExpression)
+                    {
+                        campo = operand.Object.Member.Name;
+                        valor = operand.Arguments[0];
+                        operacao = operand.Method.Name;
+                    }
+                    else
+                    {
+                        campo = operand.Left.Member.Name;
+
+                        if (operand.Right is System.Linq.Expressions.ConstantExpression)
+                            valor = operand.Right.Value;
+                        else
+                            valor = GetValueExpression(operand.Right);
+
+                        operacao = Operacoes[operation.Operand.NodeType];
+                    }
+
+                    if (valor == null || valor == DBNull.Value)
+                    {
+                        sWhere += string.Format("{0}({1} IS NULL)", (sWhere != "" ? " AND " : ""), campo, operacao);
+                    }
+                    else
+                    {
+                        sWhere += string.Format("{0}({1}{2}?)", (sWhere != "" ? " AND " : ""), campo, operacao);
+                        cmd.Parameters.Add(Parametro(new KeyValuePair<string, object>(campo, valor), mngBD));
+                    }
+                }
+
+                if (ListaFiltro.Count() > 0)
+                    cmd.CommandText = string.Format("{0} WHERE {1}", cmd.CommandText, sWhere);
+
+                if (MaxLinhas != null)
+                {
+                    cmd.CommandText = string.Format("{0} LIMIT {1}", cmd.CommandText, MaxLinhas);
+                }
+
+                // Executa query
+                return ListObjetosCarregados(ExecutaQuery(cmd));
+            }
+        }
+
+        private static object GetValueExpression(Expression member)
+        {
+            var objectMember = Expression.Convert(member, typeof(object));
+
+            var getterLambda = Expression.Lambda<Func<object>>(objectMember);
+
+            var getter = getterLambda.Compile();
+
+            return getter();
         }
 
         public bool Salva(ModeloBase<M> objModelo, GerenciadorDB mngBD)
@@ -213,28 +317,28 @@ namespace Biblioteca.Controle
         }
 
         /// <summary>
-		/// Devolve DBParameter com base no nome (string) e no valor (object);
-		/// </summary>
-		private DbParameter Parametro(KeyValuePair<string, object> item, GerenciadorDB mngDB)
-		{
+        /// Devolve DBParameter com base no nome (string) e no valor (object);
+        /// </summary>
+        private DbParameter Parametro(KeyValuePair<string, object> item, GerenciadorDB mngDB)
+        {
             // Nesse momento estamos utilizando MySqlParameter, deixa todo o encapsulamento dentro da classe GerenciadorBD
-			DbParameter paramRet = mngDB.getParameter();
+            DbParameter paramRet = mngDB.getParameter();
 
-			if (item.Value != null)
-			{
+            if (item.Value != null)
+            {
                 // Associa valor ao DBParameter
                 paramRet.Value = item.Value;
-                
+
                 // Verifica Type da propriedade
                 Type tipo = item.Value.GetType();
-				paramRet.ParameterName = item.Key + Guid.NewGuid().ToString("N");
+                paramRet.ParameterName = item.Key + Guid.NewGuid().ToString("N");
 
                 if (item.Value.GetType() == typeof(string))
                 {
-                        paramRet.DbType = DbType.String;
-                    
-                        //if (string.IsNullOrEmpty(item.Value.ToString()))
-                        //    paramRet.Value = DBNull.Value;
+                    paramRet.DbType = DbType.String;
+
+                    //if (string.IsNullOrEmpty(item.Value.ToString()))
+                    //    paramRet.Value = DBNull.Value;
                 }
                 else if (item.Value.GetType() == typeof(decimal))
                     paramRet.DbType = DbType.Decimal;
@@ -251,13 +355,13 @@ namespace Biblioteca.Controle
                     paramRet.DbType = DbType.Boolean;
                 else if (item.Value.GetType() == typeof(float) || item.Value.GetType() == typeof(Double))
                     paramRet.DbType = DbType.Double;
-			}
-			else
-				paramRet.Value = DBNull.Value;
-            
+            }
+            else
+                paramRet.Value = DBNull.Value;
+
             // Retorna DBParameter
-			return paramRet;
-		}
+            return paramRet;
+        }
         #endregion
 
         #region Banco de Dados

@@ -96,19 +96,17 @@ namespace GerenciadorDomotico
             {
                 BindingList<Log> bList;
 
-                using (GerenciadorDB mngBD = new GerenciadorDB(false))
-                {
-                    bList = new BindingList<Log>(controleTela.LoadTodos(mngBD));    
-                }
-
                 // Pega os tipos de logs selecionados no filtro para exibição
                 List<Log.LogTipo> lstTiposLog = GetTipoLogsSelecionados();
+
+                using (GerenciadorDB mngBD = new GerenciadorDB(false))
+                {
+                    bList = new BindingList<Log>(controleTela.LoadFiltro(mngBD, l => l.DataHoraInclusao >= dtInicio.Value, l => l.DataHoraInclusao <= dtFinal.Value));
+                }
 
                 // Aplica filtros da tela na lista
                 var auxLogs = from Log objLog in bList.OrderByDescending(l => l.ID)
                               where lstTiposLog.Contains(objLog.Tipo)
-                              where dtInicio.Value <= objLog.DataHoraInclusao
-                              where dtFinal.Value >= objLog.DataHoraInclusao
                               select objLog;
 
                 List<Log> lstLogs = auxLogs.ToList();

@@ -401,12 +401,20 @@ namespace Servico
                 using (Dados.GerenciadorDB mngDB = new Dados.GerenciadorDB(false))
                 {
                     controlBase<Biblioteca.Modelo.Dispositivo> ctrlDisp = new controlBase<Biblioteca.Modelo.Dispositivo>();
-                    lstDisp = ctrlDisp.LoadTodos(mngDB);
+
+                    if (string.IsNullOrEmpty(Piso))
+                    {
+                        lstDisp = ctrlDisp.LoadTodos(mngDB);
+                    }
+                    else
+                    {
+                        lstDisp = ctrlDisp.LoadFiltro(mngDB, l => l.Piso == Piso);
+                    }
                 }
 
-                // Filtra pelos dispositivos do Sistema, ou pelo Piso se informado
+                // Filtra dispositivos conectados
                 var Disps = from Biblioteca.Modelo.Dispositivo objAux in lstDisp
-                            where cdStatusDispositivos.ContainsKey(objAux.Codigo) && (string.IsNullOrEmpty(Piso) || objAux.Piso.Equals(Piso))
+                            where cdStatusDispositivos.ContainsKey(objAux.Codigo)
                             select objAux;
 
                 DispositivosStatus = new Dictionary<string, string>(Disps.ToDictionary(i => i.Codigo, i => cdStatusDispositivos[i.Codigo]));

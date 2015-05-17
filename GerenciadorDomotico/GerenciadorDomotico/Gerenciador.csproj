@@ -209,6 +209,9 @@
     <EmbeddedResource Include="Dispositivos\ctlDispositivoBase.resx">
       <DependentUpon>ctlDispositivoBase.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Dispositivos\ctlDispositivoIluminacao.resx">
+      <DependentUpon>ctlDispositivoIluminacao.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dispositivos\ctlDispositivoTemperatura.resx">
       <DependentUpon>ctlDispositivoTemperatura.cs</DependentUpon>
     </EmbeddedResource>

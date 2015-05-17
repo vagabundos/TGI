@@ -31,7 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(winInicial));
             this.stpMenu = new System.Windows.Forms.MenuStrip();
             this.pnlGeral = new System.Windows.Forms.Panel();
-            this.tabCtrl1 = new System.Windows.Forms.TabControl();
+            this.tabCtrl = new System.Windows.Forms.TabControl();
             this.pnlGeral.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -45,27 +45,26 @@
             // 
             // pnlGeral
             // 
-            this.pnlGeral.Controls.Add(this.tabCtrl1);
+            this.pnlGeral.Controls.Add(this.tabCtrl);
             this.pnlGeral.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnlGeral.Location = new System.Drawing.Point(0, 24);
             this.pnlGeral.Name = "pnlGeral";
             this.pnlGeral.Size = new System.Drawing.Size(792, 549);
             this.pnlGeral.TabIndex = 1;
             // 
-            // tabCtrl1
+            // tabCtrl
             // 
-            this.tabCtrl1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabCtrl1.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
-            this.tabCtrl1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.tabCtrl1.ItemSize = new System.Drawing.Size(150, 20);
-            this.tabCtrl1.Location = new System.Drawing.Point(0, 0);
-            this.tabCtrl1.Name = "tabCtrl1";
-            this.tabCtrl1.SelectedIndex = 0;
-            this.tabCtrl1.Size = new System.Drawing.Size(792, 549);
-            this.tabCtrl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
-            this.tabCtrl1.TabIndex = 1;
-            this.tabCtrl1.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabCtrl1_DrawItem);
-            this.tabCtrl1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tabCtrl1_MouseDown);
+            this.tabCtrl.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabCtrl.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
+            this.tabCtrl.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.tabCtrl.ItemSize = new System.Drawing.Size(150, 20);
+            this.tabCtrl.Location = new System.Drawing.Point(0, 0);
+            this.tabCtrl.Name = "tabCtrl";
+            this.tabCtrl.SelectedIndex = 0;
+            this.tabCtrl.Size = new System.Drawing.Size(792, 549);
+            this.tabCtrl.TabIndex = 1;
+            this.tabCtrl.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabCtrl1_DrawItem);
+            this.tabCtrl.MouseDown += new System.Windows.Forms.MouseEventHandler(this.tabCtrl_MouseDown);
             // 
             // winInicial
             // 
@@ -77,7 +76,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.stpMenu;
             this.Name = "winInicial";
-            this.Text = "Home On";
+            this.Text = "HomeOn";
             this.pnlGeral.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -88,7 +87,7 @@
 
 		private System.Windows.Forms.MenuStrip stpMenu;
 		private System.Windows.Forms.Panel pnlGeral;
-        private System.Windows.Forms.TabControl tabCtrl1;
+        private System.Windows.Forms.TabControl tabCtrl;
 	}
 }
 

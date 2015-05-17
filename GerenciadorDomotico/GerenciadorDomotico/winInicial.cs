@@ -8,10 +8,11 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Biblioteca.Controle;
 
 namespace GerenciadorDomotico
 {
-	public partial class winInicial : winBase
+    public partial class winInicial : winBase
     {
         #region Propriedades
 
@@ -21,74 +22,87 @@ namespace GerenciadorDomotico
 
         #region Construtores
         public winInicial()
-		{
-			InitializeComponent();
+        {
+            InitializeComponent();
+            this.tabCtrl.Visible = false;
 
-            //stpMenu.ForeColor = System.Drawing.Color.White;
-            //stpMenu.BackColor = System.Drawing.Color.Black;
-            ConfiguraMenu(stpMenu);
+            try
+            {
+                ConfiguraMenu(stpMenu);
 
-			ToolStripMenuItem objMenuItem;
-			ToolStripMenuItem objSubMenuItem;
+                ToolStripMenuItem objMenuItem;
+                ToolStripMenuItem objSubMenuItem;
 
-            #region Telas
-            // Cria dicionario de telas
-            ctlTelas = new Dictionary<string, string>();
+                #region Telas
+                // Cria dicionario de telas
+                ctlTelas = new Dictionary<string, string>();
 
-            ctlTelas.Add("Configurador Geral", "ctlConfiguradorGeral");
-            ctlTelas.Add("Cadastro de Usuários", "ctlCadUsuario");
-            ctlTelas.Add("Cadastro de Pisos", "ctlCadPiso");
-            ctlTelas.Add("Cadastro de Dispositivos", "ctlCadDispositivos");
-            ctlTelas.Add("Painel da Casa", "ctlPainel");
-            ctlTelas.Add("Logs do Sistema", "ctlLogs");
-            ctlTelas.Add("Trace de Comunicação", "ctlTraceComunicacao");
-            
-            #endregion
+                ctlTelas.Add("Geral", "ctlConfiguradorGeral");
+                ctlTelas.Add("Cadastro de Usuários", "ctlCadUsuario");
+                ctlTelas.Add("Cadastro de Pisos", "ctlCadPiso");
+                ctlTelas.Add("Cadastro de Dispositivos", "ctlCadDispositivos");
+                ctlTelas.Add("Monitor", "ctlPainel");
+                ctlTelas.Add("Logs", "ctlLogs");
+                ctlTelas.Add("Trace de Comunicação", "ctlTraceComunicacao");
 
-            #region Menu Operação
-            objMenuItem = new ToolStripMenuItem("Operação");
-            ConfiguraSubMenu(objMenuItem);
-            stpMenu.Items.Add(objMenuItem);
+                #endregion
 
-            // Submenus
-            objSubMenuItem = new ToolStripMenuItem("Painel da Casa", null, mniRotina_Click);
-            ConfiguraSubMenu(objSubMenuItem);
-            objMenuItem.DropDown.Items.Add(objSubMenuItem);
+                #region Menu Operação
+                objMenuItem = new ToolStripMenuItem("Operação");
+                ConfiguraSubMenu(objMenuItem);
+                stpMenu.Items.Add(objMenuItem);
 
-            objSubMenuItem = new ToolStripMenuItem("Logs do Sistema", null, mniRotina_Click);
-            ConfiguraSubMenu(objSubMenuItem);
-            objMenuItem.DropDown.Items.Add(objSubMenuItem);
+                // Submenus
+                objSubMenuItem = new ToolStripMenuItem("Monitor", null, mniRotina_Click);
+                ConfiguraSubMenu(objSubMenuItem);
+                objMenuItem.DropDown.Items.Add(objSubMenuItem);
 
-            objSubMenuItem = new ToolStripMenuItem("Trace de Comunicação", null, mniRotina_Click);
-            ConfiguraSubMenu(objSubMenuItem);
-            objMenuItem.DropDown.Items.Add(objSubMenuItem);
+                #endregion
 
-            #endregion
+                #region Menu Configurações
+                objMenuItem = new ToolStripMenuItem("Configuração");
+                ConfiguraSubMenu(objMenuItem);
+                stpMenu.Items.Add(objMenuItem);
 
-			#region Menu Configurações
-			objMenuItem = new ToolStripMenuItem("Configuração");
-            ConfiguraSubMenu(objMenuItem);
-			stpMenu.Items.Add(objMenuItem);
+                // Submenus
+                //objSubMenuItem = new ToolStripMenuItem("Cadastro de Usuários", null, mniRotina_Click);
+                //ConfiguraSubMenu(objSubMenuItem);
+                //objMenuItem.DropDown.Items.Add(objSubMenuItem);
 
-			// Submenus
-            //objSubMenuItem = new ToolStripMenuItem("Cadastro de Usuários", null, mniRotina_Click);
-            //ConfiguraSubMenu(objSubMenuItem);
-			//objMenuItem.DropDown.Items.Add(objSubMenuItem);
+                objSubMenuItem = new ToolStripMenuItem("Cadastro de Pisos", null, mniRotina_Click);
+                ConfiguraSubMenu(objSubMenuItem);
+                objMenuItem.DropDown.Items.Add(objSubMenuItem);
 
-            objSubMenuItem = new ToolStripMenuItem("Configurador Geral", null, mniRotina_Click);
-            ConfiguraSubMenu(objSubMenuItem);
-            objMenuItem.DropDown.Items.Add(objSubMenuItem);
+                objSubMenuItem = new ToolStripMenuItem("Cadastro de Dispositivos", null, mniRotina_Click);
+                ConfiguraSubMenu(objSubMenuItem);
+                objMenuItem.DropDown.Items.Add(objSubMenuItem);
 
-            objSubMenuItem = new ToolStripMenuItem("Cadastro de Pisos", null, mniRotina_Click);
-            ConfiguraSubMenu(objSubMenuItem);
-            objMenuItem.DropDown.Items.Add(objSubMenuItem);
+                objSubMenuItem = new ToolStripMenuItem("Geral", null, mniRotina_Click);
+                ConfiguraSubMenu(objSubMenuItem);
+                objMenuItem.DropDown.Items.Add(objSubMenuItem);
+                #endregion
 
-            objSubMenuItem = new ToolStripMenuItem("Cadastro de Dispositivos", null, mniRotina_Click);
-            ConfiguraSubMenu(objSubMenuItem);
-            objMenuItem.DropDown.Items.Add(objSubMenuItem);
-            #endregion
+                #region Menu Manutenção
+                objMenuItem = new ToolStripMenuItem("Sistema");
+                ConfiguraSubMenu(objMenuItem);
+                stpMenu.Items.Add(objMenuItem);
+
+                // Submenus
+                objSubMenuItem = new ToolStripMenuItem("Logs", null, mniRotina_Click);
+                ConfiguraSubMenu(objSubMenuItem);
+                objMenuItem.DropDown.Items.Add(objSubMenuItem);
+
+                objSubMenuItem = new ToolStripMenuItem("Trace de Comunicação", null, mniRotina_Click);
+                ConfiguraSubMenu(objSubMenuItem);
+                objMenuItem.DropDown.Items.Add(objSubMenuItem);
+                #endregion
+            }
+            catch (Exception exc)
+            {
+                controlLog.Insere(Biblioteca.Modelo.Log.LogTipo.Erro, "Erro ao carregar tela Inicial (winInicial())", exc);
+            }
         }
-		#endregion
+        #endregion
 
         #region Métodos
         private void ConfiguraMenu(Control ctrl)
@@ -109,60 +123,90 @@ namespace GerenciadorDomotico
 
         #region Eventos
         private void mniRotina_Click(object sender, EventArgs e)
-		{
-			ToolStripMenuItem objMenuItem = (ToolStripMenuItem)sender;
-			if (!tabCtrl1.TabPages.ContainsKey(objMenuItem.Text))
-			{
-                Assembly currAssembly = Assembly.GetExecutingAssembly();
-                string ctl = currAssembly.GetName().Name + "." + ctlTelas[objMenuItem.Text];
-				tabCtrl1.TabPages.Add(objMenuItem.Text, objMenuItem.Text);
-                TabPage objTabPage = tabCtrl1.TabPages[objMenuItem.Text];
-                tabCtrl1.SelectTab(objTabPage);
+        {
+            try
+            {
+                ToolStripMenuItem objMenuItem = (ToolStripMenuItem)sender;
+                if (!tabCtrl.TabPages.ContainsKey(objMenuItem.Text))
+                {
+                    Assembly currAssembly = Assembly.GetExecutingAssembly();
+                    string ctl = currAssembly.GetName().Name + "." + ctlTelas[objMenuItem.Text];
 
-                // Carrega a tela selecionada via reflection
-                ctlBase ctrlCarregado = currAssembly.CreateInstance(ctl) as ctlBase;
+                    // Carrega a tela selecionada via reflection
+                    ctlBase ctrlCarregado = currAssembly.CreateInstance(ctl) as ctlBase;
 
-                objTabPage.Controls.Add(ctrlCarregado);
-				this.ActiveControl = ctrlCarregado;
-				this.ActiveControl.Focus();
+                    // Proteção para tela não carregada
+                    if (ctrlCarregado.IsDisposed)
+                        return;
 
-                // Aciona evento para fechar a aba quando fechar uma tela for fechada
-                ctrlCarregado.Disposed += new EventHandler(CloseTab);
-			}
-		}
+                    tabCtrl.TabPages.Add(objMenuItem.Text, objMenuItem.Text + "           ");
+                    TabPage objTabPage = tabCtrl.TabPages[objMenuItem.Text];
+                    tabCtrl.SelectTab(objTabPage);
+
+                    objTabPage.Controls.Add(ctrlCarregado);
+                    this.ActiveControl = ctrlCarregado;
+                    this.ActiveControl.Focus();
+                    this.tabCtrl.Visible = true;
+
+                    // Aciona evento para fechar a aba quando fechar uma tela for fechada
+                    ctrlCarregado.Disposed += new EventHandler(CloseTab);
+                }
+            }
+            catch (Exception exc)
+            {
+                controlLog.Insere(Biblioteca.Modelo.Log.LogTipo.Erro, "Erro ao abrir nova tela (mniRotina_CLick.winInicial)", exc);
+            }
+        }
 
         private void CloseTab(object sender, EventArgs e)
         {
-            this.tabCtrl1.TabPages.RemoveAt(tabCtrl1.SelectedIndex);
+            this.tabCtrl.TabPages.RemoveAt(tabCtrl.SelectedIndex);
+
+            if (tabCtrl.TabCount == 0)
+                this.tabCtrl.Visible = false;
         }
 
         private void tabCtrl1_DrawItem(object sender, DrawItemEventArgs e)
         {
-            e.Graphics.DrawString("x", e.Font, Brushes.Black, e.Bounds.Right - 15, e.Bounds.Top + 4);
-            e.Graphics.DrawString(this.tabCtrl1.TabPages[e.Index].Text, e.Font, Brushes.Black, e.Bounds.Left + 12, e.Bounds.Top + 4);
-            e.DrawFocusRectangle();
+            try
+            {
+                e.Graphics.DrawString("x", e.Font, Brushes.Black, e.Bounds.Right - 15, e.Bounds.Top + 4);
+                e.Graphics.DrawString(this.tabCtrl.TabPages[e.Index].Text, e.Font, Brushes.Black, e.Bounds.Left + 12, e.Bounds.Top + 4);
+                e.DrawFocusRectangle();
+            }
+            catch (Exception exc)
+            {
+                controlLog.Insere(Biblioteca.Modelo.Log.LogTipo.Erro, "Erro na execução do evento (tabCtrl1_DrawItem.winInicial)", exc);
+            }
         }
 
-        private void tabCtrl1_MouseDown(object sender, MouseEventArgs e)
+        private void tabCtrl_MouseDown(object sender, MouseEventArgs e)
         {
-            //Looping through the controls.
-            for (int i = 0; i < this.tabCtrl1.TabPages.Count; i++)
+            try
             {
-                Rectangle r = this.tabCtrl1.GetTabRect(i);
-                //Getting the position of the "x" mark.
-                Rectangle closeButton = new Rectangle(r.Right - 15, r.Top + 4, 9, 7);
-                if (closeButton.Contains(e.Location))
+                //Looping through the controls.
+                for (int i = 0; i < this.tabCtrl.TabPages.Count; i++)
                 {
-                    if (MessageBox.Show("Tem certeza que deseja fechar esta janela?", "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    Rectangle r = this.tabCtrl.GetTabRect(i);
+                    //Getting the position of the "x" mark.
+                    Rectangle closeButton = new Rectangle(r.Right - 15, r.Top + 4, 9, 7);
+                    if (closeButton.Contains(e.Location))
                     {
-                        if (this.tabCtrl1.TabPages[i].Controls.Count > 0 && this.tabCtrl1.TabPages[i].Controls[0] is ctlBase)
+                        if (MessageBox.Show("Tem certeza que deseja fechar esta janela?", "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                         {
-                            ctlBase ctrl = this.tabCtrl1.TabPages[i].Controls[0] as ctlBase;
-                            if (!ctrl.Fecha())
-                                return;
+                            if (this.tabCtrl.TabPages[i].Controls.Count > 0 && this.tabCtrl.TabPages[i].Controls[0] is ctlBase)
+                            {
+                                ctlBase ctrl = this.tabCtrl.TabPages[i].Controls[0] as ctlBase;
+                                if (!ctrl.Fecha())
+                                    return;
+                            }
                         }
                     }
                 }
+            }
+            catch (Exception exc)
+            {
+                controlLog.Insere(Biblioteca.Modelo.Log.LogTipo.Erro, "Erro na execução do evento (tabCtrl1_MouseDown.winInicial)", exc);
             }
         }
         #endregion

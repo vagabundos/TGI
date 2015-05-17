@@ -19,6 +19,7 @@ namespace GerenciadorDomotico
     {
         #region Propriedades
         private controlBase<TraceComunicacao> controleTela = new controlBase<TraceComunicacao>();
+        int iMaximoLinhas = 1000;
         #endregion
 
         #region Construtores
@@ -98,17 +99,16 @@ namespace GerenciadorDomotico
 
                 using (GerenciadorDB mngBD = new GerenciadorDB(false))
                 {
-                    bList = new BindingList<TraceComunicacao>(controleTela.LoadTodos(mngBD));    
+                    // Filtra pelas Datas
+                    bList = new BindingList<TraceComunicacao>(controleTela.LoadFiltro(mngBD, iMaximoLinhas, t => t.DataHoraOcorrencia >= dtInicio.Value, t => t.DataHoraOcorrencia <= dtFinal.Value));
                 }
 
                 // Pega as procedencias de trace selecionadas no filtro para exibição
                 List<TraceComunicacao.ProcedenciaTrace> lstProcedenciaTrace = GetProcedenciaTraceSelecionados();
 
-                // Aplica filtros da tela na lista
+                // Aplica Filtros restantes
                 var auxTrace = (from TraceComunicacao objTrace in bList.OrderByDescending(l => l.ID)
                                 where lstProcedenciaTrace.Contains(objTrace.Procedencia)
-                                where dtInicio.Value <= objTrace.DataHoraOcorrencia
-                                where dtFinal.Value >= objTrace.DataHoraOcorrencia
                                 select objTrace).Select(t => { t.Mensagem = Util.TraduzCaracteresEspeciais(t.Mensagem); return t; });
 
                 List<TraceComunicacao> lstTrace = auxTrace.ToList();

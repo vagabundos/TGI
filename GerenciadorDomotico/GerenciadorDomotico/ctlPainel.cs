@@ -28,6 +28,28 @@ namespace GerenciadorDomotico
             : base()
         {
             InitializeComponent();
+
+            Biblioteca.Comunicação.wsrvHomeOnClient WSclient = Biblioteca.Comunicação.wsrvHomeOnClient.getClient();
+            bool bServicoAtivo = false;
+            try
+            {
+                Dictionary<string, string> dicRetorno = null;
+                string sMsgRetorno = null;
+                WSclient.StatusDispositivos("", "", out dicRetorno, out sMsgRetorno);
+                bServicoAtivo = true;
+            }
+            catch
+            { }
+
+            if (!bServicoAtivo)
+            {
+                MessageBox.Show("Não foi possível conectar ao Serviço para obter o STATUS dos Dispositivos.\r\nVerifique se o processo está ativo e/ou as configurações estão corretas.",
+                    "Atenção", MessageBoxButtons.OK, MessageBoxIcon.None, MessageBoxDefaultButton.Button1);
+
+                this.Fecha();
+                return;
+            }
+
             ConfiguraTela();
             ActiveControl = cmbPiso;
             cmbPiso.Focus();
@@ -59,6 +81,7 @@ namespace GerenciadorDomotico
                 var auxPiso = from Piso objAux in _lstPisos
                               where objAux.Codigo == cmbPiso.SelectedValue.ToString()
                               select objAux;
+
                 Piso objPisoSelecionado = auxPiso.First();
 
                 if (objPisoSelecionado != null)
@@ -69,14 +92,7 @@ namespace GerenciadorDomotico
                     using (GerenciadorDB mngBD = new GerenciadorDB(false))
                     {
                         // Carrega os Dispositivos associados ao Piso selecionado
-                        _lstDispositivos = new controlBase<Dispositivo>().LoadTodos(mngBD);
-
-                        var dispositivos = from Dispositivo objDisp in _lstDispositivos
-                                           where objDisp.Piso == cmbPiso.SelectedValue.ToString()
-                                           select objDisp;
-
-                        _lstDispositivos = dispositivos.ToList();
-
+                        _lstDispositivos = new controlBase<Dispositivo>().LoadFiltro(mngBD, p => p.Piso == cmbPiso.SelectedValue.ToString());
 
                         // Carrega os dispositivos no Piso
                         foreach (Dispositivo disp in _lstDispositivos)

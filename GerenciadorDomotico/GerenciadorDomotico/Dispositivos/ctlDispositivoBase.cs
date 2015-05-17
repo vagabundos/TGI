@@ -23,75 +23,7 @@ namespace GerenciadorDomotico.Dispositivos
         protected string sValorDisp = string.Empty;
         protected int iIntervalo = 1000;
         protected float fTransparencia = 1f;
-
-        #region Web Service
-
-        private Biblioteca.Comunicação.wsrvHomeOnClient _wsrvClient = null;
-        private Biblioteca.Comunicação.wsrvHomeOnClient WsrvClient
-        {
-            get
-            {
-                if (_wsrvClient == null)
-                {
-                    Uri WebSrvUri = new Uri(string.Format("{0}/{1}", _BaseAddress, _ApplicationName));
-
-                    System.ServiceModel.BasicHttpBinding binding = new System.ServiceModel.BasicHttpBinding();
-                    binding.SendTimeout = new TimeSpan(0, 0, 0, 2, 0);
-                    binding.OpenTimeout = new TimeSpan(0, 0, 1, 0, 0);
-                    binding.CloseTimeout = new TimeSpan(0, 0, 1, 0, 0);
-
-                    _wsrvClient = new Biblioteca.Comunicação.wsrvHomeOnClient(binding, new System.ServiceModel.EndpointAddress(WebSrvUri));
-                }
-
-                return _wsrvClient;
-            }
-        }
-
-        #region Estáticos
-        private static ConfiguracaoGeral _conf = null;
-        private static ConfiguracaoGeral Config
-        {
-            get
-            {
-                if (_conf == null)
-                {
-                    // Carrega configurador geral do sistema
-                    List<Biblioteca.Modelo.ConfiguracaoGeral> lstConfig = null;
-                    using (Dados.GerenciadorDB mngBD = new Dados.GerenciadorDB(false))
-                    {
-                        Biblioteca.Controle.controlBase<Biblioteca.Modelo.ConfiguracaoGeral> ctrlGeral = new Biblioteca.Controle.controlBase<Biblioteca.Modelo.ConfiguracaoGeral>();
-                        lstConfig = ctrlGeral.LoadTodos(mngBD);
-                    }
-
-                    // Deve existir apenas um item
-                    _conf = lstConfig.First();
-                }
-
-                return _conf;
-            }
-        }
-
-        private static string _BaseAddress
-        {
-            get
-            {
-                return string.Format("http://{0}:{1}", Config.WsServidor, Config.WsPorta);
-            }
-        }
-
-        /// <summary>
-        /// Nome da aplicação do WebService
-        /// </summary>
-        private static string _ApplicationName
-        {
-            get
-            {
-                return "wsrvHomeOn.svc";
-            }
-        }
-        #endregion
-
-        #endregion
+        protected Biblioteca.Comunicação.wsrvHomeOnClient wsClient;
 
         #endregion
 
@@ -117,6 +49,7 @@ namespace GerenciadorDomotico.Dispositivos
         public ctlDispositivoBase(Dispositivo objDispModelo)
         {
             InitializeComponent();
+            wsClient = Biblioteca.Comunicação.wsrvHomeOnClient.getClient();
             objDisp = objDispModelo;
             GetStatusDispositivo();
         }
@@ -280,7 +213,6 @@ namespace GerenciadorDomotico.Dispositivos
             try
             {
                 string sMessage;
-                Biblioteca.Comunicação.wsrvHomeOnClient wsClient = WsrvClient;
 
                 if (!wsClient.EnviaRequisicao(this.objDisp.Controlador, this.objDisp.Codigo, sValorNovo, out sMessage))
                 {
@@ -309,8 +241,6 @@ namespace GerenciadorDomotico.Dispositivos
 
             try
             {
-                Biblioteca.Comunicação.wsrvHomeOnClient wsClient = WsrvClient;
-
                 // Busca valor atualizado no Web Service
                 if (!wsClient.StatusDispositivos(this.objDisp.Piso, this.objDisp.Codigo, out dicDisp, out sMessage))
                 {
@@ -385,5 +315,45 @@ namespace GerenciadorDomotico.Dispositivos
             GetStatusDispositivo();
         }
         #endregion
+
+        //private void btnDisp_Paint(object sender, PaintEventArgs e)
+        //{
+        //    // Create a Bitmap object from an image file.
+        //    Image myImg;
+        //    Bitmap myBitmap;
+        //    if (btnDisp.BackgroundImage != null)
+        //    {
+        //        btnDisp.BackColor = Color.DarkGreen;
+        //        try
+        //        {
+        //            myImg = btnDisp.BackgroundImage;
+        //            myBitmap = new Bitmap(myImg);
+
+        //            // Get the color of a background pixel.
+        //            Color backColor = myBitmap.GetPixel(0, 0); // GetPixel(1, 1); 
+        //            Color backColorGray = Color.Gray;
+        //            Color backColorGrayLight = Color.LightGray;
+        //            Color backColorWhiteSmoke = Color.WhiteSmoke;
+        //            Color backColorWhite = Color.White;
+        //            Color backColorWheat = Color.Wheat;
+
+        //            // Make backColor transparent for myBitmap.
+        //            myBitmap.MakeTransparent(backColor);
+        //            // OPTIONALLY, you may make any other "suspicious" back color transparent (usually gray, light gray or whitesmoke)
+        //            myBitmap.MakeTransparent(backColorGray);
+        //            myBitmap.MakeTransparent(backColorGrayLight);
+        //            myBitmap.MakeTransparent(backColorWhiteSmoke);
+
+        //            // Draw myBitmap to the screen.
+        //            e.Graphics.DrawImage(myBitmap, 0, 0, btnDisp.Width - 5, btnDisp.Height - 5); //myBitmap.Width, myBitmap.Height);
+        //        }
+        //        catch
+        //        {
+        //            string t = "ss";
+        //            //try { pictureBox1.Image = Util.byteArrayToImage( cls_convertImagesByte.GetImageFromByte(newImg); }
+        //            //catch { } //must do something
+        //        }
+        //    }
+        //}
     }
 }
