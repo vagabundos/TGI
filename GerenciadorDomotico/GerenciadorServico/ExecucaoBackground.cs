@@ -12,6 +12,7 @@ using Biblioteca.Comunicação;
 using System.Configuration;
 using System.Reflection;
 using System.Threading;
+using System.Security.Permissions;
 
 namespace Servico
 {
@@ -62,6 +63,7 @@ namespace Servico
         #region Métodos
 
         #region Básicos
+        [SecurityPermission(SecurityAction.Demand)]
         public void LoopPrincipal()
         {
             try

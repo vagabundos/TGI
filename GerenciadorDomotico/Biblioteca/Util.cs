@@ -265,9 +265,21 @@ namespace Biblioteca
                     bSucesso = true;
                 }
             }
-            catch (Exception)
+            catch (Exception exc)
             {
                 // Se caiu aqui, a conexão não funcionou
+                //using (FileStream fs = new FileStream("C:\\temp\\log.txt", FileMode.OpenOrCreate, FileAccess.Write))
+                //{
+                //    using (StreamWriter w = new StreamWriter(fs))
+                //    {
+                //        w.BaseStream.Seek(0, SeekOrigin.End);
+                //        w.WriteLine(exc.ToString());
+                //        w.Flush();
+                //        w.Close();
+                //    }
+
+                //    fs.Close();
+                //}
             }
 
             return bSucesso;
@@ -280,10 +292,13 @@ namespace Biblioteca
         {
             string sDiretorio = string.Empty;
 
+#if DEBUG
             // Pega diretório de trabalho
-            sDiretorio = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            sDiretorio = Path.Combine(sDiretorio, "conexoes.xml");
-
+            sDiretorio = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "conexoes.xml");
+            //sDiretorio = Path.Combine(Assembly.GetExecutingAssembly().Location, "conexoes.xml");
+#else
+            sDiretorio = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "conexoes.xml");
+#endif
             // Verifica se o arquivo existe
             if (!File.Exists(sDiretorio))
                 return string.Empty;
