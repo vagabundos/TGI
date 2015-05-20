@@ -258,29 +258,32 @@ namespace Biblioteca
             GerenciadorDB._Port = xmlDados["Port"].InnerText;
 
             // Testa Conexão
-            try
-            {
-                using (GerenciadorDB mngBD = new GerenciadorDB(false))
-                {
-                    bSucesso = true;
-                }
-            }
-            catch (Exception exc)
-            {
-                // Se caiu aqui, a conexão não funcionou
-                //using (FileStream fs = new FileStream("C:\\temp\\log.txt", FileMode.OpenOrCreate, FileAccess.Write))
-                //{
-                //    using (StreamWriter w = new StreamWriter(fs))
-                //    {
-                //        w.BaseStream.Seek(0, SeekOrigin.End);
-                //        w.WriteLine(exc.ToString());
-                //        w.Flush();
-                //        w.Close();
-                //    }
+			try
+			{
+				using (GerenciadorDB mngBD = new GerenciadorDB(false))
+				{
+					bSucesso = true;
+				}
+			}
+			catch
+			{
+				// Se caiu aqui, a conexão não funcionou
+			}
+			//catch (Exception exc)
+			//{
+			//	using (FileStream fs = new FileStream("C:\\temp\\log.txt", FileMode.OpenOrCreate, FileAccess.Write))
+			//	{
+			//		using (StreamWriter w = new StreamWriter(fs))
+			//		{
+			//			w.BaseStream.Seek(0, SeekOrigin.End);
+			//			w.WriteLine(exc.ToString());
+			//			w.Flush();
+			//			w.Close();
+			//		}
 
-                //    fs.Close();
-                //}
-            }
+			//		fs.Close();
+			//	}
+			//}
 
             return bSucesso;
         }
