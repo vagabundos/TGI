@@ -15,6 +15,8 @@ namespace Servico
         /// </summary>
         static void Main()
         {
+            bool bLoga = false;
+
             #region Validações
             // Faz um teste inicial de Conexão com o Banco de Dados
             if (!Util.TestaArquivoConexao())
@@ -52,7 +54,7 @@ namespace Servico
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[] 
             { 
-                new Service() 
+                new Service(bLoga) 
             };
 
             ServiceBase.Run(ServicesToRun);
@@ -61,7 +63,7 @@ namespace Servico
         #region Métodos
         private static void RodaComoServico()
         {
-            Service objServico = new Service();
+            Service objServico = new Service(false);
             try
             {
                 objServico.Inicia();
