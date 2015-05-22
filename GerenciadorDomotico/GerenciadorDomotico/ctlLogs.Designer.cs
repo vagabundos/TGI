@@ -30,6 +30,8 @@
         {
             this.pnlHeader = new System.Windows.Forms.Panel();
             this.grbHeader = new System.Windows.Forms.GroupBox();
+            this.numMaximoLinhas = new System.Windows.Forms.NumericUpDown();
+            this.lblMaximoLinhas = new System.Windows.Forms.Label();
             this.dtFinal = new System.Windows.Forms.DateTimePicker();
             this.btnExibe = new System.Windows.Forms.Button();
             this.lblDataFim = new System.Windows.Forms.Label();
@@ -47,6 +49,7 @@
             this.pnlBotoes.SuspendLayout();
             this.pnlHeader.SuspendLayout();
             this.grbHeader.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numMaximoLinhas)).BeginInit();
             this.grbTiposLog.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spcMain)).BeginInit();
             this.spcMain.Panel1.SuspendLayout();
@@ -59,35 +62,36 @@
             // 
             // pnlBotoes
             // 
-            this.pnlBotoes.Location = new System.Drawing.Point(0, 514);
+            this.pnlBotoes.Location = new System.Drawing.Point(0, 604);
+            this.pnlBotoes.Size = new System.Drawing.Size(1373, 42);
             // 
             // btnFecha
             // 
-            this.btnFecha.Location = new System.Drawing.Point(62, 11);
+            this.btnFecha.Location = new System.Drawing.Point(106, 11);
             // 
             // btnNovo
             // 
-            this.btnNovo.Location = new System.Drawing.Point(199, 11);
+            this.btnNovo.Location = new System.Drawing.Point(287, 11);
             // 
             // btnEdita
             // 
-            this.btnEdita.Location = new System.Drawing.Point(336, 11);
+            this.btnEdita.Location = new System.Drawing.Point(468, 11);
             // 
             // btnSalva
             // 
-            this.btnSalva.Location = new System.Drawing.Point(473, 11);
+            this.btnSalva.Location = new System.Drawing.Point(649, 11);
             // 
             // btnCancela
             // 
-            this.btnCancela.Location = new System.Drawing.Point(610, 11);
+            this.btnCancela.Location = new System.Drawing.Point(830, 11);
             // 
             // btnAtivaInativa
             // 
-            this.btnAtivaInativa.Location = new System.Drawing.Point(747, 11);
+            this.btnAtivaInativa.Location = new System.Drawing.Point(1011, 11);
             // 
             // btnApaga
             // 
-            this.btnApaga.Location = new System.Drawing.Point(884, 11);
+            this.btnApaga.Location = new System.Drawing.Point(1192, 11);
             // 
             // pnlHeader
             // 
@@ -95,11 +99,13 @@
             this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlHeader.Location = new System.Drawing.Point(0, 0);
             this.pnlHeader.Name = "pnlHeader";
-            this.pnlHeader.Size = new System.Drawing.Size(1023, 110);
+            this.pnlHeader.Size = new System.Drawing.Size(1373, 110);
             this.pnlHeader.TabIndex = 0;
             // 
             // grbHeader
             // 
+            this.grbHeader.Controls.Add(this.numMaximoLinhas);
+            this.grbHeader.Controls.Add(this.lblMaximoLinhas);
             this.grbHeader.Controls.Add(this.dtFinal);
             this.grbHeader.Controls.Add(this.btnExibe);
             this.grbHeader.Controls.Add(this.lblDataFim);
@@ -111,23 +117,57 @@
             this.grbHeader.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grbHeader.Location = new System.Drawing.Point(0, 0);
             this.grbHeader.Name = "grbHeader";
-            this.grbHeader.Size = new System.Drawing.Size(1023, 110);
+            this.grbHeader.Size = new System.Drawing.Size(1373, 110);
             this.grbHeader.TabIndex = 0;
             this.grbHeader.TabStop = false;
             // 
+            // numMaximoLinhas
+            // 
+            this.numMaximoLinhas.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.numMaximoLinhas.Location = new System.Drawing.Point(1292, 48);
+            this.numMaximoLinhas.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numMaximoLinhas.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.numMaximoLinhas.Name = "numMaximoLinhas";
+            this.numMaximoLinhas.Size = new System.Drawing.Size(74, 20);
+            this.numMaximoLinhas.TabIndex = 17;
+            this.numMaximoLinhas.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            // 
+            // lblMaximoLinhas
+            // 
+            this.lblMaximoLinhas.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblMaximoLinhas.AutoSize = true;
+            this.lblMaximoLinhas.Location = new System.Drawing.Point(1289, 32);
+            this.lblMaximoLinhas.Name = "lblMaximoLinhas";
+            this.lblMaximoLinhas.Size = new System.Drawing.Size(77, 13);
+            this.lblMaximoLinhas.TabIndex = 16;
+            this.lblMaximoLinhas.Text = "Máximo Linhas";
+            // 
             // dtFinal
             // 
-            this.dtFinal.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtFinal.CustomFormat = "dd/MM/yyyy HH:mm:ss";
+            this.dtFinal.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtFinal.Location = new System.Drawing.Point(389, 77);
             this.dtFinal.Name = "dtFinal";
-            this.dtFinal.Size = new System.Drawing.Size(109, 20);
+            this.dtFinal.Size = new System.Drawing.Size(143, 20);
             this.dtFinal.TabIndex = 8;
             this.dtFinal.Value = new System.DateTime(2015, 5, 3, 0, 16, 37, 0);
             // 
             // btnExibe
             // 
             this.btnExibe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExibe.Location = new System.Drawing.Point(942, 78);
+            this.btnExibe.Location = new System.Drawing.Point(1292, 78);
             this.btnExibe.Name = "btnExibe";
             this.btnExibe.Size = new System.Drawing.Size(75, 23);
             this.btnExibe.TabIndex = 9;
@@ -155,12 +195,12 @@
             // 
             // dtInicio
             // 
-            this.dtInicio.CustomFormat = "";
-            this.dtInicio.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtInicio.CustomFormat = "dd/MM/yyyy HH:mm:ss";
+            this.dtInicio.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtInicio.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.dtInicio.Location = new System.Drawing.Point(389, 38);
             this.dtInicio.Name = "dtInicio";
-            this.dtInicio.Size = new System.Drawing.Size(109, 20);
+            this.dtInicio.Size = new System.Drawing.Size(143, 20);
             this.dtInicio.TabIndex = 5;
             // 
             // grbTiposLog
@@ -213,8 +253,8 @@
             // spcMain.Panel2
             // 
             this.spcMain.Panel2.Controls.Add(this.grbDetalhesLog);
-            this.spcMain.Size = new System.Drawing.Size(1023, 404);
-            this.spcMain.SplitterDistance = 314;
+            this.spcMain.Size = new System.Drawing.Size(1373, 494);
+            this.spcMain.SplitterDistance = 383;
             this.spcMain.TabIndex = 1;
             // 
             // grbGridLogs
@@ -223,7 +263,7 @@
             this.grbGridLogs.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grbGridLogs.Location = new System.Drawing.Point(0, 0);
             this.grbGridLogs.Name = "grbGridLogs";
-            this.grbGridLogs.Size = new System.Drawing.Size(1023, 314);
+            this.grbGridLogs.Size = new System.Drawing.Size(1373, 383);
             this.grbGridLogs.TabIndex = 0;
             this.grbGridLogs.TabStop = false;
             this.grbGridLogs.Text = "Logs do Sistema";
@@ -243,7 +283,7 @@
             this.grdLogs.Name = "grdLogs";
             this.grdLogs.RowHeadersWidth = 20;
             this.grdLogs.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdLogs.Size = new System.Drawing.Size(1017, 295);
+            this.grdLogs.Size = new System.Drawing.Size(1367, 364);
             this.grdLogs.TabIndex = 0;
             this.grdLogs.SelectionChanged += new System.EventHandler(this.grdLogs_SelectionChanged);
             // 
@@ -253,7 +293,7 @@
             this.grbDetalhesLog.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grbDetalhesLog.Location = new System.Drawing.Point(0, 0);
             this.grbDetalhesLog.Name = "grbDetalhesLog";
-            this.grbDetalhesLog.Size = new System.Drawing.Size(1023, 86);
+            this.grbDetalhesLog.Size = new System.Drawing.Size(1373, 107);
             this.grbDetalhesLog.TabIndex = 0;
             this.grbDetalhesLog.TabStop = false;
             this.grbDetalhesLog.Text = "Detalhamento do Log";
@@ -264,7 +304,7 @@
             this.txtDetalhes.Location = new System.Drawing.Point(3, 16);
             this.txtDetalhes.Name = "txtDetalhes";
             this.txtDetalhes.ReadOnly = true;
-            this.txtDetalhes.Size = new System.Drawing.Size(1017, 67);
+            this.txtDetalhes.Size = new System.Drawing.Size(1367, 88);
             this.txtDetalhes.TabIndex = 0;
             this.txtDetalhes.Text = "";
             // 
@@ -275,7 +315,7 @@
             this.Controls.Add(this.spcMain);
             this.Controls.Add(this.pnlHeader);
             this.Name = "ctlLogs";
-            this.Size = new System.Drawing.Size(1023, 556);
+            this.Size = new System.Drawing.Size(1373, 646);
             this.Resize += new System.EventHandler(this.ctlLogs_Resize);
             this.Controls.SetChildIndex(this.pnlHeader, 0);
             this.Controls.SetChildIndex(this.pnlBotoes, 0);
@@ -284,6 +324,7 @@
             this.pnlHeader.ResumeLayout(false);
             this.grbHeader.ResumeLayout(false);
             this.grbHeader.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numMaximoLinhas)).EndInit();
             this.grbTiposLog.ResumeLayout(false);
             this.spcMain.Panel1.ResumeLayout(false);
             this.spcMain.Panel2.ResumeLayout(false);
@@ -314,5 +355,7 @@
         private System.Windows.Forms.RichTextBox txtDetalhes;
         private System.Windows.Forms.DataGridView grdLogs;
         private System.Windows.Forms.Button btnExibe;
+        private System.Windows.Forms.NumericUpDown numMaximoLinhas;
+        private System.Windows.Forms.Label lblMaximoLinhas;
     }
 }

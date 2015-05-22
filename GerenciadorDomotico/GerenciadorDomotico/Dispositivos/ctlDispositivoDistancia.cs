@@ -25,26 +25,26 @@ namespace GerenciadorDomotico.Dispositivos
         public ctlDispositivoDistancia(Dispositivo objDispModelo)
             : base(objDispModelo)
         {
-            this.Size = new Size(60, 40);
+            this.Size = new Size(60, 50);
         }
         #endregion
 
         #region Métodos
         protected override void MudaStatus()
         {
-            // Aplica a imagem no controle de temperatura, se ainda não foi aplicada
-            if (btnDisp.BackgroundImage == null)
+            if (string.IsNullOrEmpty(btnDisp.Text))
             {
-                // Seta imagem default e exibe o botão apenas como se fosse um panel para visualizar os dados
+                // Aplica a imagem no controle de temperatura, se ainda não foi aplicada
                 Image imgDisp = imgList.Images[objDisp.Tipo.ToString()];
                 this.SetImageButton(imgDisp);
-                btnDisp.Enabled = false;
-                btnDisp.ImageAlign = ContentAlignment.TopCenter;
-                btnDisp.TextAlign = ContentAlignment.BottomLeft;
-                btnDisp.UseCompatibleTextRendering = true;
-                btnDisp.Text = string.Empty;
-                //btnDisp.Font = new Font(btnDisp.Font, FontStyle.Bold);
             }
+
+            // Seta imagem default e exibe o botão apenas como se fosse um panel para visualizar os dados
+            btnDisp.Enabled = false;
+            btnDisp.ImageAlign = ContentAlignment.TopCenter;
+            btnDisp.TextAlign = ContentAlignment.BottomLeft;
+            btnDisp.UseCompatibleTextRendering = true;
+            btnDisp.Font = new Font(btnDisp.Font, FontStyle.Bold);
 
             // Exibe o valor no controle de temperatura
             btnDisp.Text = sValorDisp;

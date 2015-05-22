@@ -101,7 +101,7 @@ namespace GerenciadorDomotico
 
                 using (GerenciadorDB mngBD = new GerenciadorDB(false))
                 {
-                    bList = new BindingList<Log>(controleTela.LoadFiltro(mngBD, l => l.DataHoraInclusao >= dtInicio.Value, l => l.DataHoraInclusao <= dtFinal.Value));
+                    bList = new BindingList<Log>(controleTela.LoadFiltro(mngBD, decimal.ToInt32(numMaximoLinhas.Value), l => l.DataHoraInclusao >= dtInicio.Value, l => l.DataHoraInclusao <= dtFinal.Value));
                 }
 
                 // Aplica filtros da tela na lista
@@ -116,6 +116,11 @@ namespace GerenciadorDomotico
                     lstLogs = lstLogs.Where(l => l.ID.ToString() == txtOcorrencia.Text).ToList();
 
                 this.grdLogs.DataSource = lstLogs;
+
+                if (grdLogs.Columns.Contains("DataHoraInclusao"))
+                {
+                    grdLogs.Columns["DataHoraInclusao"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
+                }
 
                 grdLogs.AutoResizeColumns();
             }

@@ -30,6 +30,8 @@
         {
             this.pnlHeader = new System.Windows.Forms.Panel();
             this.grbHeader = new System.Windows.Forms.GroupBox();
+            this.numMaximoLinhas = new System.Windows.Forms.NumericUpDown();
+            this.lblMaximoLinhas = new System.Windows.Forms.Label();
             this.lblDispositivo = new System.Windows.Forms.Label();
             this.lblControlador = new System.Windows.Forms.Label();
             this.txtDispositivo = new System.Windows.Forms.TextBox();
@@ -51,6 +53,7 @@
             this.pnlBotoes.SuspendLayout();
             this.pnlHeader.SuspendLayout();
             this.grbHeader.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numMaximoLinhas)).BeginInit();
             this.grbProcedenciaTrace.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.spcMain)).BeginInit();
             this.spcMain.Panel1.SuspendLayout();
@@ -63,35 +66,36 @@
             // 
             // pnlBotoes
             // 
-            this.pnlBotoes.Location = new System.Drawing.Point(0, 514);
+            this.pnlBotoes.Location = new System.Drawing.Point(0, 604);
+            this.pnlBotoes.Size = new System.Drawing.Size(1373, 42);
             // 
             // btnFecha
             // 
-            this.btnFecha.Location = new System.Drawing.Point(62, 11);
+            this.btnFecha.Location = new System.Drawing.Point(106, 11);
             // 
             // btnNovo
             // 
-            this.btnNovo.Location = new System.Drawing.Point(199, 11);
+            this.btnNovo.Location = new System.Drawing.Point(287, 11);
             // 
             // btnEdita
             // 
-            this.btnEdita.Location = new System.Drawing.Point(336, 11);
+            this.btnEdita.Location = new System.Drawing.Point(468, 11);
             // 
             // btnSalva
             // 
-            this.btnSalva.Location = new System.Drawing.Point(473, 11);
+            this.btnSalva.Location = new System.Drawing.Point(649, 11);
             // 
             // btnCancela
             // 
-            this.btnCancela.Location = new System.Drawing.Point(610, 11);
+            this.btnCancela.Location = new System.Drawing.Point(830, 11);
             // 
             // btnAtivaInativa
             // 
-            this.btnAtivaInativa.Location = new System.Drawing.Point(747, 11);
+            this.btnAtivaInativa.Location = new System.Drawing.Point(1011, 11);
             // 
             // btnApaga
             // 
-            this.btnApaga.Location = new System.Drawing.Point(884, 11);
+            this.btnApaga.Location = new System.Drawing.Point(1192, 11);
             // 
             // pnlHeader
             // 
@@ -99,11 +103,13 @@
             this.pnlHeader.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnlHeader.Location = new System.Drawing.Point(0, 0);
             this.pnlHeader.Name = "pnlHeader";
-            this.pnlHeader.Size = new System.Drawing.Size(1023, 110);
+            this.pnlHeader.Size = new System.Drawing.Size(1373, 110);
             this.pnlHeader.TabIndex = 0;
             // 
             // grbHeader
             // 
+            this.grbHeader.Controls.Add(this.numMaximoLinhas);
+            this.grbHeader.Controls.Add(this.lblMaximoLinhas);
             this.grbHeader.Controls.Add(this.lblDispositivo);
             this.grbHeader.Controls.Add(this.lblControlador);
             this.grbHeader.Controls.Add(this.txtDispositivo);
@@ -119,9 +125,42 @@
             this.grbHeader.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grbHeader.Location = new System.Drawing.Point(0, 0);
             this.grbHeader.Name = "grbHeader";
-            this.grbHeader.Size = new System.Drawing.Size(1023, 110);
+            this.grbHeader.Size = new System.Drawing.Size(1373, 110);
             this.grbHeader.TabIndex = 0;
             this.grbHeader.TabStop = false;
+            // 
+            // numMaximoLinhas
+            // 
+            this.numMaximoLinhas.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.numMaximoLinhas.Location = new System.Drawing.Point(1293, 42);
+            this.numMaximoLinhas.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.numMaximoLinhas.Minimum = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.numMaximoLinhas.Name = "numMaximoLinhas";
+            this.numMaximoLinhas.Size = new System.Drawing.Size(74, 20);
+            this.numMaximoLinhas.TabIndex = 15;
+            this.numMaximoLinhas.Value = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            // 
+            // lblMaximoLinhas
+            // 
+            this.lblMaximoLinhas.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblMaximoLinhas.AutoSize = true;
+            this.lblMaximoLinhas.Location = new System.Drawing.Point(1289, 22);
+            this.lblMaximoLinhas.Name = "lblMaximoLinhas";
+            this.lblMaximoLinhas.Size = new System.Drawing.Size(77, 13);
+            this.lblMaximoLinhas.TabIndex = 14;
+            this.lblMaximoLinhas.Text = "Máximo Linhas";
             // 
             // lblDispositivo
             // 
@@ -157,17 +196,18 @@
             // 
             // dtFinal
             // 
-            this.dtFinal.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtFinal.CustomFormat = "dd/MM/yyyy HH:mm:ss";
+            this.dtFinal.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtFinal.Location = new System.Drawing.Point(504, 77);
             this.dtFinal.Name = "dtFinal";
-            this.dtFinal.Size = new System.Drawing.Size(109, 20);
+            this.dtFinal.Size = new System.Drawing.Size(145, 20);
             this.dtFinal.TabIndex = 8;
             this.dtFinal.Value = new System.DateTime(2015, 5, 3, 0, 16, 37, 0);
             // 
             // btnExibe
             // 
             this.btnExibe.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnExibe.Location = new System.Drawing.Point(942, 78);
+            this.btnExibe.Location = new System.Drawing.Point(1292, 78);
             this.btnExibe.Name = "btnExibe";
             this.btnExibe.Size = new System.Drawing.Size(75, 23);
             this.btnExibe.TabIndex = 9;
@@ -195,12 +235,12 @@
             // 
             // dtInicio
             // 
-            this.dtInicio.CustomFormat = "";
-            this.dtInicio.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.dtInicio.CustomFormat = "dd/MM/yyyy HH:mm:ss";
+            this.dtInicio.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.dtInicio.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.dtInicio.Location = new System.Drawing.Point(504, 38);
             this.dtInicio.Name = "dtInicio";
-            this.dtInicio.Size = new System.Drawing.Size(109, 20);
+            this.dtInicio.Size = new System.Drawing.Size(145, 20);
             this.dtInicio.TabIndex = 5;
             // 
             // grbProcedenciaTrace
@@ -253,8 +293,8 @@
             // spcMain.Panel2
             // 
             this.spcMain.Panel2.Controls.Add(this.grbMensagemTrace);
-            this.spcMain.Size = new System.Drawing.Size(1023, 404);
-            this.spcMain.SplitterDistance = 313;
+            this.spcMain.Size = new System.Drawing.Size(1373, 494);
+            this.spcMain.SplitterDistance = 382;
             this.spcMain.TabIndex = 1;
             // 
             // grbGridTrace
@@ -263,7 +303,7 @@
             this.grbGridTrace.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grbGridTrace.Location = new System.Drawing.Point(0, 0);
             this.grbGridTrace.Name = "grbGridTrace";
-            this.grbGridTrace.Size = new System.Drawing.Size(1023, 313);
+            this.grbGridTrace.Size = new System.Drawing.Size(1373, 382);
             this.grbGridTrace.TabIndex = 0;
             this.grbGridTrace.TabStop = false;
             this.grbGridTrace.Text = "Traces do Sistema";
@@ -283,7 +323,7 @@
             this.grdTraceOcorrencias.Name = "grdTraceOcorrencias";
             this.grdTraceOcorrencias.RowHeadersWidth = 20;
             this.grdTraceOcorrencias.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdTraceOcorrencias.Size = new System.Drawing.Size(1017, 294);
+            this.grdTraceOcorrencias.Size = new System.Drawing.Size(1367, 363);
             this.grdTraceOcorrencias.TabIndex = 0;
             this.grdTraceOcorrencias.SelectionChanged += new System.EventHandler(this.grdTraceOcorrencias_SelectionChanged);
             // 
@@ -293,7 +333,7 @@
             this.grbMensagemTrace.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grbMensagemTrace.Location = new System.Drawing.Point(0, 0);
             this.grbMensagemTrace.Name = "grbMensagemTrace";
-            this.grbMensagemTrace.Size = new System.Drawing.Size(1023, 87);
+            this.grbMensagemTrace.Size = new System.Drawing.Size(1373, 108);
             this.grbMensagemTrace.TabIndex = 0;
             this.grbMensagemTrace.TabStop = false;
             this.grbMensagemTrace.Text = "Mensagem Transmitida";
@@ -304,7 +344,7 @@
             this.txtMensagem.Location = new System.Drawing.Point(3, 16);
             this.txtMensagem.Name = "txtMensagem";
             this.txtMensagem.ReadOnly = true;
-            this.txtMensagem.Size = new System.Drawing.Size(1017, 68);
+            this.txtMensagem.Size = new System.Drawing.Size(1367, 89);
             this.txtMensagem.TabIndex = 0;
             this.txtMensagem.Text = "";
             // 
@@ -315,7 +355,7 @@
             this.Controls.Add(this.spcMain);
             this.Controls.Add(this.pnlHeader);
             this.Name = "ctlTraceComunicacao";
-            this.Size = new System.Drawing.Size(1023, 556);
+            this.Size = new System.Drawing.Size(1373, 646);
             this.Resize += new System.EventHandler(this.ctlTraceComunicacao_Resize);
             this.Controls.SetChildIndex(this.pnlHeader, 0);
             this.Controls.SetChildIndex(this.pnlBotoes, 0);
@@ -324,6 +364,7 @@
             this.pnlHeader.ResumeLayout(false);
             this.grbHeader.ResumeLayout(false);
             this.grbHeader.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numMaximoLinhas)).EndInit();
             this.grbProcedenciaTrace.ResumeLayout(false);
             this.spcMain.Panel1.ResumeLayout(false);
             this.spcMain.Panel2.ResumeLayout(false);
@@ -358,5 +399,7 @@
         private System.Windows.Forms.TextBox txtDispositivo;
         private System.Windows.Forms.Label lblControlador;
         private System.Windows.Forms.Label lblDispositivo;
+        private System.Windows.Forms.NumericUpDown numMaximoLinhas;
+        private System.Windows.Forms.Label lblMaximoLinhas;
     }
 }

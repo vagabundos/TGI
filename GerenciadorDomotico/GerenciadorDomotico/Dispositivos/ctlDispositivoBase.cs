@@ -49,6 +49,7 @@ namespace GerenciadorDomotico.Dispositivos
         public ctlDispositivoBase(Dispositivo objDispModelo)
         {
             InitializeComponent();
+            this.btnDisp.BackgroundImageLayout = ImageLayout.Zoom;
             wsClient = Biblioteca.Comunicação.wsrvHomeOnClient.getClient();
             objDisp = objDispModelo;
             GetStatusDispositivo();
@@ -131,12 +132,11 @@ namespace GerenciadorDomotico.Dispositivos
         public void SetDisconnected()
         {
             Image imgDisconnected = imgList.Images["Desconectado"];
-            this.fTransparencia = 0.5f;
             SetImageButton(imgDisconnected);
             btnDisp.Enabled = false;
-            this.iIntervalo = 1000 * 5;
-            timerDispositivo.Interval = this.iIntervalo;
-            sValorDisp = string.Empty;
+            SetTransparenciaImagem(0.5f);
+            timerDispositivo.Interval = 1000 * 5;
+            btnDisp.Text = "";
         }
 
         /// <summary>
@@ -178,9 +178,16 @@ namespace GerenciadorDomotico.Dispositivos
                     return;
                 }
 
-                if (timerDispositivo.Interval != iIntervalo)
+                // Estava disconectado
+                if (sValorDispAnt == null)
                 {
+                    // Ativa Dispositivo
+                    btnDisp.Enabled = true;
+
+                    // Coloca intervalo normal (caso estivesse desconectado))
                     timerDispositivo.Interval = iIntervalo;
+
+                    SetTransparenciaImagem(fTransparencia);
                 }
 
                 // Mudança no valor do dispositivo

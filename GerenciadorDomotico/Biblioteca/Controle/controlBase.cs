@@ -349,7 +349,9 @@ namespace Biblioteca.Controle
                     if (item.Value is DateTime && ((DateTime)item.Value).Equals(((DateTime)item.Value).Date))
                         paramRet.DbType = DbType.Date;
                     else
+                    {
                         paramRet.DbType = DbType.DateTime;
+                    }
                 }
                 else if (item.Value.GetType() == typeof(bool))
                     paramRet.DbType = DbType.Boolean;

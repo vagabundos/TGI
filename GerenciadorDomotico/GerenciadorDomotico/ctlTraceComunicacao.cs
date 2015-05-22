@@ -19,7 +19,6 @@ namespace GerenciadorDomotico
     {
         #region Propriedades
         private controlBase<TraceComunicacao> controleTela = new controlBase<TraceComunicacao>();
-        int iMaximoLinhas = 1000;
         #endregion
 
         #region Construtores
@@ -100,7 +99,7 @@ namespace GerenciadorDomotico
                 using (GerenciadorDB mngBD = new GerenciadorDB(false))
                 {
                     // Filtra pelas Datas
-                    bList = new BindingList<TraceComunicacao>(controleTela.LoadFiltro(mngBD, iMaximoLinhas, t => t.DataHoraOcorrencia >= dtInicio.Value, t => t.DataHoraOcorrencia <= dtFinal.Value));
+                    bList = new BindingList<TraceComunicacao>(controleTela.LoadFiltro(mngBD, decimal.ToInt32(numMaximoLinhas.Value), t => t.DataHoraOcorrencia >= dtInicio.Value, t => t.DataHoraOcorrencia <= dtFinal.Value));
                 }
 
                 // Pega as procedencias de trace selecionadas no filtro para exibição
@@ -133,7 +132,7 @@ namespace GerenciadorDomotico
 
                 if (grdTraceOcorrencias.Columns.Contains("DataHoraOcorrencia"))
                 {
-                    grdTraceOcorrencias.Columns["DataHoraOcorrencia"].DefaultCellStyle.Format = "dd/MM/yyyy hh:MM:ss";
+                    grdTraceOcorrencias.Columns["DataHoraOcorrencia"].DefaultCellStyle.Format = "dd/MM/yyyy HH:mm:ss";
                 }
 
                 grdTraceOcorrencias.AutoResizeColumns();

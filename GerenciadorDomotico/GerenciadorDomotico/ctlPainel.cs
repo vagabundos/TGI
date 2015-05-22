@@ -101,7 +101,7 @@ namespace GerenciadorDomotico
                             ctlDisp.PermiteArrastar(false);
                             ctlDisp.setPosicaoDispositivoNaImagem(disp.PosicaoX, disp.PosicaoY, imgPiso);
                             ctlDisp.Visible = true;
-                            ctlDisp.AtivaTimerExibicao(true, 800);
+                            ctlDisp.AtivaTimerExibicao(true, 1000);
 
                             // Exibe o dispositivo na tela
                             imgPiso.Controls.Add(ctlDisp);
