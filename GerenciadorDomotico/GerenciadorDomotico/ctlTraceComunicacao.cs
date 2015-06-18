@@ -146,11 +146,6 @@ namespace GerenciadorDomotico
         #endregion
 
         #region Eventos
-        private void ctlTraceComunicacao_Resize(object sender, EventArgs e)
-        {
-            Util.AlinharBotoes(pnlBotoes);
-        }
-
         private void grdTraceOcorrencias_SelectionChanged(object sender, EventArgs e)
         {
             // Se nenhum Trace do grid estiver selecionado, sai

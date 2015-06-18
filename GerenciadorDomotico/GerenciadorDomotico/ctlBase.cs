@@ -25,6 +25,11 @@ namespace GerenciadorDomotico
 			this.Dispose(true);
             return true;
 		}
+
+        public virtual void SelecionaAba()
+        {
+            // Cada tela específica deverá tomar a ação necessária aqui, se houver, no momento em que a tela é re-exibida ao selecioná-la
+        }
 		#endregion
-	}
+    }
 }

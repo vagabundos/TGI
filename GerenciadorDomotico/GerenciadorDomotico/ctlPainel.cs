@@ -57,6 +57,12 @@ namespace GerenciadorDomotico
         #endregion
 
         #region Métodos
+        public override void SelecionaAba()
+        {
+            base.SelecionaAba();
+            Biblioteca.Util.AlinharBotoes(pnlBotoes);
+        }
+
         private void ConfiguraTela()
         {
             using (GerenciadorDB mngBD = new GerenciadorDB(false))

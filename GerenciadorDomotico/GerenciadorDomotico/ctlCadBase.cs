@@ -39,6 +39,12 @@ namespace GerenciadorDomotico
         #endregion
 
         #region Métodos
+        public override void SelecionaAba()
+        {
+            base.SelecionaAba();
+            Biblioteca.Util.AlinharBotoes(pnlBotoes);
+        }
+
         protected virtual void ConfiguraColunas(DataGridView grdBase, Type typeModelo)
         {
             // Tamanho

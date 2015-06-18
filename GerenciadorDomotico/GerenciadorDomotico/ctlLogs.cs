@@ -133,10 +133,6 @@ namespace GerenciadorDomotico
         #endregion
 
         #region Eventos
-        private void ctlLogs_Resize(object sender, EventArgs e)
-        {
-            Util.AlinharBotoes(pnlBotoes);
-        }
 
         private void grdLogs_SelectionChanged(object sender, EventArgs e)
         {

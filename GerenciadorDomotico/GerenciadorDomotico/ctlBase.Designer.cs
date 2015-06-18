@@ -28,15 +28,15 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.SuspendLayout();
-			// 
-			// ctlBase
-			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.Name = "ctlBase";
-			this.Size = new System.Drawing.Size(800, 600);
-			this.ResumeLayout(false);
+            this.SuspendLayout();
+            // 
+            // ctlBase
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Name = "ctlBase";
+            this.Size = new System.Drawing.Size(800, 600);
+            this.ResumeLayout(false);
 
 		}
 

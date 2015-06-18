@@ -24,7 +24,6 @@ namespace Servico
         FileStream fs;
         StreamWriter w;
         bool logar = false;
-        bool fechar = false;
         #endregion
 
         #region Construtor

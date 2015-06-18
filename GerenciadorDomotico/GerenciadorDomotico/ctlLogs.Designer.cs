@@ -316,7 +316,6 @@
             this.Controls.Add(this.pnlHeader);
             this.Name = "ctlLogs";
             this.Size = new System.Drawing.Size(1373, 646);
-            this.Resize += new System.EventHandler(this.ctlLogs_Resize);
             this.Controls.SetChildIndex(this.pnlHeader, 0);
             this.Controls.SetChildIndex(this.pnlBotoes, 0);
             this.Controls.SetChildIndex(this.spcMain, 0);

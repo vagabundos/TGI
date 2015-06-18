@@ -69,15 +69,15 @@ namespace GerenciadorDomotico
                 //ConfiguraSubMenu(objSubMenuItem);
                 //objMenuItem.DropDown.Items.Add(objSubMenuItem);
 
+                objSubMenuItem = new ToolStripMenuItem("Geral", null, mniRotina_Click);
+                ConfiguraSubMenu(objSubMenuItem);
+                objMenuItem.DropDown.Items.Add(objSubMenuItem);
+
                 objSubMenuItem = new ToolStripMenuItem("Cadastro de Pisos", null, mniRotina_Click);
                 ConfiguraSubMenu(objSubMenuItem);
                 objMenuItem.DropDown.Items.Add(objSubMenuItem);
 
                 objSubMenuItem = new ToolStripMenuItem("Cadastro de Dispositivos", null, mniRotina_Click);
-                ConfiguraSubMenu(objSubMenuItem);
-                objMenuItem.DropDown.Items.Add(objSubMenuItem);
-
-                objSubMenuItem = new ToolStripMenuItem("Geral", null, mniRotina_Click);
                 ConfiguraSubMenu(objSubMenuItem);
                 objMenuItem.DropDown.Items.Add(objSubMenuItem);
                 #endregion
@@ -143,10 +143,10 @@ namespace GerenciadorDomotico
                     TabPage objTabPage = tabCtrl.TabPages[objMenuItem.Text];
                     tabCtrl.SelectTab(objTabPage);
 
+                    this.tabCtrl.Visible = true;
                     objTabPage.Controls.Add(ctrlCarregado);
                     this.ActiveControl = ctrlCarregado;
                     this.ActiveControl.Focus();
-                    this.tabCtrl.Visible = true;
 
                     // Aciona evento para fechar a aba quando fechar uma tela for fechada
                     ctrlCarregado.Disposed += new EventHandler(CloseTab);
@@ -154,7 +154,7 @@ namespace GerenciadorDomotico
             }
             catch (Exception exc)
             {
-                controlLog.Insere(Biblioteca.Modelo.Log.LogTipo.Erro, "Erro ao abrir nova tela (mniRotina_CLick.winInicial)", exc);
+                controlLog.Insere(Biblioteca.Modelo.Log.LogTipo.Erro, "Erro ao abrir nova tela (mniRotina_Click.winInicial)", exc);
             }
         }
 
@@ -184,6 +184,7 @@ namespace GerenciadorDomotico
         {
             try
             {
+                #region Fecha Aba pelo X
                 //Looping through the controls.
                 for (int i = 0; i < this.tabCtrl.TabPages.Count; i++)
                 {
@@ -203,6 +204,16 @@ namespace GerenciadorDomotico
                         }
                     }
                 }
+                #endregion
+
+                #region Trata Seleção da Aba
+                TabPage objTabPage = this.tabCtrl.TabPages[tabCtrl.SelectedIndex];
+                if (objTabPage.Controls.Count > 0 && objTabPage.Controls[0] is ctlBase)
+                {
+                    ctlBase ctlSelecionado = objTabPage.Controls[0] as ctlBase;
+                    ctlSelecionado.SelecionaAba();
+                }
+                #endregion
             }
             catch (Exception exc)
             {
